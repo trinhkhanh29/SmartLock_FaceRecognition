@@ -1,0 +1,8 @@
+opencv-contrib-python
+insightface
+onnxruntime
+torch
+facenet-pytorch
+numpy
+scikit-learn
+matplotlib
