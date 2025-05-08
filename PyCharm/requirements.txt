@@ -6,3 +6,4 @@ facenet-pytorch
 numpy
 scikit-learn
 matplotlib
+firebase-admin
