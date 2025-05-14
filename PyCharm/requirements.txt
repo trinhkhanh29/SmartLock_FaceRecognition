@@ -1,4 +1,5 @@
-opencv-contrib-python
+opencv-python==4.5.5.64
+opencv-contrib-python==4.5.5.64
 insightface
 onnxruntime
 torch
@@ -8,8 +9,10 @@ scikit-learn
 matplotlib
 firebase-admin
 python-telegram-bot==13.15
-python-dotenv
-opencv-python==4.5.5.64
-PyQt5==5.15.7
 python-dotenv==0.19.2
 requests==2.26.0
+pyserial
+PyQt5==5.15.6
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.11.0
+pyttsx3==2.90

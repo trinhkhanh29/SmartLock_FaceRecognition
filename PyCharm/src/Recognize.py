@@ -13,6 +13,7 @@ from facenet_pytorch import MTCNN, InceptionResnetV1
 import torch
 import time
 import traceback
+import serial
 
 # Nạp biến môi trường từ config.env
 env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
@@ -33,6 +34,26 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
     print("[ERROR] TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID không được định nghĩa trong config.env.")
     sys.exit(1)
 
+# Khởi tạo Serial
+def init_serial(port='COM4', baudrate=115200):
+    try:
+        ser = serial.Serial(port, baudrate, timeout=1)
+        print(f"[INFO] Đã kết nối Serial tại {port}")
+        return ser
+    except serial.SerialException as e:
+        print(f"[ERROR] Không thể kết nối Serial: {e}")
+        return None
+
+# Gửi lệnh Serial
+def send_serial_command(ser, command):
+    if ser and ser.is_open:
+        try:
+            ser.write(f"{command}\n".encode())
+            print(f"[INFO] Gửi lệnh Serial: {command}")
+            return True
+        except serial.SerialException as e:
+            print(f"[ERROR] Lỗi gửi Serial: {e}")
+    return False
 
 # Khởi tạo engine text-to-speech
 def init_tts_engine():
@@ -57,7 +78,6 @@ def init_tts_engine():
         print(f"[WARNING] Không thể khởi tạo engine text-to-speech: {e}")
         return None
 
-
 # Kiểm tra token Telegram
 def verify_telegram_token():
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getMe"
@@ -73,7 +93,6 @@ def verify_telegram_token():
         print(f"[ERROR] Không thể xác minh token Telegram: {e}")
         return False
 
-
 # Khởi tạo Firebase
 def initialize_firebase():
     cred_path = os.path.join(os.path.dirname(__file__), '../.env/firebase_credentials.json')
@@ -84,7 +103,6 @@ def initialize_firebase():
         'storageBucket': 'smartlockfacerecognition.firebasestorage.app'
     })
     return storage.bucket()
-
 
 # Tải danh sách tên và embeddings từ Firebase hoặc cache cục bộ
 def load_known_faces(bucket, local_dir):
@@ -129,7 +147,6 @@ def load_known_faces(bucket, local_dir):
                 continue
             user_id = int(parts[1])
             filename = parts[2]
-            # Simplified user_name extraction
             user_name_parts = os.path.splitext(filename)[0].split('_')
             if len(user_name_parts) < 4:
                 print(f"[WARNING] Tên file không đúng định dạng: {filename}")
@@ -170,7 +187,6 @@ def load_known_faces(bucket, local_dir):
 
     return known_embeddings, known_ids, known_names
 
-
 # Tải mô hình DNN cho phát hiện khuôn mặt
 def get_model_paths():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -179,22 +195,18 @@ def get_model_paths():
     model_path = os.path.join(cascades_dir, "res10_300x300_ssd_iter_140000.caffemodel")
     return proto_path, model_path
 
-
 def check_model_files():
     proto_path, model_path = get_model_paths()
     if not os.path.exists(proto_path):
         print(f"[ERROR] Không tìm thấy file prototxt tại: {proto_path}")
-        print(
-            "Vui lòng tải từ: https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt")
+        print("Vui lòng tải từ: https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt")
         return False
     if not os.path.exists(model_path):
-        print(f"[ERROR] Không tìm thấy file model tại: {proto_path}")
-        print(
-            "Vui lòng tải từ: https://github.com/opencv/opencv_3rdparty/raw/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel")
+        print(f"[ERROR] Không tìm thấy file model tại: {model_path}")
+        print("Vui lòng tải từ: https://github.com/opencv/opencv_3rdparty/raw/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel")
         return False
     print("[SUCCESS] Tất cả file mô hình đã sẵn sàng")
     return True
-
 
 def load_deep_face_detector():
     proto_path, model_path = get_model_paths()
@@ -208,7 +220,6 @@ def load_deep_face_detector():
     except Exception as e:
         print(f"[ERROR] Lỗi khi tải DNN model: {str(e)}")
         return None
-
 
 def detect_faces_dnn(net, frame, conf_threshold=0.7):
     h, w = frame.shape[:2]
@@ -226,7 +237,6 @@ def detect_faces_dnn(net, frame, conf_threshold=0.7):
             if width >= min_face_size and height >= min_face_size:
                 faces.append((x, y, width, height))
     return faces
-
 
 def send_telegram_message_with_photo(message, photo_path):
     if not message or not isinstance(message, str) or len(message.strip()) == 0:
@@ -254,7 +264,6 @@ def send_telegram_message_with_photo(message, photo_path):
     finally:
         files['photo'].close()
 
-
 def main():
     # Kiểm tra token Telegram
     if not verify_telegram_token():
@@ -263,6 +272,22 @@ def main():
 
     # Khởi tạo TTS
     tts_engine = init_tts_engine()
+    ser = init_serial(port='COM4')
+
+    # Biến đếm thất bại và khóa
+    fail_count = 0
+    lockout_time = 0
+    lock_duration = 60  # thời gian khóa: 60 giây
+
+    # Biến thống kê thực nghiệm
+    correct_recognitions = 0
+    total_recognitions = 0
+    processing_times = []
+    false_positives = 0
+    false_negatives = 0
+    # Placeholder cho tỉ lệ sai từ 100 thử nghiệm (cập nhật sau khi thử nghiệm thực tế)
+    false_positive_rate = 5.0  # % (giả định, thay bằng dữ liệu thực)
+    false_negative_rate = 10.0  # % (giả định, thay bằng dữ liệu thực)
 
     try:
         # Khởi tạo Firebase
@@ -320,6 +345,19 @@ def main():
                 fps = frame_count / elapsed_time if elapsed_time > 0 else 0
                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
+                # Kiểm tra xem có đang trong thời gian bị khóa không
+                if time.time() < lockout_time:
+                    print("[THÔNG BÁO] Hệ thống đang bị khóa vì nhận diện sai quá 3 lần.")
+                    cv2.putText(frame, "Bi khoa 1 phut - Vui long doi...", (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                    cv2.imshow("Face Recognition", frame)
+                    if cv2.waitKey(1) & 0xFF == ord("q"):
+                        break
+                    continue  # Bỏ qua xử lý nhận diện trong lúc bị khóa
+
+                # Bắt đầu đo thời gian xử lý
+                frame_process_start = time.time()
+
                 # Phát hiện khuôn mặt
                 process_start = time.time()
                 if face_detector is not None:
@@ -370,12 +408,23 @@ def main():
                         print(
                             f"[DEBUG] Nhận diện: {name}, Độ tin cậy: {confidence_percent:.1f}%, thời gian: {(time.time() - recognition_start):.3f}s")
 
+                        # Cập nhật thống kê
+                        total_recognitions += 1
+                        if name != "Unknown":
+                            correct_recognitions += 1
+                        # Giả định false positive/negative (cần thử nghiệm thực tế để xác định)
+                        # Ví dụ: nếu name != "Unknown" nhưng thực tế là người lạ -> false positive
+                        # Nếu name == "Unknown" nhưng thực tế là người quen -> false negative
+                        # Cập nhật sau khi có dữ liệu thực nghiệm
+
                     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     if name != "Unknown":
+                        fail_count = 0  # Reset fail count on successful recognition
                         cv2.imwrite(temp_photo_path, frame)
                         message = f"[✅ {now_str}] Mở cửa thành công - {name} (Độ tin cậy: {confidence_percent:.1f}%)"
                         if send_telegram_message_with_photo(message, temp_photo_path):
                             if tts_engine:
+                                send_serial_command(ser, "SUCCESS")
                                 voice_message = f"Xin chào {name}. Đã nhận diện thành công. Mở cửa"
                                 tts_engine.say(voice_message)
                                 tts_engine.runAndWait()
@@ -383,20 +432,46 @@ def main():
                             print("[INFO] Đã gửi thông báo mở cửa. Thoát chương trình.")
                             return
                     elif time_since_last_voice > voice_cooldown and tts_engine:
+                        fail_count += 1  # Increment fail count for unknown face
+                        print(f"[CẢNH BÁO] Nhận diện thất bại {fail_count}/3")
                         cv2.imwrite(temp_photo_path, frame)
                         message = f"[🚨 {now_str}] CẢNH BÁO: Phát hiện người lạ - Độ tin cậy thấp ({confidence_percent:.1f}%)"
                         if send_telegram_message_with_photo(message, temp_photo_path):
+                            send_serial_command(ser, "FAIL")
                             voice_message = "Cảnh báo! Phát hiện người lạ"
                             tts_engine.say(voice_message)
                             tts_engine.runAndWait()
                             print("[VOICE] Phát âm thanh cảnh báo")
                             last_voice_time = current_time
 
+                        # Check if failed 3 times
+                        if fail_count >= 3:
+                            lockout_time = time.time() + lock_duration
+                            fail_count = 0
+                            print("[BẢO MẬT] Hệ thống bị khóa trong 1 phút.")
+                            if tts_engine:
+                                tts_engine.say("Hệ thống bị khóa trong một phút do nhận diện sai quá ba lần")
+                                tts_engine.runAndWait()
+
                     cv2.putText(frame, name, (x + 5, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
                     cv2.putText(frame, f"{confidence_percent:.1f}%", (x + 5, y + h - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
                                 (255, 255, 0), 2)
 
+                # Tính thời gian xử lý frame
+                frame_process_time = (time.time() - frame_process_start) * 1000  # ms
+                processing_times.append(frame_process_time)
+
+                # Tính toán thống kê
+                accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
+                avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
+
+                # Hiển thị thống kê trên frame
                 cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
+                cv2.putText(frame, f"Accuracy: {accuracy:.1f}%", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                cv2.putText(frame, f"Proc Time: {avg_processing_time:.1f} ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                cv2.putText(frame, f"FP Rate: {false_positive_rate:.1f}%", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                cv2.putText(frame, f"FN Rate: {false_negative_rate:.1f}%", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+
                 cv2.imshow('Face Recognition - FaceNet DNN', frame)
 
                 key = cv2.waitKey(10)
@@ -412,6 +487,17 @@ def main():
                 continue
 
     finally:
+        # In thống kê cuối cùng
+        accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
+        avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
+        print("\n[THỐNG KÊ THỰC NGHIỆM]")
+        print(f"Độ chính xác: {accuracy:.1f}%")
+        print(f"Tốc độ xử lý trung bình: {avg_processing_time:.1f} ms/frame")
+        print(f"Tỉ lệ False Positive (trong 100 thử nghiệm): {false_positive_rate:.1f}%")
+        print(f"Tỉ lệ False Negative (trong 100 thử nghiệm): {false_negative_rate:.1f}%")
+        print(f"Tổng số nhận diện: {total_recognitions}")
+        print(f"Nhận diện đúng: {correct_recognitions}")
+
         if os.path.exists(temp_photo_path):
             try:
                 os.remove(temp_photo_path)
@@ -422,7 +508,6 @@ def main():
             cam.release()
         cv2.destroyAllWindows()
         print("\n[INFO] Program exited cleanly.")
-
 
 if __name__ == "__main__":
     main()
