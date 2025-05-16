@@ -45,14 +45,22 @@ def init_serial(port='COM4', baudrate=115200):
         return None
 
 # Gửi lệnh Serial
-def send_serial_command(ser, command):
+def send_serial_command(ser, command, expected_response=None, timeout=10):
     if ser and ser.is_open:
         try:
+            ser.reset_input_buffer()
             ser.write(f"{command}\n".encode())
-            print(f"[INFO] Gửi lệnh Serial: {command}")
-            return True
+            print(f"[INFO] Đã gửi: {command}, đợi phản hồi...")
+            start_time = time.time()
+            while time.time() - start_time < timeout:
+                if ser.in_waiting > 0:
+                    response = ser.readline().decode('utf-8').strip()
+                    print(f"[INFO] ESP phản hồi: {response}")
+                    if expected_response is None or expected_response in response:
+                        return True
+            print("[WARNING] Hết thời gian chờ phản hồi từ ESP.")
         except serial.SerialException as e:
-            print(f"[ERROR] Lỗi gửi Serial: {e}")
+            print(f"[ERROR] Lỗi Serial: {e}")
     return False
 
 # Khởi tạo engine text-to-speech
@@ -428,7 +436,7 @@ def main():
                                 voice_message = f"Xin chào {name}. Đã nhận diện thành công. Mở cửa"
                                 tts_engine.say(voice_message)
                                 tts_engine.runAndWait()
-                                print("[VOICE] Phát âm thanh chào mừng")
+                            print("[VOICE] Phát âm thanh chào mừng")
                             print("[INFO] Đã gửi thông báo mở cửa. Thoát chương trình.")
                             return
                     elif time_since_last_voice > voice_cooldown and tts_engine:
