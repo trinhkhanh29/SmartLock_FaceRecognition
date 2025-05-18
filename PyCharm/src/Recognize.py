@@ -14,6 +14,8 @@ import torch
 import time
 import traceback
 import serial
+import pygame
+from playsound import playsound
 
 # Nạp biến môi trường từ config.env
 env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
@@ -62,6 +64,16 @@ def send_serial_command(ser, command, expected_response=None, timeout=10):
         except serial.SerialException as e:
             print(f"[ERROR] Lỗi Serial: {e}")
     return False
+def play_startup_sound(sound_path):
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load(sound_path)
+        pygame.mixer.music.play()
+        print("[INFO] Đang phát âm thanh khởi động...")
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+    except Exception as e:
+        print(f"[WARNING] Không thể phát âm thanh: {e}")
 
 # Khởi tạo engine text-to-speech
 def init_tts_engine():
@@ -70,6 +82,7 @@ def init_tts_engine():
         engine.setProperty('rate', 150)
         engine.setProperty('volume', 1.0)
         voices = engine.getProperty('voices')
+
         for voice in voices:
             print(f"Tên giọng nói: {voice.name}")
             print(f"Ngôn ngữ: {voice.languages}")
@@ -334,11 +347,21 @@ def main():
         optimal_face_size = 200
         print("\n[INFO] Face recognition started. Press ESC to exit.")
 
+        min_face_size = 150
+        optimal_face_size = 200
+        print("\n[INFO] Face recognition started. Press ESC to exit.")
         frame_count = 0
         start_time = time.time()
         temp_photo_path = os.path.join(os.path.dirname(__file__), "..", "temp", "temp_face.jpg")
         voice_cooldown = 5
         last_voice_time = datetime.now()
+
+        # Phát âm thanh khởi động khi bật camera
+        sound_path = os.path.join(os.path.dirname(__file__), '../sound/Ring-Doorbell-Sound.wav')
+        if not os.path.exists(sound_path):
+            print(f"[ERROR] File âm thanh không tồn tại tại: {sound_path}")
+        else:
+            play_startup_sound(sound_path)
 
         while True:
             try:
