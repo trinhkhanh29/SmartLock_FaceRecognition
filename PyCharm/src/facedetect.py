@@ -97,7 +97,7 @@ def main():
         return
 
     # Khởi tạo camera
-    cam = cv2.VideoCapture(1)
+    cam = cv2.VideoCapture(0)
     if not cam.isOpened():
         print("[LỖI] Không thể mở camera. Vui lòng kiểm tra thiết bị.")
         speak("Không thể mở camera. Vui lòng kiểm tra thiết bị.")
