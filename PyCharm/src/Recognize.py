@@ -337,7 +337,7 @@ def main():
             print("[INFO] Sử dụng Haar Cascade do thiếu mô hình DNN.")
 
         # Khởi tạo camera
-        cam = cv2.VideoCapture(1)
+        cam = cv2.VideoCapture(0)
         if not cam.isOpened():
             print("[ERROR] Không thể mở camera.")
             sys.exit(1)
