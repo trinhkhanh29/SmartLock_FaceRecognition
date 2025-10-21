@@ -1,0 +1,75 @@
+2025-05-30 18:29:48,441 - INFO - Telegram bot token and chat ID loaded
+2025-05-30 18:29:48,442 - INFO - Flask server started on port 5000
+2025-05-30 18:29:48,466 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.36.110:5000
+2025-05-30 18:29:48,466 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-30 18:29:48,521 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-05-30 18:29:48,521 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-05-30 18:29:48,838 - INFO - Selected voice: Microsoft An - Vietnamese (Vietnam)
+2025-05-30 18:29:51,332 - INFO - Loaded 50 embeddings from cache: C:\Users\PC\source\repos\NCKH-2025\SmartLock_FaceRecognition\PyCharm\dataset\embeddings.pkl
+2025-05-30 18:29:51,332 - INFO - Cache valid, skipping Firebase download
+2025-05-30 18:29:51,333 - INFO - Embedding load time: 2.453s
+2025-05-30 18:29:51,790 - INFO - All model files present
+2025-05-30 18:29:51,823 - INFO - Loaded DNN model successfully
+2025-05-30 18:29:56,062 - INFO - Face recognition started. Press ESC to exit
+2025-05-30 18:29:56,079 - INFO - Playing startup sound
+2025-05-30 18:35:18,581 - INFO - Program interrupted by user
+2025-05-30 18:35:18,581 - INFO - 
+[EXPERIMENTAL STATISTICS]
+2025-05-30 18:35:18,581 - INFO - Accuracy: 0.0%
+2025-05-30 18:35:18,581 - INFO - Average processing time: 0.0 ms/frame
+2025-05-30 18:35:18,581 - INFO - Total recognitions: 0
+2025-05-30 18:35:18,581 - INFO - Correct recognitions: 0
+2025-05-30 18:35:19,025 - INFO - Program exited
+2025-06-02 18:39:03,995 - INFO - Telegram bot token and chat ID loaded
+2025-06-02 18:39:03,996 - INFO - Flask server started on port 5000
+2025-06-02 18:39:04,014 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.36.110:5000
+2025-06-02 18:39:04,015 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-02 18:39:04,066 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-06-02 18:39:04,066 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-06-02 18:39:04,524 - INFO - Selected voice: Microsoft An - Vietnamese (Vietnam)
+2025-06-02 18:39:06,144 - INFO - Loaded 50 embeddings from cache: C:\Users\PC\source\repos\NCKH-2025\SmartLock_FaceRecognition\PyCharm\dataset\embeddings.pkl
+2025-06-02 18:39:06,144 - INFO - Cache valid, skipping Firebase download
+2025-06-02 18:39:06,144 - INFO - Embedding load time: 1.583s
+2025-06-02 18:39:06,614 - INFO - All model files present
+2025-06-02 18:39:06,644 - INFO - Loaded DNN model successfully
+2025-06-02 18:39:10,934 - INFO - Face recognition started. Press ESC to exit
+2025-06-02 18:39:10,965 - INFO - Playing startup sound
+2025-06-02 18:39:58,209 - INFO - Program interrupted by user
+2025-06-02 18:39:58,209 - INFO - 
+[EXPERIMENTAL STATISTICS]
+2025-06-02 18:39:58,209 - INFO - Accuracy: 0.0%
+2025-06-02 18:39:58,209 - INFO - Average processing time: 0.0 ms/frame
+2025-06-02 18:39:58,209 - INFO - Total recognitions: 0
+2025-06-02 18:39:58,209 - INFO - Correct recognitions: 0
+2025-06-02 18:39:58,633 - INFO - Program exited
+2025-09-06 09:46:12,985 - INFO - Telegram bot token and chat ID loaded
+2025-09-06 09:46:12,986 - INFO - Flask server started on port 5000
+2025-09-06 09:46:12,999 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.36.108:5000
+2025-09-06 09:46:12,999 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-06 09:46:13,073 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-09-06 09:46:13,074 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-09-06 09:46:13,403 - INFO - Selected voice: Microsoft An - Vietnamese (Vietnam)
+2025-09-06 09:46:15,452 - INFO - Loaded 50 embeddings from cache: C:\Users\PC\source\repos\NCKH-2025\SmartLock_FaceRecognition\PyCharm\dataset\embeddings.pkl
+2025-09-06 09:46:15,452 - INFO - Cache valid, skipping Firebase download
+2025-09-06 09:46:15,452 - INFO - Embedding load time: 2.012s
+2025-09-06 09:46:15,925 - INFO - All model files present
+2025-09-06 09:46:15,957 - INFO - Loaded DNN model successfully
+2025-09-06 09:46:20,204 - INFO - Face recognition started. Press ESC to exit
+2025-09-06 09:46:20,226 - INFO - Playing startup sound
+2025-09-06 09:46:36,831 - INFO - Program interrupted by user
+2025-09-06 09:46:36,831 - INFO - 
+[EXPERIMENTAL STATISTICS]
+2025-09-06 09:46:36,831 - INFO - Accuracy: 0.0%
+2025-09-06 09:46:36,831 - INFO - Average processing time: 0.0 ms/frame
+2025-09-06 09:46:36,831 - INFO - Total recognitions: 0
+2025-09-06 09:46:36,831 - INFO - Correct recognitions: 0
+2025-09-06 09:46:37,251 - INFO - Program exited
