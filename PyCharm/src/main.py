@@ -1,127 +1,102 @@
-import keyboard
-import cv2
+from threading import Thread
+import time
 import sys
 import os
-import time
-from threading import Thread
 import importlib.util
+import traceback
+import keyboard  # Thêm thư viện để bắt phím
 
-# Định nghĩa FILE_PATHS dựa trên thư mục chứa main.py
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FILE_PATHS = {
-    '1': os.path.join(BASE_DIR, 'facedetect.py'),
-    '2': os.path.join(BASE_DIR, 'Recognize.py'),
-    '3': os.path.join(BASE_DIR, 'telegram_control.py')
-}
-
-# Kiểm tra sự tồn tại của các file
-for key, path in FILE_PATHS.items():
-    abs_path = os.path.abspath(path)
-    if not os.path.exists(abs_path):
-        print(f"[ERROR] File not found for mode {key}: {abs_path}")
-        sys.exit(1)
-
-# Biến trạng thái toàn cục
-current_mode = None
-running = True
-cam = None
-
-# Hàm nhập module động
+# --- HÀM LOAD MODULE ---
 def load_module(file_path, module_name):
-    abs_path = os.path.abspath(file_path)
-    spec = importlib.util.spec_from_file_location(module_name, abs_path)
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    spec.loader.exec_module(module)
-    return module
-
-# Tải các module
-try:
-    facedetect = load_module(FILE_PATHS['1'], 'facedetect')
-    Recognize = load_module(FILE_PATHS['2'], 'Recognize')
-    telegram_control = load_module(FILE_PATHS['3'], 'telegram_control')
-except FileNotFoundError as e:
-    print(e)
-    sys.exit(1)
-
-# Hàm hiển thị menu
-def display_menu():
-    print("\n=== MENU CHÍNH ===")
-    print("1. Thu thập khuôn mặt (facedetect.py)")
-    print("2. Nhận diện khuôn mặt (Recognize.py)")
-    print("3. Điều khiển cửa qua Telegram (telegram_control.py)")
-    print("Nhấn phím 1, 2, hoặc 3 để chọn. Nhấn ESC để thoát.")
-    print("==================\n")
-
-# Hàm giải phóng tài nguyên
-def cleanup():
-    global cam
-    if cam and cam.isOpened():
-        cam.release()
-    cv2.destroyAllWindows()
-    # Đóng kết nối serial nếu có
-    if hasattr(Recognize, 'ser') and Recognize.ser and Recognize.ser.is_open:
-        Recognize.ser.close()
-    if hasattr(telegram_control, 'ser') and telegram_control.ser and telegram_control.ser.is_open:
-        telegram_control.ser.close()
-
-# Hàm chạy mode được chọn
-def run_mode(mode):
-    global cam, current_mode
-    cleanup()  # Giải phóng tài nguyên trước khi chạy mode mới
-    current_mode = mode
-    print(f"[INFO] Chuyển sang mode: {mode}")
-
     try:
-        if mode == '1':
-            facedetect.main()
-        elif mode == '2':
-            Recognize.main()
-        elif mode == '3':
-            telegram_control.main()
+        abs_path = os.path.abspath(file_path)
+        spec = importlib.util.spec_from_file_location(module_name, abs_path)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        return module
     except Exception as e:
-        print(f"[ERROR] Lỗi khi chạy {mode}: {str(e)}")
-    finally:
-        cleanup()
+        print(f"[ERROR] Không thể load module {module_name} từ {file_path}: {e}")
+        traceback.print_exc()
+        return None
 
-# Hàm xử lý phím bấm
-def handle_key_press():
-    global running, current_mode
-    while running:
-        if keyboard.is_pressed('1'):
-            if current_mode != '1':
-                run_mode('1')
-        elif keyboard.is_pressed('2'):
-            if current_mode != '2':
-                run_mode('2')
-        elif keyboard.is_pressed('3'):
-            if current_mode != '3':
-                run_mode('3')
-        elif keyboard.is_pressed('esc'):
-            print("[INFO] Thoát chương trình...")
-            running = False
-            cleanup()
-            break
-        time.sleep(0.1)  # Giảm tải CPU
 
-def main():
-    global running
-    display_menu()
-    print("Nhấn 1, 2, 3 để chọn chức năng hoặc ESC để thoát.")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    # Bắt đầu luồng xử lý phím bấm
-    key_thread = Thread(target=handle_key_press)
-    key_thread.daemon = True
-    key_thread.start()
+# --- ĐƯỜNG DẪN CÁC FILE ---
+RECOGNIZE_PATH = os.path.join(BASE_DIR, 'Recognize.py')
+TELEGRAM_PATH = os.path.join(BASE_DIR, 'telegram_control.py')
+ADDFACE_PATH = os.path.join(BASE_DIR, 'facedetect.py')
 
-    # Giữ chương trình chạy cho đến khi thoát
-    try:
-        while running:
+# --- LOAD MODULE ---
+recognize = load_module(RECOGNIZE_PATH, 'Recognize')
+telegram_control = load_module(TELEGRAM_PATH, 'telegram_control')
+
+# --- HÀM CHẠY CÁC MODULE ---
+def start_recognition():
+    print("[INFO] Bắt đầu nhận diện khuôn mặt...")
+    if recognize and hasattr(recognize, 'main'):
+        recognize.main()
+    else:
+        print("[ERROR] Không thể khởi động Recognize.")
+
+def start_telegram_control():
+    print("[INFO] Bắt đầu điều khiển Telegram...")
+    if telegram_control and hasattr(telegram_control, 'main'):
+        telegram_control.main()
+    else:
+        print("[ERROR] Không thể khởi động Telegram.")
+
+
+# --- HÀM NGHE BÀN PHÍM ---
+def keyboard_listener():
+    print("[KEYBOARD] Hệ thống sẵn sàng. Bấm:")
+    print("   [1] → Thêm khuôn mặt mới")
+    print("   [2] → Khởi động lại nhận diện")
+    print("   [Q] → Thoát chương trình")
+
+    while True:
+        try:
+            if keyboard.is_pressed('1'):
+                print("[KEYBOARD] → Phím 1 được bấm: thêm khuôn mặt mới")
+                os.system(f'python "{ADDFACE_PATH}"')
+                time.sleep(1)
+
+            elif keyboard.is_pressed('2'):
+                print("[KEYBOARD] → Phím 2 được bấm: khởi động lại nhận diện")
+                Thread(target=start_recognition, daemon=True).start()
+                time.sleep(1)
+
+            elif keyboard.is_pressed('q'):
+                print("[KEYBOARD] → Nhấn Q: thoát chương trình.")
+                os._exit(0)
+
             time.sleep(0.1)
-    except KeyboardInterrupt:
-        running = False
-        cleanup()
-        print("[INFO] Chương trình đã dừng.")
+        except Exception as e:
+            print(f"[ERROR] Trong keyboard listener: {e}")
+            time.sleep(1)
 
-if __name__ == "__main__":
+
+# --- HÀM MAIN ---
+def main():
+    print("[INFO] Khởi động hệ thống SmartLock...")
+
+    # Tạo các luồng
+    thread_recognize = Thread(target=start_recognition, daemon=True)
+    thread_telegram = Thread(target=start_telegram_control, daemon=True)
+    thread_keyboard = Thread(target=keyboard_listener, daemon=True)
+
+    # Chạy các luồng
+    thread_recognize.start()
+    thread_telegram.start()
+    thread_keyboard.start()
+
+    try:
+        while True:
+            time.sleep(1)  # giữ cho main thread sống
+    except KeyboardInterrupt:
+        print("\n[INFO] Dừng chương trình bởi người dùng.")
+
+
+if __name__ == '__main__':
     main()

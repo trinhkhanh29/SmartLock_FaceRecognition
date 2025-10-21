@@ -14,6 +14,10 @@ import torch
 import time
 import traceback
 import serial
+import pygame
+from playsound import playsound
+import threading
+import re
 
 # Nạp biến môi trường từ config.env
 env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
@@ -34,7 +38,11 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
     print("[ERROR] TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID không được định nghĩa trong config.env.")
     sys.exit(1)
 
-# Khởi tạo Serial
+# Biến toàn cục để lưu khoảng cách
+distance = None
+distance_lock = threading.Lock()
+
+# Khởi tạo Serial và đọc khoảng cách
 def init_serial(port='COM4', baudrate=115200):
     try:
         ser = serial.Serial(port, baudrate, timeout=1)
@@ -43,6 +51,30 @@ def init_serial(port='COM4', baudrate=115200):
     except serial.SerialException as e:
         print(f"[ERROR] Không thể kết nối Serial: {e}")
         return None
+
+def read_distance_from_serial(ser):
+    global distance
+    try:
+        while True:
+            if ser.in_waiting > 0:
+                line = ser.readline().decode('utf-8', errors='ignore').strip()
+                if line.startswith("DISTANCE:"):
+                    distance_str = line.replace("DISTANCE:", "")
+                    with distance_lock:
+                        if distance_str == "OUT_RANGE":
+                            distance = "Ngoài phạm vi"
+                        else:
+                            try:
+                                distance = float(distance_str.replace(" cm", ""))
+                                print(f"[INFO] Khoảng cách nhận được: {distance} cm")
+                            except ValueError:
+                                distance = "Lỗi định dạng"
+            time.sleep(0.1)  # Giảm tải CPU
+    except serial.SerialException as e:
+        print(f"[ERROR] Lỗi Serial trong thread: {e}")
+    finally:
+        if ser.is_open:
+            ser.close()
 
 # Gửi lệnh Serial
 def send_serial_command(ser, command, expected_response=None, timeout=10):
@@ -62,6 +94,17 @@ def send_serial_command(ser, command, expected_response=None, timeout=10):
         except serial.SerialException as e:
             print(f"[ERROR] Lỗi Serial: {e}")
     return False
+
+def play_startup_sound(sound_path):
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load(sound_path)
+        pygame.mixer.music.play()
+        print("[INFO] Đang phát âm thanh khởi động...")
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+    except Exception as e:
+        print(f"[WARNING] Không thể phát âm thanh: {e}")
 
 # Khởi tạo engine text-to-speech
 def init_tts_engine():
@@ -116,12 +159,6 @@ def initialize_firebase():
 def load_known_faces(bucket, local_dir):
     os.makedirs(local_dir, exist_ok=True)
     embeddings_path = os.path.join(local_dir, "embeddings.pkl")
-
-    # Lấy danh sách file trên Firebase
-    firebase_files = set(blob.name for blob in bucket.list_blobs(prefix='faces/'))
-    print(f"[DEBUG] Số file trên Firebase: {len(firebase_files)}")
-
-    # Kiểm tra cache embeddings cục bộ
     cached_data = None
     if os.path.exists(embeddings_path):
         try:
@@ -129,6 +166,7 @@ def load_known_faces(bucket, local_dir):
                 cached_data = pickle.load(f)
                 known_embeddings, known_ids, known_names, cached_files = cached_data
                 print(f"[INFO] Đã tải {len(known_ids)} embeddings từ cache: {embeddings_path}")
+                firebase_files = set(blob.name for blob in bucket.list_blobs(prefix='faces/'))
                 if set(cached_files) == firebase_files:
                     print("[INFO] Cache hợp lệ, không cần tải lại từ Firebase.")
                     return known_embeddings, known_ids, known_names
@@ -137,7 +175,6 @@ def load_known_faces(bucket, local_dir):
         except Exception as e:
             print(f"[WARNING] Lỗi khi tải cache embeddings: {e}. Tải lại từ Firebase.")
 
-    # Nếu cache không hợp lệ hoặc không tồn tại, tải từ Firebase
     mtcnn = MTCNN(keep_all=False, min_face_size=150, thresholds=[0.7, 0.8, 0.8])
     resnet = InceptionResnetV1(pretrained='vggface2').eval()
     known_embeddings = []
@@ -184,7 +221,6 @@ def load_known_faces(bucket, local_dir):
         except (ValueError, IndexError) as e:
             print(f"[WARNING] Bỏ qua file không hợp lệ: {blob_name}, {str(e)}")
 
-    # Lưu embeddings và danh sách file vào cache
     if known_embeddings:
         try:
             with open(embeddings_path, 'wb') as f:
@@ -195,7 +231,7 @@ def load_known_faces(bucket, local_dir):
 
     return known_embeddings, known_ids, known_names
 
-# Tải mô hình DNN cho phát hiện khuôn mặt
+# Tải mô hình DNN
 def get_model_paths():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     cascades_dir = os.path.abspath(os.path.join(base_dir, "..", "cascades"))
@@ -254,7 +290,7 @@ def send_telegram_message_with_photo(message, photo_path):
         print(f"[ERROR] File ảnh không tồn tại tại: {photo_path}")
         return False
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[ERROR] Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID. Kiểm tra file config.env.")
+        print("[ERROR] Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID. Kiểm tra file conafig.env.")
         return False
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
     payload = {'chat_id': TELEGRAM_CHAT_ID, 'caption': message.strip()}
@@ -281,11 +317,14 @@ def main():
     # Khởi tạo TTS
     tts_engine = init_tts_engine()
     ser = init_serial(port='COM4')
+    if ser:
+        # Khởi động thread đọc khoảng cách
+        threading.Thread(target=read_distance_from_serial, args=(ser,), daemon=True).start()
 
     # Biến đếm thất bại và khóa
     fail_count = 0
     lockout_time = 0
-    lock_duration = 60  # thời gian khóa: 60 giây
+    lock_duration = 60
 
     # Biến thống kê thực nghiệm
     correct_recognitions = 0
@@ -293,9 +332,8 @@ def main():
     processing_times = []
     false_positives = 0
     false_negatives = 0
-    # Placeholder cho tỉ lệ sai từ 100 thử nghiệm (cập nhật sau khi thử nghiệm thực tế)
-    false_positive_rate = 5.0  # % (giả định, thay bằng dữ liệu thực)
-    false_negative_rate = 10.0  # % (giả định, thay bằng dữ liệu thực)
+    false_positive_rate = 5.0
+    false_negative_rate = 10.0
 
     try:
         # Khởi tạo Firebase
@@ -324,7 +362,7 @@ def main():
             print("[INFO] Sử dụng Haar Cascade do thiếu mô hình DNN.")
 
         # Khởi tạo camera
-        cam = cv2.VideoCapture(1)
+        cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # Thêm cv2.CAP_DSHOW
         if not cam.isOpened():
             print("[ERROR] Không thể mở camera.")
             sys.exit(1)
@@ -333,12 +371,18 @@ def main():
         min_face_size = 150
         optimal_face_size = 200
         print("\n[INFO] Face recognition started. Press ESC to exit.")
-
         frame_count = 0
         start_time = time.time()
         temp_photo_path = os.path.join(os.path.dirname(__file__), "..", "temp", "temp_face.jpg")
         voice_cooldown = 5
         last_voice_time = datetime.now()
+
+        # Phát âm thanh khởi động
+        sound_path = os.path.join(os.path.dirname(__file__), '../sound/Ring-Doorbell-Sound.wav')
+        if not os.path.exists(sound_path):
+            print(f"[ERROR] File âm thanh không tồn tại tại: {sound_path}")
+        else:
+            play_startup_sound(sound_path)
 
         while True:
             try:
@@ -353,7 +397,7 @@ def main():
                 fps = frame_count / elapsed_time if elapsed_time > 0 else 0
                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-                # Kiểm tra xem có đang trong thời gian bị khóa không
+                # Kiểm tra khóa hệ thống
                 if time.time() < lockout_time:
                     print("[THÔNG BÁO] Hệ thống đang bị khóa vì nhận diện sai quá 3 lần.")
                     cv2.putText(frame, "Bi khoa 1 phut - Vui long doi...", (10, 30),
@@ -361,10 +405,7 @@ def main():
                     cv2.imshow("Face Recognition", frame)
                     if cv2.waitKey(1) & 0xFF == ord("q"):
                         break
-                    continue  # Bỏ qua xử lý nhận diện trong lúc bị khóa
-
-                # Bắt đầu đo thời gian xử lý
-                frame_process_start = time.time()
+                    continue
 
                 # Phát hiện khuôn mặt
                 process_start = time.time()
@@ -385,7 +426,6 @@ def main():
                         print(f"[DEBUG] Bỏ qua khuôn mặt nhỏ: {w}x{h}")
                         continue
 
-                    # Hướng dẫn người dùng nếu khuôn mặt nhỏ
                     if w < optimal_face_size and time_since_last_voice > voice_cooldown and tts_engine:
                         voice_message = "Vui lòng đưa khuôn mặt gần hơn để nhận diện chính xác"
                         tts_engine.say(voice_message)
@@ -416,18 +456,13 @@ def main():
                         print(
                             f"[DEBUG] Nhận diện: {name}, Độ tin cậy: {confidence_percent:.1f}%, thời gian: {(time.time() - recognition_start):.3f}s")
 
-                        # Cập nhật thống kê
                         total_recognitions += 1
                         if name != "Unknown":
                             correct_recognitions += 1
-                        # Giả định false positive/negative (cần thử nghiệm thực tế để xác định)
-                        # Ví dụ: nếu name != "Unknown" nhưng thực tế là người lạ -> false positive
-                        # Nếu name == "Unknown" nhưng thực tế là người quen -> false negative
-                        # Cập nhật sau khi có dữ liệu thực nghiệm
 
                     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     if name != "Unknown":
-                        fail_count = 0  # Reset fail count on successful recognition
+                        fail_count = 0
                         cv2.imwrite(temp_photo_path, frame)
                         message = f"[✅ {now_str}] Mở cửa thành công - {name} (Độ tin cậy: {confidence_percent:.1f}%)"
                         if send_telegram_message_with_photo(message, temp_photo_path):
@@ -440,10 +475,12 @@ def main():
                             print("[INFO] Đã gửi thông báo mở cửa. Thoát chương trình.")
                             return
                     elif time_since_last_voice > voice_cooldown and tts_engine:
-                        fail_count += 1  # Increment fail count for unknown face
+                        fail_count += 1
                         print(f"[CẢNH BÁO] Nhận diện thất bại {fail_count}/3")
                         cv2.imwrite(temp_photo_path, frame)
-                        message = f"[🚨 {now_str}] CẢNH BÁO: Phát hiện người lạ - Độ tin cậy thấp ({confidence_percent:.1f}%)"
+                        with distance_lock:
+                            distance_str = str(distance) if distance is not None else "Chưa có dữ liệu"
+                        message = f"[🚨 {now_str}] CẢNH BÁO: Phát hiện người lạ - Độ tin cậy thấp ({confidence_percent:.1f}%) | Khoảng cách: {distance_str}"
                         if send_telegram_message_with_photo(message, temp_photo_path):
                             send_serial_command(ser, "FAIL")
                             voice_message = "Cảnh báo! Phát hiện người lạ"
@@ -452,7 +489,6 @@ def main():
                             print("[VOICE] Phát âm thanh cảnh báo")
                             last_voice_time = current_time
 
-                        # Check if failed 3 times
                         if fail_count >= 3:
                             lockout_time = time.time() + lock_duration
                             fail_count = 0
@@ -465,11 +501,14 @@ def main():
                     cv2.putText(frame, f"{confidence_percent:.1f}%", (x + 5, y + h - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
                                 (255, 255, 0), 2)
 
-                # Tính thời gian xử lý frame
-                frame_process_time = (time.time() - frame_process_start) * 1000  # ms
-                processing_times.append(frame_process_time)
+                # Hiển thị khoảng cách trên frame
+                with distance_lock:
+                    distance_text = f"Distance: {distance if distance is not None else 'Chưa có dữ liệu'}"
+                cv2.putText(frame, distance_text, (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
-                # Tính toán thống kê
+                # Tính thống kê
+                frame_process_time = (time.time() - process_start) * 1000
+                processing_times.append(frame_process_time)
                 accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
                 avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
 
@@ -514,6 +553,8 @@ def main():
                 print(f"[ERROR] Không thể xóa file ảnh tạm: {str(e)}")
         if 'cam' in locals() and cam.isOpened():
             cam.release()
+        if 'ser' in locals() and ser and ser.is_open:
+            ser.close()
         cv2.destroyAllWindows()
         print("\n[INFO] Program exited cleanly.")
 
