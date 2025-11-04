@@ -1,0 +1,141 @@
+2025-11-04 20:43:55,045 | INFO | Bắt đầu thu thập cho: ID=123, Tên=trinh
+2025-11-04 20:43:55,089 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 20:43:57,496 | INFO | MTCNN đã sẵn sàng
+2025-11-04 20:43:57,562 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 20:43:57,563 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 20:43:57,730 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 20:44:01,422 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 20:44:05,059 | INFO | Đã upload: faces/123/123_trinh_1_20251104_204401.jpg
+2025-11-04 20:44:06,715 | INFO | Đã upload: faces/123/123_trinh_2_20251104_204405.jpg
+2025-11-04 20:44:08,642 | INFO | Đã upload: faces/123/123_trinh_3_20251104_204406.jpg
+2025-11-04 20:44:10,541 | INFO | Đã upload: faces/123/123_trinh_4_20251104_204409.jpg
+2025-11-04 20:44:12,433 | INFO | Đã upload: faces/123/123_trinh_5_20251104_204410.jpg
+2025-11-04 20:44:14,104 | INFO | Đã upload: faces/123/123_trinh_6_20251104_204412.jpg
+2025-11-04 20:44:15,884 | INFO | Đã upload: faces/123/123_trinh_7_20251104_204414.jpg
+2025-11-04 20:44:17,568 | INFO | Đã upload: faces/123/123_trinh_8_20251104_204416.jpg
+2025-11-04 20:44:19,337 | INFO | Đã upload: faces/123/123_trinh_9_20251104_204417.jpg
+2025-11-04 20:44:20,993 | INFO | Đã upload: faces/123/123_trinh_10_20251104_204419.jpg
+2025-11-04 20:44:22,763 | INFO | Chuyển hướng: Quay mặt sang trái
+2025-11-04 20:44:24,345 | INFO | Đã upload: faces/123/123_trinh_11_20251104_204422.jpg
+2025-11-04 20:44:26,261 | INFO | Đã upload: faces/123/123_trinh_12_20251104_204424.jpg
+2025-11-04 20:44:27,874 | INFO | Đã upload: faces/123/123_trinh_13_20251104_204426.jpg
+2025-11-04 20:44:29,721 | INFO | Đã upload: faces/123/123_trinh_14_20251104_204428.jpg
+2025-11-04 20:44:31,338 | INFO | Đã upload: faces/123/123_trinh_15_20251104_204429.jpg
+2025-11-04 20:44:33,126 | INFO | Đã upload: faces/123/123_trinh_16_20251104_204431.jpg
+2025-11-04 20:44:34,815 | INFO | Đã upload: faces/123/123_trinh_17_20251104_204433.jpg
+2025-11-04 20:44:36,598 | INFO | Đã upload: faces/123/123_trinh_18_20251104_204434.jpg
+2025-11-04 20:44:38,264 | INFO | Đã upload: faces/123/123_trinh_19_20251104_204436.jpg
+2025-11-04 20:44:40,632 | INFO | Đã upload: faces/123/123_trinh_20_20251104_204439.jpg
+2025-11-04 20:44:42,362 | INFO | Chuyển hướng: Quay mặt sang phải
+2025-11-04 20:44:44,019 | INFO | Đã upload: faces/123/123_trinh_21_20251104_204442.jpg
+2025-11-04 20:44:45,877 | INFO | Đã upload: faces/123/123_trinh_22_20251104_204444.jpg
+2025-11-04 20:44:47,541 | INFO | Đã upload: faces/123/123_trinh_23_20251104_204446.jpg
+2025-11-04 20:44:49,340 | INFO | Đã upload: faces/123/123_trinh_24_20251104_204447.jpg
+2025-11-04 20:44:51,001 | INFO | Đã upload: faces/123/123_trinh_25_20251104_204449.jpg
+2025-11-04 20:44:52,825 | INFO | Đã upload: faces/123/123_trinh_26_20251104_204451.jpg
+2025-11-04 20:44:54,497 | INFO | Đã upload: faces/123/123_trinh_27_20251104_204452.jpg
+2025-11-04 20:44:56,273 | INFO | Đã upload: faces/123/123_trinh_28_20251104_204454.jpg
+2025-11-04 20:44:57,985 | INFO | Đã upload: faces/123/123_trinh_29_20251104_204456.jpg
+2025-11-04 20:44:59,762 | INFO | Đã upload: faces/123/123_trinh_30_20251104_204458.jpg
+2025-11-04 20:45:01,381 | INFO | Chuyển hướng: Nhìn lên trên
+2025-11-04 20:45:02,980 | INFO | Đã upload: faces/123/123_trinh_31_20251104_204501.jpg
+2025-11-04 20:45:04,810 | INFO | Đã upload: faces/123/123_trinh_32_20251104_204503.jpg
+2025-11-04 20:45:06,463 | INFO | Đã upload: faces/123/123_trinh_33_20251104_204504.jpg
+2025-11-04 20:45:07,398 | INFO | Đã upload: faces/123/123_trinh_34_20251104_204506.jpg
+2025-11-04 20:45:08,346 | INFO | Đã upload: faces/123/123_trinh_35_20251104_204507.jpg
+2025-11-04 20:45:09,943 | INFO | Đã upload: faces/123/123_trinh_36_20251104_204509.jpg
+2025-11-04 20:45:10,996 | INFO | Đã upload: faces/123/123_trinh_37_20251104_204510.jpg
+2025-11-04 20:45:11,947 | INFO | Đã upload: faces/123/123_trinh_38_20251104_204511.jpg
+2025-11-04 20:45:12,897 | INFO | Đã upload: faces/123/123_trinh_39_20251104_204512.jpg
+2025-11-04 20:45:13,837 | INFO | Đã upload: faces/123/123_trinh_40_20251104_204513.jpg
+2025-11-04 20:45:15,481 | INFO | Chuyển hướng: Nhìn xuống dưới
+2025-11-04 20:45:16,436 | INFO | Đã upload: faces/123/123_trinh_41_20251104_204515.jpg
+2025-11-04 20:45:17,396 | INFO | Đã upload: faces/123/123_trinh_42_20251104_204516.jpg
+2025-11-04 20:45:18,364 | INFO | Đã upload: faces/123/123_trinh_43_20251104_204517.jpg
+2025-11-04 20:45:19,400 | INFO | Đã upload: faces/123/123_trinh_44_20251104_204518.jpg
+2025-11-04 20:45:20,403 | INFO | Đã upload: faces/123/123_trinh_45_20251104_204519.jpg
+2025-11-04 20:45:21,393 | INFO | Đã upload: faces/123/123_trinh_46_20251104_204520.jpg
+2025-11-04 20:45:22,389 | INFO | Đã upload: faces/123/123_trinh_47_20251104_204521.jpg
+2025-11-04 20:45:23,541 | INFO | Đã upload: faces/123/123_trinh_48_20251104_204522.jpg
+2025-11-04 20:45:25,078 | INFO | Đã upload: faces/123/123_trinh_49_20251104_204523.jpg
+2025-11-04 20:45:26,052 | INFO | Đã upload: faces/123/123_trinh_50_20251104_204525.jpg
+2025-11-04 20:45:29,791 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-04 20:49:06,898 | INFO | Bắt đầu thu thập cho: ID=123, Tên=triinh
+2025-11-04 20:49:06,936 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 20:49:09,346 | INFO | MTCNN đã sẵn sàng
+2025-11-04 20:49:09,414 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 20:49:09,414 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 20:49:09,589 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 20:49:13,261 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 20:49:16,766 | INFO | Đã upload: faces/123/123_triinh_1_20251104_204913.jpg
+2025-11-04 20:49:18,369 | INFO | Đã upload: faces/123/123_triinh_2_20251104_204916.jpg
+2025-11-04 20:49:20,260 | INFO | Đã upload: faces/123/123_triinh_3_20251104_204918.jpg
+2025-11-04 20:49:21,859 | INFO | Đã upload: faces/123/123_triinh_4_20251104_204920.jpg
+2025-11-04 20:49:23,740 | INFO | Đã upload: faces/123/123_triinh_5_20251104_204922.jpg
+2025-11-04 20:49:25,306 | INFO | Đã upload: faces/123/123_triinh_6_20251104_204923.jpg
+2025-11-04 20:49:27,209 | INFO | Đã upload: faces/123/123_triinh_7_20251104_204925.jpg
+2025-11-04 20:49:31,923 | INFO | Hoàn tất: 8/50 ảnh
+2025-11-04 21:47:15,783 | INFO | Bắt đầu thu thập cho: ID=1, Tên=trghg
+2025-11-04 21:47:15,825 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:47:18,600 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:47:18,699 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:47:18,700 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:47:18,915 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:47:22,637 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:47:25,489 | INFO | Đã upload: faces/1/1_trghg_1_20251104_214722.jpg
+2025-11-04 21:47:30,212 | INFO | Bắt đầu thu thập cho: ID=1, Tên=trghg
+2025-11-04 21:47:30,264 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:47:31,140 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:47:31,225 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:47:31,225 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:47:31,548 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:47:35,296 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:47:38,365 | INFO | Hoàn tất: 1/50 ảnh
+2025-11-04 21:47:43,276 | INFO | Hoàn tất: 0/50 ảnh
+2025-11-04 21:48:12,606 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trfc
+2025-11-04 21:48:12,650 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:48:15,209 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:48:15,301 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:48:15,301 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:48:15,499 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:48:19,212 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:48:22,754 | INFO | Đã upload: faces/3/3_trfc_1_20251104_214819.jpg
+2025-11-04 21:48:24,528 | INFO | Đã upload: faces/3/3_trfc_2_20251104_214823.jpg
+2025-11-04 21:48:30,607 | INFO | Hoàn tất: 2/50 ảnh
+2025-11-04 21:53:03,322 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trfc
+2025-11-04 21:53:03,361 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:53:05,851 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:53:05,930 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:53:05,931 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:53:06,093 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:53:09,784 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:53:12,873 | INFO | Đã upload: faces/3/3_trfc_1_20251104_215310.jpg
+2025-11-04 21:53:14,724 | INFO | Đã upload: faces/3/3_trfc_2_20251104_215313.jpg
+2025-11-04 21:53:16,414 | INFO | Đã upload: faces/3/3_trfc_3_20251104_215314.jpg
+2025-11-04 21:53:18,258 | INFO | Đã upload: faces/3/3_trfc_4_20251104_215316.jpg
+2025-11-04 21:53:20,158 | INFO | Đã upload: faces/3/3_trfc_5_20251104_215318.jpg
+2025-11-04 21:53:22,115 | INFO | Đã upload: faces/3/3_trfc_6_20251104_215320.jpg
+2025-11-04 21:53:23,734 | INFO | Đã upload: faces/3/3_trfc_7_20251104_215322.jpg
+2025-11-04 21:53:26,129 | INFO | Đã upload: faces/3/3_trfc_8_20251104_215324.jpg
+2025-11-04 21:53:30,370 | INFO | Hoàn tất: 8/50 ảnh
+2025-11-04 21:56:20,452 | INFO | Bắt đầu thu thập cho: ID=1312, Tên=3wqe
+2025-11-04 21:56:20,490 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:56:22,983 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:56:23,061 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:56:23,061 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:56:23,231 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:56:26,930 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:56:29,757 | INFO | Đã upload: faces/1312/1312_3wqe_1_20251104_215626.jpg
+2025-11-04 21:56:31,969 | INFO | Đã upload: faces/1312/1312_3wqe_2_20251104_215629.jpg
+2025-11-04 21:56:35,608 | INFO | Hoàn tất: 2/50 ảnh
+2025-11-04 22:53:35,429 | INFO | Bắt đầu thu thập cho: ID=1, Tên=rtgbfbsd
+2025-11-04 22:53:35,476 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 22:53:38,283 | INFO | MTCNN đã sẵn sàng
+2025-11-04 22:53:38,359 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 22:53:38,360 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 22:53:38,580 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 22:53:42,301 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 22:53:45,920 | INFO | Đã upload: faces/1/1_rtgbfbsd_1_20251104_225342.jpg
+2025-11-04 22:53:47,531 | INFO | Đã upload: faces/1/1_rtgbfbsd_2_20251104_225346.jpg
+2025-11-04 22:53:49,426 | INFO | Đã upload: faces/1/1_rtgbfbsd_3_20251104_225347.jpg
+2025-11-04 22:53:53,122 | INFO | Hoàn tất: 3/50 ảnh
