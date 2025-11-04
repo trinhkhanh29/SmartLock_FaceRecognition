@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thu thập khuôn mặt</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary-color: #7209b7;
+      --accent-color: #4cc9f0;
+      --text-color: #2b2d42;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --success-color: #4bb543;
+      --warning-color: #f8961e;
+      --danger-color: #e74c3c;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+      width: 100%;
+    }
+
+    /* Panel thông tin */
+    .info-panel {
+      flex: 1;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .logo i {
+      color: white;
+      font-size: 36px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--dark-gray);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: var(--transition);
+      background-color: var(--light-gray);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .info-box {
+      background-color: var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-top: auto;
+      font-size: 14px;
+      color: var(--dark-gray);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .info-box h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .info-box ul {
+      padding-left: 20px;
+    }
+
+    .info-box li {
+      margin-bottom: 8px;
+    }
+
+    /* Panel camera */
+    .camera-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .camera-container {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .camera-frame {
+      width: 100%;
+      height: 300px;
+      background: #1a1a1a;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    #videoElement {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--border-radius);
+      display: none;
+    }
+
+    .camera-placeholder {
+      color: white;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .camera-placeholder i {
+      font-size: 64px;
+      margin-bottom: 15px;
+      color: var(--medium-gray);
+    }
+
+    .camera-status {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .camera-controls {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: var(--dark-gray);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #5a6268;
+    }
+
+    .btn-warning {
+      background: var(--warning-color);
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background: #e68a1e;
+    }
+
+    .btn-danger {
+      background: var(--danger-color);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #c0392b;
+    }
+
+    /* Camera selection dropdown */
+    .camera-selector {
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    .camera-selector label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    /* PIN Panel */
+    .pin-panel {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px;
+    }
+
+    .pin-display {
+      background: var(--light-gray);
+      border: 2px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      letter-spacing: 8px;
+      font-weight: 600;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .pin-btn {
+      padding: 15px;
+      background: var(--light-gray);
+      border: 2px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-btn:hover {
+      background: var(--medium-gray);
+    }
+
+    .pin-btn:active {
+      transform: scale(0.95);
+    }
+
+    .pin-btn-primary {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .pin-btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .pin-btn-danger {
+      background: var(--danger-color);
+      color: white;
+      border-color: var(--danger-color);
+    }
+
+    .pin-btn-danger:hover {
+      background: #c0392b;
+    }
+
+    /* Action Panel */
+    .action-panel {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn-large {
+      flex: 1;
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    .btn-success {
+      background: var(--success-color);
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: #3d8c34;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: var(--success-color);
+      color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.error {
+      background: var(--danger-color);
+    }
+
+    .toast.warning {
+      background: var(--warning-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .camera-frame {
+        height: 250px;
+      }
+
+      .camera-controls {
+        flex-direction: column;
+      }
+
+      .action-panel {
+        flex-direction: column;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Toast notification -->
+  <div id="toast" class="toast"></div>
+
+  <div class="container">
+    <!-- Panel thông tin bên trái
+    <div class="info-panel">
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h1>Thu thập khuôn mặt</h1>
+        <p class="subtitle">Nhập thông tin và xác thực để bắt đầu quá trình thu thập dữ liệu khuôn mặt</p>
+      </div>
+
+      <div class="form-group">
+        <label for="userId">Mã người dùng</label>
+        <input type="text" name="userId" id="userId" required placeholder="Nhập mã người dùng">
+      </div>
+
+      <div class="form-group">
+        <label for="userName">Tên người dùng</label>
+        <input type="text" name="userName" id="userName" required placeholder="Nhập tên người dùng">
+      </div>
+
+      <div class="info-box">
+        <h3>Hướng dẫn thu thập</h3>
+        <ul>
+          <li>Đảm bảo khuôn mặt được chiếu sáng đầy đủ</li>
+          <li>Giữ khuôn mặt thẳng với camera</li>
+          <li>Loại bỏ kính râm và mũ</li>
+          <li>Nhập mã PIN để xác thực</li>
+          <li>Nhấn "Thu thập khuôn mặt" để bắt đầu</li>
+        </ul>
+      </div>
+    </div> -->
+
+    <!-- Panel camera và PIN bên phải -->
+    <div class="camera-panel">
+      <!-- Khung camera -->
+      <div class="camera-container">
+        <div class="camera-selector">
+          <label for="cameraSelect">Chọn Camera:</label>
+          <select id="cameraSelect">
+            <option value="">-- Chọn camera --</option>
+          </select>
+        </div>
+
+        <div class="camera-frame">
+          <video id="videoElement" autoplay playsinline></video>
+          <div class="camera-status" id="cameraStatus"></div>
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <i class="fas fa-camera"></i>
+            <p>Camera sẽ hiển thị ở đây</p>
+          </div>
+        </div>
+
+        <div class="camera-controls">
+          <button class="btn btn-secondary" id="startCameraBtn">
+            <i class="fas fa-play"></i>
+            Bật Camera
+          </button>
+          <button class="btn btn-warning" id="switchCameraBtn" disabled>
+            <i class="fas fa-sync-alt"></i>
+            Đổi Camera
+          </button>
+          <!-- <button class="btn" id="fullscreenBtn">
+            <i class="fas fa-expand"></i>
+            Toàn màn hình
+          </button> -->
+        <button class="btn btn-success btn-large" id="collectBtn" onclick="window.location.href='/face/collect'">
+            <i class="fas fa-camera"></i>
+            Nhận diện khuôn mặt
+        </button>
+        </div>
+      </div>
+
+      <!-- Bàn phím PIN -->
+      <div class="pin-panel">
+        <div class="pin-display" id="pinDisplay">****</div>
+        <div class="pin-grid">
+          <button class="pin-btn" data-pin="1">1</button>
+          <button class="pin-btn" data-pin="2">2</button>
+          <button class="pin-btn" data-pin="3">3</button>
+          <button class="pin-btn pin-btn-primary" data-pin="enter">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <button class="pin-btn" data-pin="4">4</button>
+          <button class="pin-btn" data-pin="5">5</button>
+          <button class="pin-btn" data-pin="6">6</button>
+          <button class="pin-btn pin-btn-danger" data-pin="clear">
+            <i class="fas fa-backspace"></i>
+          </button>
+          <button class="pin-btn" data-pin="7">7</button>
+          <button class="pin-btn" data-pin="8">8</button>
+          <button class="pin-btn" data-pin="9">9</button>
+          <button class="pin-btn" data-pin="0">0</button>
+        </div>
+      </div>
+
+      <!-- Nút hành động -->
+      <div class="action-panel">
+        <button class="btn btn-secondary btn-large" id="refreshBtn">
+          <i class="fas fa-redo"></i>
+          Làm mới
+        </button>
+        <button class="btn btn-success btn-large" id="collectBtn" onclick="window.location.href='/face/collect'">
+        <i class="fas fa-camera"></i>
+        Thu thập khuôn mặt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Biến toàn cục
+    let currentStream = null;
+    let cameras = [];
+    let currentCameraIndex = 0;
+    let pinCode = '';
+    const maxPinLength = 4;
+
+    // DOM Elements
+    const videoElement = document.getElementById('videoElement');
+    const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+    const cameraStatus = document.getElementById('cameraStatus');
+    const cameraSelect = document.getElementById('cameraSelect');
+    const startCameraBtn = document.getElementById('startCameraBtn');
+    const switchCameraBtn = document.getElementById('switchCameraBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const collectBtn = document.getElementById('collectBtn');
+    const pinDisplay = document.getElementById('pinDisplay');
+    const toast = document.getElementById('toast');
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCameras();
+      setupEventListeners();
+    });
+
+    // Tải danh sách camera
+    async function loadCameras() {
+      try {
+        showToast('Đang tải danh sách camera...', 'warning');
+        
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        cameras = devices.filter(device => device.kind === 'videoinput');
+        
+        cameraSelect.innerHTML = '<option value="">-- Chọn camera --</option>';
+        
+        if (cameras.length === 0) {
+          cameraSelect.innerHTML = '<option value="">Không tìm thấy camera</option>';
+          showToast('Không tìm thấy camera nào trên thiết bị', 'error');
+          return;
+        }
+        
+        cameras.forEach((camera, index) => {
+          const label = camera.label || `Camera ${index + 1}`;
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = label;
+          cameraSelect.appendChild(option);
+        });
+        
+        showToast(`Đã tìm thấy ${cameras.length} camera`, 'success');
+        
+      } catch (error) {
+        console.error('Lỗi khi tải camera:', error);
+        showToast('Lỗi khi tải danh sách camera', 'error');
+      }
+    }
+
+    // Bật camera
+    async function startCamera(deviceId = null) {
+      try {
+        stopCamera(); // Dừng camera hiện tại nếu có
+        
+        const constraints = {
+          video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: 'user'
+          }
+        };
+
+        if (deviceId) {
+          constraints.video.deviceId = { exact: deviceId };
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        currentStream = stream;
+        videoElement.srcObject = stream;
+        
+        // Hiển thị video và ẩn placeholder
+        videoElement.style.display = 'block';
+        cameraPlaceholder.style.display = 'none';
+        cameraStatus.style.display = 'block';
+        cameraStatus.textContent = '📹 Camera đang hoạt động';
+        cameraStatus.style.background = 'rgba(76, 175, 80, 0.8)';
+        
+        // Cập nhật UI
+        startCameraBtn.innerHTML = '<i class="fas fa-stop"></i> Tắt Camera';
+        startCameraBtn.classList.remove('btn-secondary');
+        startCameraBtn.classList.add('btn-danger');
+        switchCameraBtn.disabled = cameras.length <= 1;
+        
+        showToast('Camera đã được bật', 'success');
+        
+      } catch (error) {
+        console.error('Lỗi khi bật camera:', error);
+        showToast('Không thể truy cập camera', 'error');
+        
+        // Khôi phục UI
+        startCameraBtn.innerHTML = '<i class="fas fa-play"></i> Bật Camera';
+        startCameraBtn.classList.remove('btn-danger');
+        startCameraBtn.classList.add('btn-secondary');
+      }
+    }
+
+    // Dừng camera
+    function stopCamera() {
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+        currentStream = null;
+      }
+      
+      videoElement.srcObject = null;
+      videoElement.style.display = 'none';
+      cameraPlaceholder.style.display = 'block';
+      cameraStatus.style.display = 'none';
+      
+      // Khôi phục UI
+      startCameraBtn.innerHTML = '<i class="fas fa-play"></i> Bật Camera';
+      startCameraBtn.classList.remove('btn-danger');
+      startCameraBtn.classList.add('btn-secondary');
+      switchCameraBtn.disabled = true;
+    }
+
+    // Chuyển đổi camera
+    function switchCamera() {
+      if (cameras.length <= 1) return;
+      
+      currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+      const selectedCamera = cameras[currentCameraIndex];
+      
+      cameraSelect.value = currentCameraIndex;
+      startCamera(selectedCamera.deviceId);
+      
+      showToast(`Đã chuyển sang ${selectedCamera.label || `Camera ${currentCameraIndex + 1}`}`, 'warning');
+    }
+
+    // Toàn màn hình
+    function toggleFullscreen() {
+      const cameraFrame = document.querySelector('.camera-frame');
+      
+      if (!document.fullscreenElement) {
+        if (cameraFrame.requestFullscreen) {
+          cameraFrame.requestFullscreen();
+        } else if (cameraFrame.webkitRequestFullscreen) {
+          cameraFrame.webkitRequestFullscreen();
+        } else if (cameraFrame.msRequestFullscreen) {
+          cameraFrame.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
+
+    // Hiển thị thông báo
+    function showToast(message, type = 'success') {
+      toast.textContent = message;
+      toast.className = 'toast';
+      toast.classList.add(type);
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Cập nhật hiển thị PIN
+    function updatePinDisplay() {
+      const displayValue = '*'.repeat(pinCode.length);
+      pinDisplay.textContent = displayValue || '****';
+    }
+
+    // Xử lý thu thập khuôn mặt
+    async function collectFaceData() {
+      const userId = document.getElementById('userId').value.trim();
+      const userName = document.getElementById('userName').value.trim();
+      
+      // Validation
+      if (!userId || !userName) {
+        showToast('Vui lòng nhập đầy đủ thông tin người dùng', 'error');
+        return;
+      }
+      
+      if (pinCode.length !== maxPinLength) {
+        showToast('Vui lòng nhập mã PIN xác thực (4 chữ số)', 'error');
+        return;
+      }
+      
+      if (!currentStream) {
+        showToast('Vui lòng bật camera trước khi thu thập', 'error');
+        return;
+      }
+      
+      // Hiệu ứng loading
+      const originalText = collectBtn.innerHTML;
+      collectBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Đang thu thập...';
+      collectBtn.disabled = true;
+      
+      try {
+        // Chụp ảnh từ video
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+        const imageData = canvas.toDataURL('image/jpeg');
+        
+        // Giả lập gửi dữ liệu đến server
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        showToast(`Đã thu thập khuôn mặt thành công cho ${userName}`, 'success');
+        
+        // Chuyển hướng sau khi thành công
+        setTimeout(() => {
+          window.location.href = `/face/collect?userId=${userId}&userName=${encodeURIComponent(userName)}&pin=${pinCode}`;
+        }, 1500);
+        
+      } catch (error) {
+        console.error('Lỗi khi thu thập:', error);
+        showToast('Lỗi khi thu thập khuôn mặt', 'error');
+      } finally {
+        collectBtn.innerHTML = originalText;
+        collectBtn.disabled = false;
+      }
+    }
+
+    // Thiết lập event listeners
+    function setupEventListeners() {
+      // Camera controls
+      startCameraBtn.addEventListener('click', () => {
+        if (currentStream) {
+          stopCamera();
+        } else {
+          const selectedIndex = cameraSelect.value;
+          if (selectedIndex) {
+            startCamera(cameras[selectedIndex].deviceId);
+          } else {
+            startCamera();
+          }
+        }
+      });
+      
+      cameraSelect.addEventListener('change', (e) => {
+        if (e.target.value) {
+          currentCameraIndex = parseInt(e.target.value);
+          startCamera(cameras[currentCameraIndex].deviceId);
+        }
+      });
+      
+      switchCameraBtn.addEventListener('click', switchCamera);
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+      refreshBtn.addEventListener('click', loadCameras);
+      
+      // PIN buttons
+      document.querySelectorAll('.pin-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const value = this.getAttribute('data-pin');
+          
+          if (value === 'clear') {
+            pinCode = '';
+            updatePinDisplay();
+          } else if (value === 'enter') {
+            if (pinCode.length === maxPinLength) {
+              showToast(`Mã PIN ${pinCode} đã được xác thực`, 'success');
+            } else {
+              showToast('Vui lòng nhập đủ 4 chữ số PIN', 'error');
+            }
+          } else if (pinCode.length < maxPinLength) {
+            pinCode += value;
+            updatePinDisplay();
+          }
+        });
+      });
+      
+      // Collect button
+      collectBtn.addEventListener('click', collectFaceData);
+      
+      // Input focus effects
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('focus', function() {
+          this.style.borderColor = 'var(--primary-color)';
+        });
+        
+        input.addEventListener('blur', function() {
+          if (!this.value) {
+            this.style.borderColor = 'var(--medium-gray)';
+          }
+        });
+      });
+      
+      // Fullscreen change event
+      document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+          fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Thoát toàn màn hình';
+        } else {
+          fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Toàn màn hình';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

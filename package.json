@@ -1,0 +1,20 @@
+{
+  "name": "smartlock_facerecognition",
+  "version": "1.0.0",
+  "description": "Thiết Kế Chế Tạo Khóa Cửa Thông Minh Nhận Diện Khuôn Mặt - PyThon-Esp32",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trinhkhanh29/SmartLock_FaceRecognition/issues"
+  },
+  "homepage": "https://github.com/trinhkhanh29/SmartLock_FaceRecognition#readme"
+}

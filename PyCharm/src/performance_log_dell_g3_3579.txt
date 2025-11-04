@@ -1,0 +1,144 @@
+2025-10-26 16:04:44,944 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-10-26 16:04:44,946 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-10-26 16:04:46,782 - INFO - Th\u1eddi gian t\u1ea3i embeddings: 1.618s trên Dell G3 3579
+2025-10-26 16:04:51,964 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.044s, S\u1ed1 khuôn m\u1eb7t: 1
+2025-10-26 16:04:52,080 - INFO - Nh\u1eadn di\u1ec7n: Trinh Quoc Khanh 5, \u0110\u1ed9 tin c\u1eady: 78.5%, Th\u1eddi gian: 0.115s
+2025-10-26 16:04:58,514 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 1
+2025-10-26 16:04:58,595 - INFO - Nh\u1eadn di\u1ec7n: Trinh Quoc Khanh 12, \u0110\u1ed9 tin c\u1eady: 82.5%, Th\u1eddi gian: 0.080s
+2025-10-26 16:05:04,873 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:04,914 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.029s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:04,949 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.024s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,026 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.064s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,073 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.034s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,117 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,154 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.025s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,195 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.029s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,238 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.031s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,282 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.031s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,326 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.033s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,374 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.034s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,440 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.054s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,486 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,532 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.033s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,574 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,622 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.035s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,661 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.026s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,706 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,748 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.031s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,793 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,836 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,908 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.059s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:05,971 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.050s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:06,017 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.033s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:06,062 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:06,105 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.031s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:06,147 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-10-26 16:05:06,183 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.025s, S\u1ed1 khuôn m\u1eb7t: 1
+2025-10-26 16:05:09,657 - INFO - Nh\u1eadn di\u1ec7n: Trinh Quoc Khanh 9, \u0110\u1ed9 tin c\u1eady: 79.8%, Th\u1eddi gian: 0.080s
+2025-10-26 16:05:13,844 - INFO - Serial SUCCESS latency: 4.186s
+2025-10-26 16:05:18,999 - INFO - \u0110\u1ed9 chính xác: 100.0%
+2025-10-26 16:05:18,999 - INFO - T\u1ed1c \u0111\u1ed9 x\u1eed lý trung bình: 459.4 ms/frame (GPU: False)
+2025-10-26 16:05:18,999 - INFO - \u0110\u1ed9 tr\u1ec5 serial trung bình: 4.2 ms
+2025-10-26 16:05:18,999 - INFO - \u0110\u1ed9 \u1ed5n \u0111\u1ecbnh: 100.0%
+2025-10-26 16:05:18,999 - INFO - T\u1ed5ng s\u1ed1 nh\u1eadn di\u1ec7n: 3, Nh\u1eadn di\u1ec7n \u0111úng: 3, L\u1ed7i: 0, Frame drop: 0
+2025-10-26 16:06:44,179 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-10-26 16:06:44,179 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-10-26 16:06:47,671 - INFO - Th\u1eddi gian t\u1ea3i embeddings: 3.190s trên Dell G3 3579
+2025-10-26 16:06:52,844 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.059s, S\u1ed1 khuôn m\u1eb7t: 1
+2025-10-26 16:06:52,976 - INFO - Nh\u1eadn di\u1ec7n: Trinh Quoc Khanh 5, \u0110\u1ed9 tin c\u1eady: 75.8%, Th\u1eddi gian: 0.132s
+2025-10-26 16:07:02,208 - INFO - Serial SUCCESS latency: 9.232s
+2025-10-26 16:07:07,329 - INFO - \u0110\u1ed9 chính xác: 100.0%
+2025-10-26 16:07:07,329 - INFO - T\u1ed1c \u0111\u1ed9 x\u1eed lý trung bình: 0.0 ms/frame (GPU: False)
+2025-10-26 16:07:07,329 - INFO - \u0110\u1ed9 tr\u1ec5 serial trung bình: 9.2 ms
+2025-10-26 16:07:07,329 - INFO - \u0110\u1ed9 \u1ed5n \u0111\u1ecbnh: 100.0%
+2025-10-26 16:07:07,329 - INFO - T\u1ed5ng s\u1ed1 nh\u1eadn di\u1ec7n: 1, Nh\u1eadn di\u1ec7n \u0111úng: 1, L\u1ed7i: 0, Frame drop: 0
+2025-10-26 16:09:13,769 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-10-26 16:09:13,770 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-10-26 16:09:15,827 - INFO - Th\u1eddi gian t\u1ea3i embeddings: 1.768s trên Dell G3 3579
+2025-10-26 16:09:21,046 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.062s, S\u1ed1 khuôn m\u1eb7t: 1
+2025-10-26 16:09:21,149 - INFO - Nh\u1eadn di\u1ec7n: Trinh Quoc Khanh 5, \u0110\u1ed9 tin c\u1eady: 77.4%, Th\u1eddi gian: 0.103s
+2025-10-26 16:09:31,788 - INFO - Serial SUCCESS latency: 10.638s
+2025-10-26 16:09:36,870 - INFO - \u0110\u1ed9 chính xác: 100.0%
+2025-10-26 16:09:36,870 - INFO - T\u1ed1c \u0111\u1ed9 x\u1eed lý trung bình: 0.0 ms/frame (GPU: False)
+2025-10-26 16:09:36,870 - INFO - \u0110\u1ed9 tr\u1ec5 serial trung bình: 10.6 ms
+2025-10-26 16:09:36,870 - INFO - \u0110\u1ed9 \u1ed5n \u0111\u1ecbnh: 100.0%
+2025-10-26 16:09:36,870 - INFO - T\u1ed5ng s\u1ed1 nh\u1eadn di\u1ec7n: 1, Nh\u1eadn di\u1ec7n \u0111úng: 1, L\u1ed7i: 0, Frame drop: 0
+2025-11-04 21:30:33,965 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:30:33,966 - INFO - Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:30:46,334 - INFO - Th\u1eddi gian t\u1ea3i embeddings: 12.093s trên Dell G3 3579
+2025-11-04 21:30:56,197 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.086s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,281 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.055s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,329 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.035s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,381 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.038s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,424 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,545 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.053s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,616 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.034s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,756 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.077s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,805 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.031s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:56,940 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.069s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,019 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.033s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,131 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.039s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,239 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.063s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,341 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.067s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,450 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.067s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,532 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.043s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,622 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.046s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,764 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.075s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,811 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.030s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:57,938 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.058s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,021 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.039s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,117 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.032s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,256 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.073s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,321 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.043s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,435 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.058s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,511 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.026s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,649 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.064s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,750 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.070s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,802 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.028s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:58,925 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.037s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,041 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.049s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,118 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.039s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,223 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.045s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,352 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.064s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,409 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.028s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,519 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.037s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,638 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.057s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,734 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.047s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,851 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.067s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:30:59,923 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.045s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,049 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.070s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,121 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.035s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,235 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.051s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,303 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.026s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,449 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.057s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,552 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.049s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,627 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.045s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,728 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.046s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,828 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.038s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:00,966 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.077s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,022 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.041s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,120 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.041s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,264 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.073s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,324 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.035s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,415 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.034s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,572 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.089s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,634 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.044s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,718 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.033s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:01,836 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.051s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:02,369 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.491s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:02,736 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.354s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,443 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.692s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,497 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.040s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,551 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.042s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,720 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.129s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,832 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.098s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:03,959 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.091s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,099 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.104s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,225 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.102s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,313 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.049s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,383 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.056s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,483 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.087s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:04,859 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.358s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:06,190 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 1.145s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:06,424 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.170s, S\u1ed1 khuôn m\u1eb7t: 0
+2025-11-04 21:31:06,671 - INFO - Th\u1eddi gian phát hi\u1ec7n khuôn m\u1eb7t: 0.212s, S\u1ed1 khuôn m\u1eb7t: 0
