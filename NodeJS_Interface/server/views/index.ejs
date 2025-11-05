@@ -505,8 +505,8 @@
             <i class="fas fa-expand"></i>
             Toàn màn hình
           </button> -->
-        <button class="btn btn-success btn-large" id="collectBtn" onclick="window.location.href='/face/collect'">
-            <i class="fas fa-camera"></i>
+        <button class="btn btn-success btn-large" id="recognizeBtn" onclick="window.location.href='/face/recognize'">
+            <i class="fas fa-user-check"></i>
             Nhận diện khuôn mặt
         </button>
         </div>
@@ -519,29 +519,37 @@
           <button class="pin-btn" data-pin="1">1</button>
           <button class="pin-btn" data-pin="2">2</button>
           <button class="pin-btn" data-pin="3">3</button>
-          <button class="pin-btn pin-btn-primary" data-pin="enter">
-            <i class="fas fa-arrow-right"></i>
-          </button>
+          <button class="pin-btn" data-pin="A">A</button>
           <button class="pin-btn" data-pin="4">4</button>
           <button class="pin-btn" data-pin="5">5</button>
           <button class="pin-btn" data-pin="6">6</button>
-          <button class="pin-btn pin-btn-danger" data-pin="clear">
-            <i class="fas fa-backspace"></i>
-          </button>
+          <button class="pin-btn" data-pin="B">B</button>
           <button class="pin-btn" data-pin="7">7</button>
           <button class="pin-btn" data-pin="8">8</button>
           <button class="pin-btn" data-pin="9">9</button>
+          <button class="pin-btn" data-pin="C">C</button>
+          <button class="pin-btn" data-pin="*">*</button>
           <button class="pin-btn" data-pin="0">0</button>
+          <button class="pin-btn" data-pin="#">#</button>
+          <button class="pin-btn" data-pin="D">D</button>
         </div>
       </div>
 
       <!-- Nút hành động -->
       <div class="action-panel">
+        <button class="btn btn-danger btn-large" data-pin="clear">
+          <i class="fas fa-backspace"></i>
+          Xóa
+        </button>
+        <button class="btn btn-primary btn-large" data-pin="enter">
+          <i class="fas fa-check"></i>
+          Xác nhận
+        </button>
         <button class="btn btn-secondary btn-large" id="refreshBtn">
           <i class="fas fa-redo"></i>
           Làm mới
         </button>
-        <button class="btn btn-success btn-large" id="collectBtn" onclick="window.location.href='/face/collect'">
+        <button class="btn btn-success btn-large" id="collectBtn">
         <i class="fas fa-camera"></i>
         Thu thập khuôn mặt
         </button>
@@ -556,6 +564,8 @@
     let currentCameraIndex = 0;
     let pinCode = '';
     const maxPinLength = 4;
+    const correctPin = '2828'; // Mã PIN mặc định
+    let isPinVerified = false; // Trạng thái xác thực PIN
 
     // DOM Elements
     const videoElement = document.getElementById('videoElement');
@@ -730,17 +740,9 @@
 
     // Xử lý thu thập khuôn mặt
     async function collectFaceData() {
-      const userId = document.getElementById('userId').value.trim();
-      const userName = document.getElementById('userName').value.trim();
-      
-      // Validation
-      if (!userId || !userName) {
-        showToast('Vui lòng nhập đầy đủ thông tin người dùng', 'error');
-        return;
-      }
-      
-      if (pinCode.length !== maxPinLength) {
-        showToast('Vui lòng nhập mã PIN xác thực (4 chữ số)', 'error');
+      // Validation PIN
+      if (!isPinVerified) {
+        showToast('Vui lòng nhập và xác nhận mã PIN trước!', 'error');
         return;
       }
       
@@ -751,33 +753,20 @@
       
       // Hiệu ứng loading
       const originalText = collectBtn.innerHTML;
-      collectBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Đang thu thập...';
+      collectBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Đang chuyển hướng...';
       collectBtn.disabled = true;
       
       try {
-        // Chụp ảnh từ video
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        
-        const imageData = canvas.toDataURL('image/jpeg');
-        
-        // Giả lập gửi dữ liệu đến server
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        showToast(`Đã thu thập khuôn mặt thành công cho ${userName}`, 'success');
+        showToast('Mã PIN đã được xác thực! Đang chuyển hướng...', 'success');
         
         // Chuyển hướng sau khi thành công
         setTimeout(() => {
-          window.location.href = `/face/collect?userId=${userId}&userName=${encodeURIComponent(userName)}&pin=${pinCode}`;
-        }, 1500);
+          window.location.href = `/face/collect?pin=${pinCode}`;
+        }, 1000);
         
       } catch (error) {
-        console.error('Lỗi khi thu thập:', error);
-        showToast('Lỗi khi thu thập khuôn mặt', 'error');
-      } finally {
+        console.error('Lỗi:', error);
+        showToast('Có lỗi xảy ra', 'error');
         collectBtn.innerHTML = originalText;
         collectBtn.disabled = false;
       }
@@ -807,26 +796,48 @@
       });
       
       switchCameraBtn.addEventListener('click', switchCamera);
-      fullscreenBtn.addEventListener('click', toggleFullscreen);
-      refreshBtn.addEventListener('click', loadCameras);
+      refreshBtn.addEventListener('click', () => {
+        pinCode = '';
+        isPinVerified = false;
+        updatePinDisplay();
+        loadCameras();
+        showToast('Đã làm mới', 'success');
+      });
       
       // PIN buttons
-      document.querySelectorAll('.pin-btn').forEach(button => {
+      document.querySelectorAll('[data-pin]').forEach(button => {
         button.addEventListener('click', function() {
           const value = this.getAttribute('data-pin');
           
           if (value === 'clear') {
             pinCode = '';
+            isPinVerified = false;
             updatePinDisplay();
+            showToast('Đã xóa mã PIN', 'warning');
           } else if (value === 'enter') {
-            if (pinCode.length === maxPinLength) {
-              showToast(`Mã PIN ${pinCode} đã được xác thực`, 'success');
-            } else {
-              showToast('Vui lòng nhập đủ 4 chữ số PIN', 'error');
+            if (pinCode.length !== maxPinLength) {
+              showToast('Vui lòng nhập đủ 4 ký tự PIN', 'error');
+              return;
             }
-          } else if (pinCode.length < maxPinLength) {
-            pinCode += value;
-            updatePinDisplay();
+            
+            if (pinCode === correctPin) {
+              isPinVerified = true;
+              showToast(`✓ Mã PIN ${pinCode} chính xác!`, 'success');
+            } else {
+              isPinVerified = false;
+              showToast('✗ Mã PIN không đúng! Mã PIN mặc định là 2828', 'error');
+              pinCode = '';
+              updatePinDisplay();
+            }
+          } else {
+            // Nhập số/ký tự vào PIN
+            if (pinCode.length < maxPinLength) {
+              pinCode += value;
+              updatePinDisplay();
+              isPinVerified = false; // Reset trạng thái xác thực khi nhập mới
+            } else {
+              showToast('Mã PIN đã đủ 4 ký tự. Nhấn "Xóa" để nhập lại', 'warning');
+            }
           }
         });
       });
@@ -845,15 +856,6 @@
             this.style.borderColor = 'var(--medium-gray)';
           }
         });
-      });
-      
-      // Fullscreen change event
-      document.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-          fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Thoát toàn màn hình';
-        } else {
-          fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Toàn màn hình';
-        }
       });
     }
   </script>

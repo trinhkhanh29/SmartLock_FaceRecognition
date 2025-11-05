@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #343a40; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); text-align: center; max-width: 700px; width: 100%; border-top: 5px solid #e74c3c; }
+    h1 { color: #e74c3c; font-size: 28px; margin-bottom: 15px; }
+    h1 i { margin-right: 10px; }
+    p { font-size: 18px; color: #6c757d; margin-bottom: 25px; }
+    pre { background: #e9ecef; padding: 20px; border-radius: 8px; text-align: left; white-space: pre-wrap; word-wrap: break-word; max-height: 300px; overflow-y: auto; border: 1px solid #dee2e6; font-family: 'Courier New', Courier, monospace; font-size: 14px; color: #495057; }
+    a { display: inline-block; margin-top: 30px; padding: 12px 25px; background-color: #007bff; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background-color 0.3s ease; }
+    a:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-exclamation-triangle"></i> <%= title %></h1>
+    <p><%= message %></p>
+    
+    <% if (typeof error !== 'undefined' && error) { %>
+      <h2>Chi tiết lỗi:</h2>
+      <pre><%= error %></pre>
+    <% } %>
+
+    <a href="/">Quay về trang chủ</a>
+  </div>
+</body>
+</html>
