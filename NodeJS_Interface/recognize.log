@@ -139,3 +139,14 @@
 2025-11-04 22:53:47,531 | INFO | Đã upload: faces/1/1_rtgbfbsd_2_20251104_225346.jpg
 2025-11-04 22:53:49,426 | INFO | Đã upload: faces/1/1_rtgbfbsd_3_20251104_225347.jpg
 2025-11-04 22:53:53,122 | INFO | Hoàn tất: 3/50 ảnh
+2025-11-04 23:53:41,087 | INFO | Bắt đầu thu thập cho: ID=23, Tên=trunkj
+2025-11-04 23:53:41,141 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 23:53:43,822 | INFO | MTCNN đã sẵn sàng
+2025-11-04 23:53:43,928 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 23:53:43,928 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 23:53:44,164 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 23:53:47,908 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 23:53:52,138 | INFO | Đã upload: faces/23/23_trunkj_1_20251104_235348.jpg
+2025-11-04 23:53:54,434 | INFO | Đã upload: faces/23/23_trunkj_2_20251104_235353.jpg
+2025-11-04 23:53:56,341 | INFO | Đã upload: faces/23/23_trunkj_3_20251104_235354.jpg
+2025-11-04 23:53:59,901 | INFO | Hoàn tất: 3/50 ảnh
