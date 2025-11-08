@@ -10,6 +10,10 @@ import pyttsx3
 import numpy as np
 import logging
 import io
+import requests
+import threading
+import time
+from dotenv import load_dotenv
 
 # === Cấu hình stdout UTF-8 cho Windows ===
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -27,6 +31,67 @@ logging.basicConfig(
 # ========================== TOÀN CỤC ==========================
 tts_engine = None
 bucket = None
+TELEGRAM_BOT_TOKEN = None
+TELEGRAM_CHAT_ID = None
+TEMP_DIR = os.path.join(os.path.dirname(__file__), '../temp')
+os.makedirs(TEMP_DIR, exist_ok=True)
+
+
+# ========================== LOAD ENV ==========================
+def load_telegram_config():
+    global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+    env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
+    if not os.path.exists(env_path):
+        logging.warning("Không tìm thấy config.env - Telegram sẽ không hoạt động")
+        return False
+
+    load_dotenv(env_path)
+    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+    TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        logging.warning("Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID trong config.env")
+        return False
+
+    logging.info("Đã tải cấu hình Telegram thành công")
+    return True
+
+
+# ========================== TELEGRAM ==========================
+def send_telegram_photo_async(photo_path, caption=""):
+    def _send():
+        if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+            return
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+        try:
+            with open(photo_path, 'rb') as photo:
+                payload = {
+                    'chat_id': TELEGRAM_CHAT_ID,
+                    'caption': caption[:1024],  # Giới hạn caption
+                    'parse_mode': 'HTML'
+                }
+                requests.post(url, data=payload, files={'photo': photo}, timeout=10)
+            logging.info(f"Đã gửi Telegram: {caption.split('|')[0]}")
+        except Exception as e:
+            logging.error(f"Gửi Telegram thất bại: {e}")
+        finally:
+            time.sleep(0.5)  # Tránh spam
+
+    threading.Thread(target=_send, daemon=True).start()
+
+
+def send_telegram_message(text):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    try:
+        requests.post(url, data={
+            'chat_id': TELEGRAM_CHAT_ID,
+            'text': text[:4096],
+            'parse_mode': 'HTML'
+        }, timeout=10)
+    except:
+        pass
 
 
 # ========================== FIREBASE ==========================
@@ -37,14 +102,13 @@ def initialize_firebase():
     if not os.path.exists(cred_path):
         raise FileNotFoundError(f"Không tìm thấy file chứng thực: {cred_path}")
 
-    # Đọc bucket từ file .env hoặc fallback
-    env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
     bucket_name = "smartlockfacerecognition.firebasestorage.app"
+    env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
     if os.path.exists(env_path):
-        with open(env_path, 'r', encoding='utf-8') as f:
-            for line in f:
-                if line.startswith("FIREBASE_STORAGE_BUCKET"):
-                    bucket_name = line.split("=")[1].strip().strip('"')
+        load_dotenv(env_path)
+        env_bucket = os.getenv('FIREBASE_STORAGE_BUCKET')
+        if env_bucket:
+            bucket_name = env_bucket
 
     cred = credentials.Certificate(cred_path)
     if not firebase_admin._apps:
@@ -82,15 +146,14 @@ def speak(text):
             tts_engine.say(text)
             tts_engine.runAndWait()
         except:
-            pass  # Silent fail
+            pass
     print(f"[VOICE] {text}")
 
 
 # ========================== UPLOAD ==========================
 def upload_to_firebase(filepath, face_id, face_name, count):
     global bucket
-    if not os.path.exists(filepath):
-        logging.error(f"File không tồn tại: {filepath}")
+    if not bucket or not os.path.exists(filepath):
         return None
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -100,16 +163,94 @@ def upload_to_firebase(filepath, face_id, face_name, count):
         blob = bucket.blob(firebase_path)
         blob.upload_from_filename(filepath, content_type='image/jpeg')
         blob.make_public()
-        logging.info(f"Đã upload: {firebase_path}")
+        logging.info(f"Upload: {firebase_path}")
         return blob.public_url
     except Exception as e:
         logging.error(f"Upload thất bại: {e}")
         return None
 
+def process_single_image(image_path, face_id, face_name):
+    """Xử lý một ảnh duy nhất: tìm khuôn mặt, cắt, và upload."""
+    if not os.path.exists(image_path):
+        logging.error(f"Ảnh không tồn tại: {image_path}")
+        return False
+
+    try:
+        import torch
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        mtcnn = MTCNN(keep_all=False, min_face_size=50, device=device)
+        
+        frame = cv2.imread(image_path)
+        if frame is None:
+            logging.error("Không thể đọc file ảnh.")
+            return False
+
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        boxes, probs = mtcnn.detect(frame_rgb)
+
+        if boxes is None:
+            logging.warning("Không tìm thấy khuôn mặt nào trong ảnh.")
+            speak("Không tìm thấy khuôn mặt trong ảnh đã tải lên.")
+            return False
+
+        # Chỉ lấy khuôn mặt có xác suất cao nhất
+        best_prob_idx = np.argmax(probs)
+        box = boxes[best_prob_idx]
+        prob = probs[best_prob_idx]
+
+        if prob < 0.9:
+            logging.warning(f"Khuôn mặt có độ tin cậy thấp: {prob:.2f}")
+            speak("Khuôn mặt không đủ rõ nét.")
+            return False
+
+        x1, y1, x2, y2 = map(int, box)
+        face_crop = frame[y1:y2, x1:x2]
+
+        # Lưu ảnh đã cắt vào dataset
+        dataset_path = os.path.join(os.path.dirname(__file__), '../dataset')
+        os.makedirs(dataset_path, exist_ok=True)
+        filename = f"{face_id}_{face_name.replace(' ', '_')}_uploaded_1.jpg"
+        filepath = os.path.join(dataset_path, filename)
+        cv2.imwrite(filepath, face_crop)
+
+        # Upload và gửi thông báo
+        url = upload_to_firebase(filepath, face_id, face_name, 1)
+        if url:
+            final_message = f"Đã xử lý và lưu trữ thành công khuôn mặt cho {face_name} từ ảnh tải lên."
+            logging.info(final_message)
+            speak(final_message)
+            send_telegram_message(final_message)
+            return True
+        return False
+
+    except Exception as e:
+        logging.error(f"Lỗi khi xử lý ảnh đơn: {e}")
+        return False
+
 
 # ========================== MAIN ==========================
 def main():
     global bucket
+
+    # === Chế độ xử lý ảnh đơn ===
+    if len(sys.argv) == 4 and sys.argv[1] == '--image':
+        image_path = sys.argv[2]
+        face_id = sys.argv[3].split(':')[0]
+        face_name = sys.argv[3].split(':')[1]
+        
+        load_telegram_config()
+        try:
+            initialize_firebase()
+        except Exception as e:
+            logging.error(f"Lỗi Firebase: {e}")
+            sys.exit(1)
+            
+        process_single_image(image_path, face_id, face_name)
+        sys.exit(0)
+
+
+    # === Load Telegram ===
+    load_telegram_config()
 
     # === Nhận tham số từ Node.js ===
     if len(sys.argv) < 3:
@@ -124,6 +265,12 @@ def main():
         sys.exit(1)
 
     logging.info(f"Bắt đầu thu thập cho: ID={face_id}, Tên={face_name}")
+    send_telegram_message(
+        f"<b>THU THẬP KHUÔN MẶT</b>\n"
+        f"Người dùng: <b>{face_name}</b>\n"
+        f"ID: <code>{face_id}</code>\n"
+        f"Thời gian: {datetime.now().strftime('%H:%M:%S %d/%m/%Y')}"
+    )
 
     # === Khởi tạo ===
     try:
@@ -134,7 +281,7 @@ def main():
         return
 
     # === Camera ===
-    cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     if not cam.isOpened():
         cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     if not cam.isOpened():
@@ -172,7 +319,7 @@ def main():
     os.makedirs(dataset_path, exist_ok=True)
 
     speak("Bắt đầu thu thập. Hãy nhìn thẳng vào camera.")
-    logging.info("Bắt đầu vòng lặp thu thập...")
+    send_telegram_message("Bắt đầu thu thập khuôn mặt...")
 
     try:
         while count < sample_limit:
@@ -198,7 +345,11 @@ def main():
                     if face_crop.size == 0:
                         continue
 
-                    # Lưu ảnh
+                    # Lưu tạm để gửi Telegram
+                    temp_path = os.path.join(TEMP_DIR, f"temp_{count}.jpg")
+                    cv2.imwrite(temp_path, face_crop)
+
+                    # Lưu chính thức
                     count += 1
                     direction_key = directions[current_dir_idx][1]
                     filename = f"{face_id}_{face_name.replace(' ', '_')}_{direction_key}_{count}.jpg"
@@ -206,7 +357,16 @@ def main():
                     cv2.imwrite(filepath, face_crop)
 
                     # Upload
-                    upload_to_firebase(filepath, face_id, face_name, count)
+                    public_url = upload_to_firebase(filepath, face_id, face_name, count)
+
+                    # Gửi Telegram
+                    caption = (
+                        f"<b>ĐÃ CHỤP</b> | {face_name}\n"
+                        f"Ảnh thứ: <b>{count}/{sample_limit}</b>\n"
+                        f"Hướng: <b>{directions[current_dir_idx][0]}</b>\n"
+                        f"Thời gian: {datetime.now().strftime('%H:%M:%S')}"
+                    )
+                    send_telegram_photo_async(temp_path, caption)
 
                     # Hiển thị
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
@@ -219,9 +379,9 @@ def main():
                         current_dir_idx += 1
                         next_instruction = directions[current_dir_idx][0]
                         speak(next_instruction)
-                        logging.info(f"Chuyển hướng: {next_instruction}")
+                        send_telegram_message(f"Chuyển hướng: {next_instruction}")
 
-                    break  # Chỉ xử lý 1 khuôn mặt
+                    break
 
             # Hiển thị hướng dẫn
             cv2.putText(frame, directions[current_dir_idx][0], (10, 30),
@@ -231,7 +391,7 @@ def main():
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
             cv2.imshow('Thu thap khuon mat - Nhan ESC de thoat', frame)
-            if cv2.waitKey(100) & 0xFF == 27:  # ESC
+            if cv2.waitKey(100) & 0xFF == 27:
                 break
 
     except Exception as e:
@@ -239,7 +399,13 @@ def main():
     finally:
         cam.release()
         cv2.destroyAllWindows()
-        speak(f"Đã thu thập {count} ảnh. Cảm ơn bạn!")
+        speak(f"Đã thu thập {count} ảnh. Cảm ơn {face_name}!")
+        send_telegram_message(
+            f"<b>HOÀN TẤT THU THẬP</b>\n"
+            f"Người dùng: <b>{face_name}</b>\n"
+            f"Tổng ảnh: <b>{count}/{sample_limit}</b>\n"
+            f"Thời gian: {datetime.now().strftime('%H:%M:%S %d/%m/%Y')}"
+        )
         logging.info(f"Hoàn tất: {count}/{sample_limit} ảnh")
 
 

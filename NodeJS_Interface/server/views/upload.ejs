@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tải ảnh lên</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --text-color: #2b2d42;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --success-color: #4bb543;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 500px;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 28px; color: var(--primary-color); }
+    .form-group { margin-bottom: 20px; }
+    label { font-weight: 600; margin-bottom: 8px; display: block; }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--medium-gray);
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+    #drop-area {
+      border: 2px dashed var(--medium-gray);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #drop-area.highlight {
+      border-color: var(--primary-color);
+      background-color: #f0f3ff;
+    }
+    #drop-area p { color: var(--dark-gray); }
+    #file-input { display: none; }
+    #preview {
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+    #preview img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      border: 2px solid var(--medium-gray);
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: var(--primary-color);
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:disabled { background: var(--dark-gray); cursor: not-allowed; }
+    .actions { display: flex; gap: 15px; margin-top: 20px; }
+    .btn-secondary { background: var(--medium-gray); color: var(--text-color); }
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: var(--success-color);
+      color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.error { background: #e74c3c; }
+    .spinner { animation: spin 1s linear infinite; }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+  <div class="card">
+    <div class="header">
+      <h1>Tải ảnh lên để nhận diện</h1>
+    </div>
+    <form id="upload-form">
+      <div class="form-group">
+        <label for="userId">Mã người dùng</label>
+        <input type="text" id="userId" name="userId" required placeholder="Ví dụ: user01">
+      </div>
+      <div class="form-group">
+        <label for="userName">Tên người dùng</label>
+        <input type="text" id="userName" name="userName" required placeholder="Ví dụ: Nguyen Van A">
+      </div>
+      <div class="form-group">
+        <label for="file-input">Chọn ảnh khuôn mặt</label>
+        <div id="drop-area">
+          <input type="file" id="file-input" name="faceImage" accept="image/*" required>
+          <p>Kéo và thả ảnh vào đây, hoặc nhấn để chọn file</p>
+          <div id="preview">
+            <img id="preview-image" src="" alt="Xem trước ảnh">
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="/" class="btn btn-secondary" style="text-decoration: none; text-align: center;">Quay lại</a>
+        <button type="submit" id="submit-btn" class="btn" disabled>Tải lên và xử lý</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    // Import các hàm cần thiết từ Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+
+    // Khởi tạo Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // DOM Elements
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
+    const preview = document.getElementById('preview');
+    const previewImage = document.getElementById('preview-image');
+    const submitBtn = document.getElementById('submit-btn');
+    const uploadForm = document.getElementById('upload-form');
+    const userIdInput = document.getElementById('userId');
+    const toast = document.getElementById('toast');
+
+    let resizedImageBlob = null; // Biến để lưu ảnh đã resize
+
+    // Hàm hiển thị thông báo
+    function showToast(message, type = 'success') {
+      toast.textContent = message;
+      toast.className = 'toast';
+      toast.classList.add(type, 'show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Xử lý file được chọn (resize và tạo preview)
+    function handleFiles(files) {
+      if (files.length === 0) return;
+      const file = files[0];
+      if (!file.type.startsWith('image/')) {
+        showToast('Vui lòng chọn một file ảnh.', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX_WIDTH = 480;
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          const scale = MAX_WIDTH / img.width;
+          canvas.width = MAX_WIDTH;
+          canvas.height = img.height * scale;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          // Hiển thị ảnh đã resize để xem trước
+          previewImage.src = canvas.toDataURL('image/jpeg');
+          preview.style.display = 'block';
+
+          // Chuyển canvas thành Blob để chuẩn bị upload
+          canvas.toBlob((blob) => {
+            resizedImageBlob = blob;
+            submitBtn.disabled = false; // Cho phép nhấn nút tải lên
+          }, 'image/jpeg', 0.9);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Sự kiện cho form submit
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+      if (!resizedImageBlob || !userIdInput.value) {
+        showToast('Vui lòng nhập mã người dùng và chọn ảnh.', 'error');
+        return;
+      }
+
+      const userId = userIdInput.value.trim();
+      const fileName = `${Date.now()}.jpg`;
+      const storagePath = `faces/${userId}/${fileName}`;
+      const imageRef = ref(storage, storagePath);
+
+      const originalButtonText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải lên...';
+
+      try {
+        // Tải ảnh lên Firebase Storage
+        await uploadBytes(imageRef, resizedImageBlob);
+
+        showToast(`Tải ảnh thành công lên: ${storagePath}`, 'success');
+        
+        // Reset form sau khi thành công
+        uploadForm.reset();
+        preview.style.display = 'none';
+        resizedImageBlob = null;
+
+      } catch (error) {
+        console.error("Lỗi khi tải lên Firebase:", error);
+        showToast('Tải ảnh lên thất bại. Vui lòng kiểm tra console.', 'error');
+      } finally {
+        submitBtn.disabled = true; // Vô hiệu hóa lại sau khi hoàn tất
+        submitBtn.innerHTML = originalButtonText;
+      }
+    });
+
+    // Các sự kiện kéo/thả và chọn file
+    dropArea.addEventListener('click', () => fileInput.click());
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+    });
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'), false);
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+      fileInput.files = e.dataTransfer.files;
+      handleFiles(fileInput.files);
+    });
+
+    fileInput.addEventListener('change', () => {
+      handleFiles(fileInput.files);
+    });
+  </script>
+</body>
+</html>

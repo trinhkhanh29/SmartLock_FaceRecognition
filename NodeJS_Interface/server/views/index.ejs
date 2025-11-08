@@ -550,8 +550,12 @@
           Làm mới
         </button>
         <button class="btn btn-success btn-large" id="collectBtn">
-        <i class="fas fa-camera"></i>
-        Thu thập khuôn mặt
+          <i class="fas fa-camera"></i>
+          Thu thập (Camera)
+        </button>
+        <button class="btn btn-warning btn-large" id="uploadBtn" onclick="window.location.href='/face/upload-page'">
+          <i class="fas fa-upload"></i>
+          Thu thập (Tải ảnh)
         </button>
       </div>
     </div>
@@ -746,30 +750,20 @@
         return;
       }
       
-      if (!currentStream) {
-        showToast('Vui lòng bật camera trước khi thu thập', 'error');
-        return;
-      }
+      // Tắt camera trên web trước khi chuyển hướng
+      stopCamera();
       
       // Hiệu ứng loading
       const originalText = collectBtn.innerHTML;
       collectBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Đang chuyển hướng...';
       collectBtn.disabled = true;
       
-      try {
-        showToast('Mã PIN đã được xác thực! Đang chuyển hướng...', 'success');
-        
-        // Chuyển hướng sau khi thành công
-        setTimeout(() => {
-          window.location.href = `/face/collect?pin=${pinCode}`;
-        }, 1000);
-        
-      } catch (error) {
-        console.error('Lỗi:', error);
-        showToast('Có lỗi xảy ra', 'error');
-        collectBtn.innerHTML = originalText;
-        collectBtn.disabled = false;
-      }
+      showToast('Đã xác thực! Đang chuyển đến trang thu thập...', 'success');
+      
+      // Chuyển hướng đến trang nhập thông tin
+      setTimeout(() => {
+        window.location.href = `/face/collect`;
+      }, 1000);
     }
 
     // Thiết lập event listeners
