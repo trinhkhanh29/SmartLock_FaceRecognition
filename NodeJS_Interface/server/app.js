@@ -27,6 +27,12 @@ app.use(express.static(path.join(__dirname, "public")));
 import faceRouter from "./routes/face.js";
 import apiRouter from "./routes/api.js"; // Thêm router cho API
 
+// Route để render trang upload.ejs
+// Route này phải được đặt TRƯỚC app.use('/face', faceRouter) để được ưu tiên xử lý.
+app.get('/face/upload-page', (req, res) => {
+  res.render('upload'); // Đảm bảo 'upload.ejs' nằm trong thư mục views
+});
+
 app.use("/face", faceRouter);
 app.use("/api", apiRouter); // Sử dụng API router với tiền tố /api
 
