@@ -24,6 +24,7 @@ import re
 import cProfile
 import pstats
 import logging
+import argparse
 
 # Thiết lập logging cho thống kê hiệu năng
 logging.basicConfig(
@@ -45,8 +46,10 @@ else:
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+EXPECTED_PIN = os.getenv('EXPECTED_PIN', '2828')  # ĐỌC TỪ .ENV
 print(f"[DEBUG] TELEGRAM_BOT_TOKEN: {TELEGRAM_BOT_TOKEN}")
 print(f"[DEBUG] TELEGRAM_CHAT_ID: {TELEGRAM_CHAT_ID}")
+print(f"[DEBUG] EXPECTED_PIN: {EXPECTED_PIN}")
 
 if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
     print("[ERROR] TELEGRAM_BOT_TOKEN hoặc TELEGRAM_CHAT_ID không được định nghĩa trong config.env.")
@@ -334,310 +337,272 @@ def send_telegram_message_with_photo(message, photo_path):
     finally:
         files['photo'].close()
 
+# Parse command-line arguments for mode & pin
+def parse_cli_args():
+    parser = argparse.ArgumentParser(description="Face recognition runtime mode selection")
+    parser.add_argument("--mode", choices=["face_only", "face_pin"], default="face_only", help="Recognition mode")
+    return parser.parse_args()
+
 def main():
-    # Khởi tạo profiler cho thống kê hiệu năng
+    args = parse_cli_args()
+    selected_mode = args.mode
+
+    print(f"[MODE] Chế độ hoạt động: {selected_mode}")
+
     profiler = cProfile.Profile()
     profiler.enable()
 
-    # Kiểm tra token Telegram
     if not verify_telegram_token():
-        print("[ERROR] Không thể tiếp tục do token Telegram không hợp lệ.")
+        print("[ERROR] Token Telegram không hợp lệ.")
         sys.exit(1)
 
-    # Khởi tạo TTS
     tts_engine = init_tts_engine()
     ser = init_serial(port='COM4')
     if ser:
-        # Khởi động thread đọc khoảng cách
+        send_serial_command(ser, "RECOGNIZING")
         threading.Thread(target=read_distance_from_serial, args=(ser,), daemon=True).start()
 
-    # Biến đếm thất bại và khóa
     fail_count = 0
     lockout_time = 0
     lock_duration = 60
 
-    # Khởi tạo các biến thống kê và điều khiển ở đầu hàm
     frame_count = 0
     start_time = time.perf_counter()
     temp_photo_path = os.path.join(os.path.dirname(__file__), "..", "temp", "temp_face.jpg")
     voice_cooldown = 5
     last_voice_time = datetime.now()
 
-    # Biến thống kê thực nghiệm (mở rộng cho Dell G3 3579)
     correct_recognitions = 0
     total_recognitions = 0
     processing_times = []
-    false_positives = 0
-    false_negatives = 0
-    false_positive_rate = 5.0
-    false_negative_rate = 10.0
     serial_latencies = []
     error_count = 0
     frame_drop_count = 0
 
     try:
-        # Khởi tạo Firebase
         bucket = initialize_firebase()
-
-        # Tải danh sách khuôn mặt đã biết
         dataset_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dataset"))
         load_start = time.perf_counter()
         known_embeddings, known_ids, known_names = load_known_faces(bucket, dataset_path)
         load_time = time.perf_counter() - load_start
-        logger.info(f"Thời gian tải embeddings: {load_time:.3f}s trên Dell G3 3579")
-        print(f"[INFO] Thời gian tải embeddings: {load_time:.3f}s")
+        logger.info(f"Thời gian tải embeddings: {load_time:.3f}s")
+        print(f"[INFO] Tải embeddings: {load_time:.3f}s")
+
         if not known_embeddings:
-            print("[ERROR] Không có dữ liệu khuôn mặt nào từ Firebase hoặc cache. Vui lòng thu thập dữ liệu trước.")
+            print("[ERROR] Không có dữ liệu khuôn mặt.")
             sys.exit(1)
 
-        # Khởi tạo FaceNet với device (CUDA nếu có)
         mtcnn = MTCNN(keep_all=False, min_face_size=150, thresholds=[0.7, 0.8, 0.8], device=device)
         resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
-
-        # Nạp bộ phát hiện khuôn mặt DNN
         face_detector = load_deep_face_detector()
         if face_detector is None:
             face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
             if face_cascade.empty():
-                print("[ERROR] Không thể tải bộ phát hiện khuôn mặt.")
+                print("[ERROR] Không tải được Haar Cascade.")
                 sys.exit(1)
-            print("[INFO] Sử dụng Haar Cascade do thiếu mô hình DNN.")
+            print("[INFO] Dùng Haar Cascade.")
 
-        # Khởi tạo camera
-        cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # Thêm cv2.CAP_DSHOW
+        cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
         if not cam.isOpened():
-            print("[ERROR] Không thể mở camera.")
+            print("[ERROR] Không mở được camera.")
             sys.exit(1)
         cam.set(3, 640)
         cam.set(4, 480)
-        min_face_size = 150
-        optimal_face_size = 200
-        print("\n[INFO] Face recognition started on Dell G3 3579. Press ESC or 'q' in the camera window to exit.")
-        # Các biến này đã được chuyển lên đầu hàm
-        # frame_count = 0
-        # start_time = time.perf_counter()
-        # temp_photo_path = os.path.join(os.path.dirname(__file__), "..", "temp", "temp_face.jpg")
-        # voice_cooldown = 5
-        # last_voice_time = datetime.now()
 
-        # Phát âm thanh khởi động
         sound_path = os.path.join(os.path.dirname(__file__), '../sound/Ring-Doorbell-Sound.wav')
-        if not os.path.exists(sound_path):
-            print(f"[ERROR] File âm thanh không tồn tại tại: {sound_path}")
-        else:
+        if os.path.exists(sound_path):
             play_startup_sound(sound_path)
 
+        print("\n[INFO] Hệ thống sẵn sàng. Nhấn 'q' để thoát.")
+
         while True:
-            try:
-                ret, frame = cam.read()
-                if not ret:
-                    print("[ERROR] Không thể đọc khung hình từ camera.")
-                    frame_drop_count += 1
-                    logger.error("Frame drop detected")
+            ret, frame = cam.read()
+            if not ret:
+                print("[ERROR] Không đọc được frame.")
+                frame_drop_count += 1
+                continue
+
+            frame = cv2.flip(frame, 1)
+            frame_count += 1
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            if time.perf_counter() < lockout_time:
+                cv2.putText(frame, "He thong bi khoa 1 phut...", (10, 30),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.imshow("Face Recognition", frame)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+                continue
+
+            process_start = time.perf_counter()
+            if face_detector:
+                faces = detect_faces_dnn(face_detector, frame)
+            else:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                faces = face_cascade.detectMultiScale(gray, 1.1, 6, minSize=(150, 150))
+            detection_time = time.perf_counter() - process_start
+            processing_times.append(detection_time * 1000)
+
+            current_time = datetime.now()
+            time_since_last_voice = (current_time - last_voice_time).total_seconds()
+
+            for (x, y, w, h) in faces:
+                if w < 150 or h < 150:
                     continue
 
-                frame = cv2.flip(frame, 1)
-                frame_count += 1
-                elapsed_time = time.perf_counter() - start_time
-                fps = frame_count / elapsed_time if elapsed_time > 0 else 0
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                if w < 200 and time_since_last_voice > voice_cooldown and tts_engine:
+                    tts_engine.say("Vui lòng đưa khuôn mặt gần hơn")
+                    tts_engine.runAndWait()
+                    last_voice_time = current_time
 
-                # Kiểm tra khóa hệ thống
-                if time.perf_counter() < lockout_time:
-                    print("[THÔNG BÁO] Hệ thống đang bị khóa vì nhận diện sai quá 3 lần.")
-                    cv2.putText(frame, "Bi khoa 1 phut - Vui long doi...", (10, 30),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                    cv2.imshow("Face Recognition", frame)
-                    if cv2.waitKey(1) & 0xFF == ord("q"):
-                        break
-                    continue
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                face_img = frame_rgb[y:y + h, x:x + w]
+                face_tensor = mtcnn(face_img)
 
-                # Phát hiện khuôn mặt
-                process_start = time.perf_counter()
-                if face_detector is not None:
-                    faces = detect_faces_dnn(face_detector, frame)
-                else:
-                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                    faces = face_cascade.detectMultiScale(
-                        gray, scaleFactor=1.1, minNeighbors=6, minSize=(min_face_size, min_face_size)
-                    )
-                detection_time = time.perf_counter() - process_start
-                logger.info(f"Thời gian phát hiện khuôn mặt: {detection_time:.3f}s, Số khuôn mặt: {len(faces)}")
-                print(f"[DEBUG] Số khuôn mặt phát hiện: {len(faces)}, thời gian: {detection_time:.3f}s")
+                name = "Unknown"
+                confidence_percent = 0.0
 
-                current_time = datetime.now()
-                time_since_last_voice = (current_time - last_voice_time).total_seconds()
-
-                for (x, y, w, h) in faces:
-                    if w < min_face_size or h < min_face_size:
-                        print(f"[DEBUG] Bỏ qua khuôn mặt nhỏ: {w}x{h}")
-                        continue
-
-                    if w < optimal_face_size and time_since_last_voice > voice_cooldown and tts_engine:
-                        voice_message = "Vui lòng đưa khuôn mặt gần hơn để nhận diện chính xác"
-                        tts_engine.say(voice_message)
-                        tts_engine.runAndWait()
-                        last_voice_time = current_time
-                        print("[VOICE] Phát âm thanh hướng dẫn")
-
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                    face_img = frame_rgb[y:y + h, x:x + w]
-                    recognition_start = time.perf_counter()
-                    face_tensor = mtcnn(face_img)
-                    name = "Unknown"
-                    confidence_percent = 0.0
-                    color = (255, 255, 255)
-
-                    if face_tensor is not None:
-                        embedding = resnet(face_tensor.unsqueeze(0).to(device)).detach().cpu().numpy()
-                        distances = [np.linalg.norm(embedding - emb) for emb in known_embeddings]
-                        if distances:
-                            min_distance = min(distances)
-                            min_idx = distances.index(min_distance)
-                            confidence_percent = max(0, min(100, (1 - min_distance / 2) * 100))
-                            if min_distance < 0.6:
-                                name = known_names[min_idx]
-                                color = (0, 255, 0)
-                            else:
-                                color = (0, 0, 255)
-                        recognition_time = time.perf_counter() - recognition_start
-                        logger.info(f"Nhận diện: {name}, Độ tin cậy: {confidence_percent:.1f}%, Thời gian: {recognition_time:.3f}s")
-                        print(f"[DEBUG] Nhận diện: {name}, Độ tin cậy: {confidence_percent:.1f}%, thời gian: {recognition_time:.3f}s")
-
-                        total_recognitions += 1
-                        if name != "Unknown":
+                if face_tensor is not None:
+                    embedding = resnet(face_tensor.unsqueeze(0).to(device)).detach().cpu().numpy()
+                    distances = [np.linalg.norm(embedding - emb) for emb in known_embeddings]
+                    if distances:
+                        min_distance = min(distances)
+                        min_idx = distances.index(min_distance)
+                        confidence_percent = max(0, min(100, (1 - min_distance / 2) * 100))
+                        if min_distance < 0.6:
+                            name = known_names[min_idx]
+                            total_recognitions += 1
                             correct_recognitions += 1
-                        else:
-                            false_negatives += 1  # Giả sử false negative khi Unknown, điều chỉnh nếu cần
 
-                    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    serial_start = time.perf_counter()
-                    if name != "Unknown":
-                        fail_count = 0
-                        cv2.imwrite(temp_photo_path, frame)
-                        message = f"[✅ {now_str}] Mở cửa thành công - {name} (Độ tin cậy: {confidence_percent:.1f}%)"
-                        if send_telegram_message_with_photo(message, temp_photo_path):
-                            if tts_engine:
-                                send_serial_command(ser, "SUCCESS")
-                                serial_latency = time.perf_counter() - serial_start
-                                serial_latencies.append(serial_latency)
-                                logger.info(f"Serial SUCCESS latency: {serial_latency:.3f}s")
-                                voice_message = f"Xin chào {name}. Đã nhận diện thành công. Mở cửa"
-                                tts_engine.say(voice_message)
-                                tts_engine.runAndWait()
-                            print("[VOICE] Phát âm thanh chào mừng")
-                            print("[INFO] Đã gửi thông báo mở cửa. Thoát chương trình.")
-                            return
-                    elif time_since_last_voice > voice_cooldown and tts_engine:
-                        fail_count += 1
-                        print(f"[CẢNH BÁO] Nhận diện thất bại {fail_count}/3")
-                        cv2.imwrite(temp_photo_path, frame)
-                        with distance_lock:
-                            distance_str = str(distance) if distance is not None else "Chưa có dữ liệu"
-                        message = f"[🚨 {now_str}] CẢNH BÁO: Phát hiện người lạ - Độ tin cậy thấp ({confidence_percent:.1f}%) | Khoảng cách: {distance_str}"
-                        if send_telegram_message_with_photo(message, temp_photo_path):
-                            send_serial_command(ser, "FAIL")
-                            serial_latency = time.perf_counter() - serial_start
-                            serial_latencies.append(serial_latency)
-                            logger.info(f"Serial FAIL latency: {serial_latency:.3f}s")
-                            voice_message = "Cảnh báo! Phát hiện người lạ"
-                            tts_engine.say(voice_message)
+                now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                cv2.putText(frame, f"{name}: {confidence_percent:.1f}%", (x, y - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0) if name != "Unknown" else (0, 0, 255), 2)
+
+                # === XỬ LÝ THEO CHẾ ĐỘ ===
+                if name != "Unknown":
+                    fail_count = 0
+                    cv2.imwrite(temp_photo_path, frame)
+
+                    if selected_mode == "face_only":
+                        # CHẾ ĐỘ 1: MỞ CỬA NGAY
+                        message = f"[✅ Mở cửa] {name} - {confidence_percent:.1f}% | {now_str}"
+                        send_telegram_message_with_photo(message, temp_photo_path)
+                        
+                        send_serial_command(ser, "SUCCESS")
+                        
+                        if tts_engine:
+                            tts_engine.say(f"Xin chào {name}. Mở cửa.")
                             tts_engine.runAndWait()
-                            print("[VOICE] Phát âm thanh cảnh báo")
-                            last_voice_time = current_time
+                        
+                        print("[INFO] Chế độ face_only: Đã mở cửa.")
+                        return
+
+                    elif selected_mode == "face_pin":
+                        # CHẾ ĐỘ 2: YÊU CẦU PIN VÀ CHỜ KẾT QUẢ
+                        print(f"[ACTION] Nhận diện: {name} ({confidence_percent:.1f}%) → Yêu cầu PIN")
+                        
+                        if tts_engine:
+                            tts_engine.say(f"Xin chào {name}. Vui lòng nhập mã PIN trên thiết bị.")
+                            tts_engine.runAndWait()
+
+                        # Gửi yêu cầu và chờ ESP32 sẵn sàng
+                        if not send_serial_command(ser, "PIN_REQUIRED", expected_response="PIN_PROMPT", timeout=5):
+                            print("[ERROR] ESP32 không phản hồi yêu cầu nhập PIN.")
+                            return
+
+                        # CHỜ NHẬN PIN TỪ ESP32
+                        print("[INFO] Đang chờ người dùng nhập PIN trên ESP32...")
+                        received_pin = ""
+                        expected_pin = EXPECTED_PIN  # SỬ DỤNG BIẾN ĐÃ ĐỌC TỪ .ENV
+                        print(f"[DEBUG] Mã PIN mong đợi: {expected_pin}")
+                        start_wait = time.time()
+                        
+                        while time.time() - start_wait < 35:  # Chờ tối đa 35 giây
+                            if ser.in_waiting > 0:
+                                response = ser.readline().decode('utf-8').strip()
+                                print(f"[DEBUG] ESP32 Response: {response}")
+                                
+                                if response.startswith("PIN_ENTERED:"):
+                                    received_pin = response.replace("PIN_ENTERED:", "").strip()
+                                    print(f"[INFO] Đã nhận PIN từ ESP32: {received_pin}")
+                                    break
+                                
+                                if "PIN_TIMEOUT" in response:
+                                    print("[FAIL] Người dùng không nhập PIN kịp thời.")
+                                    message = f"[❌ Timeout] {name} - Không nhập PIN | {now_str}"
+                                    send_telegram_message_with_photo(message, temp_photo_path)
+                                    send_serial_command(ser, "FAIL")
+                                    return
+                        
+                        # Kiểm tra PIN
+                        if received_pin == expected_pin:
+                            print("[SUCCESS] PIN chính xác!")
+                            message = f"[✅ Mở cửa] {name} - PIN đúng | {now_str}"
+                            send_telegram_message_with_photo(message, temp_photo_path)
+                            send_serial_command(ser, "SUCCESS")
+                            print("[INFO] Đã gửi lệnh mở cửa.")
+                        else:
+                            print("[FAIL] PIN sai hoặc không nhận được PIN.")
+                            message = f"[❌ PIN sai] {name} - PIN: {received_pin} | {now_str}"
+                            send_telegram_message_with_photo(message, temp_photo_path)
+                            send_serial_command(ser, "FAIL")
+                            print("[INFO] Đã gửi lệnh báo thất bại.")
+                        
+                        return
+
+                else:
+                    # NGƯỜI LẠ
+                    if time_since_last_voice > voice_cooldown:
+                        fail_count += 1
+                        cv2.imwrite(temp_photo_path, frame)
+                        message = f"[CẢNH BÁO] Người lạ (lần {fail_count})"
+                        send_telegram_message_with_photo(message, temp_photo_path)
+                        
+                        if tts_engine:
+                            tts_engine.say("Cảnh báo, phát hiện người lạ.")
+                            tts_engine.runAndWait()
+                        last_voice_time = current_time
 
                         if fail_count >= 3:
                             lockout_time = time.perf_counter() + lock_duration
                             fail_count = 0
-                            print("[BẢO MẬT] Hệ thống bị khóa trong 1 phút.")
                             if tts_engine:
-                                tts_engine.say("Hệ thống bị khóa trong một phút do nhận diện sai quá ba lần")
+                                tts_engine.say("Hệ thống tạm khóa.")
                                 tts_engine.runAndWait()
 
-                    cv2.putText(frame, name, (x + 5, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
-                    cv2.putText(frame, f"{confidence_percent:.1f}%", (x + 5, y + h - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
-                                (255, 255, 0), 2)
+            fps = frame_count / (time.perf_counter() - start_time)
+            cv2.putText(frame, f"FPS: {fps:.1f}", (10, frame.shape[0] - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
+            cv2.imshow("Face Recognition", frame)
 
-                # Hiển thị khoảng cách trên frame
-                with distance_lock:
-                    distance_text = f"Distance: {distance if distance is not None else 'Chưa có dữ liệu'}"
-                cv2.putText(frame, distance_text, (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-
-                # Tính thống kê
-                frame_process_time = (time.perf_counter() - process_start) * 1000
-                processing_times.append(frame_process_time)
-                accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
-                avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
-                avg_serial_latency = sum(serial_latencies) / len(serial_latencies) if serial_latencies else 0.0
-
-                # Hiển thị thống kê trên frame (mở rộng cho Dell G3)
-                cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
-                cv2.putText(frame, f"Accuracy: {accuracy:.1f}%", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-                cv2.putText(frame, f"Proc Time: {avg_processing_time:.1f} ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-                cv2.putText(frame, f"Serial Lat: {avg_serial_latency:.1f} ms", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-                cv2.putText(frame, f"FP Rate: {false_positive_rate:.1f}%", (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-                cv2.putText(frame, f"FN Rate: {false_negative_rate:.1f}%", (10, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-
-                cv2.imshow('Face Recognition - FaceNet DNN on Dell G3 3579', frame)
-
-                key = cv2.waitKey(10) & 0xFF
-                if key == 27 or key == ord('q'):
-                    print("[INFO] Phím thoát đã được nhấn. Đang dừng chương trình...")
-                    break
-
-            except KeyboardInterrupt:
-                print("\n[INFO] Program interrupted by user.")
+            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-            except Exception as e:
-                error_count += 1
-                logger.error(f"Lỗi trong vòng lặp chính: {str(e)}")
-                print(f"[ERROR] Lỗi trong vòng lặp chính: {str(e)}")
-                print(f"[DEBUG] Traceback: {traceback.format_exc()}")
-                continue
 
+    except Exception as e:
+        print(f"[EXCEPTION] {traceback.format_exc()}")
+        error_count += 1
     finally:
-        # Lưu profiler
         profiler.disable()
         with open('profile_stats_dell_g3_3579.txt', 'w') as f:
-            ps = pstats.Stats(profiler, stream=f)
-            ps.sort_stats('cumulative')
-            ps.print_stats()
+            pstats.Stats(profiler, stream=f).sort_stats('cumulative').print_stats()
 
-        # In thống kê cuối cùng (tùy chỉnh cho Dell G3 3579)
         accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
         avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
         avg_serial_latency = sum(serial_latencies) / len(serial_latencies) if serial_latencies else 0.0
-        stability = 100.0 * (1 - error_count / (frame_count + 1)) if frame_count > 0 else 100.0
-        print("\n[THỐNG KÊ THỰC NGHIỆM TRÊN DELL G3 3579]")
+        
+        print("\n[THỐNG KÊ]")
         print(f"Độ chính xác: {accuracy:.1f}%")
-        print(f"Tốc độ xử lý trung bình: {avg_processing_time:.1f} ms/frame (GPU: {torch.cuda.is_available()})")
-        print(f"Độ trễ serial trung bình: {avg_serial_latency:.1f} ms")
-        print(f"Độ ổn định: {stability:.1f}%")
-        print(f"Tỉ lệ False Positive (trong 100 thử nghiệm): {false_positive_rate:.1f}%")
-        print(f"Tỉ lệ False Negative (trong 100 thử nghiệm): {false_negative_rate:.1f}%")
-        print(f"Tổng số nhận diện: {total_recognitions}")
-        print(f"Nhận diện đúng: {correct_recognitions}")
-        print(f"Số lỗi: {error_count}")
-        print(f"Số frame drop: {frame_drop_count}")
-
-        logger.info(f"Độ chính xác: {accuracy:.1f}%")
-        logger.info(f"Tốc độ xử lý trung bình: {avg_processing_time:.1f} ms/frame (GPU: {torch.cuda.is_available()})")
-        logger.info(f"Độ trễ serial trung bình: {avg_serial_latency:.1f} ms")
-        logger.info(f"Độ ổn định: {stability:.1f}%")
-        logger.info(f"Tổng số nhận diện: {total_recognitions}, Nhận diện đúng: {correct_recognitions}, Lỗi: {error_count}, Frame drop: {frame_drop_count}")
+        print(f"Tốc độ xử lý: {avg_processing_time:.1f} ms/frame")
+        print(f"Độ trễ serial: {avg_serial_latency:.3f} s")
+        print(f"Tổng nhận diện: {total_recognitions}, Đúng: {correct_recognitions}")
 
         if os.path.exists(temp_photo_path):
-            try:
-                os.remove(temp_photo_path)
-                print(f"[INFO] Đã xóa file ảnh tạm: {temp_photo_path}")
-            except Exception as e:
-                print(f"[ERROR] Không thể xóa file ảnh tạm: {str(e)}")
-        if 'cam' in locals() and cam.isOpened():
-            cam.release()
-        if 'ser' in locals() and ser and ser.is_open:
-            ser.close()
+            try: os.remove(temp_photo_path)
+            except: pass
+        if 'cam' in locals(): cam.release()
+        if 'ser' in locals() and ser and ser.is_open: ser.close()
         cv2.destroyAllWindows()
-        print("\n[INFO] Program exited cleanly on Dell G3 3579.")
+        print("[INFO] Đã thoát chương trình.")
 
 if __name__ == "__main__":
     main()

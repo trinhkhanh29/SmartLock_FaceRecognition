@@ -8,7 +8,7 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../.env/config.
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 AUTHORIZED_USER_ID = int(os.getenv("TELEGRAM_CHAT_ID"))
-ESP32_IP = "10.253.217.33"  # Thay bằng IP thực của ESP32
+ESP32_IP = "10.132.95.33"  # Thay bằng IP thực của ESP32
 
 def send_command_to_esp32(command):
     url = f"http://{ESP32_IP}/{command}"

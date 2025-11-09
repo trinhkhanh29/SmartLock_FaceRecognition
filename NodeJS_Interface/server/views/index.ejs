@@ -492,6 +492,21 @@
           </div>
         </div>
 
+        <div style="width:100%; margin-bottom:15px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+          <label style="font-weight:600; font-size:14px; display:block; margin-bottom:6px;">Phương thức nhận diện:</label>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="radio" name="recognitionMode" value="face_only" checked>
+              <span>Chỉ nhận diện khuôn mặt</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="radio" name="recognitionMode" value="face_pin">
+              <span>Nhận diện + Yêu cầu PIN trên thiết bị</span>
+            </label>
+          </div>
+          <small id="modeHint" style="display:block; margin-top:8px; color:#6c757d;">Chế độ: chỉ nhận diện, không mở cửa.</small>
+        </div>
+
         <div class="camera-controls">
           <button class="btn btn-secondary" id="startCameraBtn">
             <i class="fas fa-play"></i>
@@ -505,7 +520,7 @@
             <i class="fas fa-expand"></i>
             Toàn màn hình
           </button> -->
-        <button class="btn btn-success btn-large" id="recognizeBtn" onclick="window.location.href='/face/recognize'">
+        <button class="btn btn-success btn-large" id="recognizeBtn">
             <i class="fas fa-user-check"></i>
             Nhận diện khuôn mặt
         </button>
@@ -570,6 +585,7 @@
     const maxPinLength = 4;
     const correctPin = '2828'; // Mã PIN mặc định
     let isPinVerified = false; // Trạng thái xác thực PIN
+    let uiRecognitionMode = 'face_only'; // face_only | face_pin
 
     // DOM Elements
     const videoElement = document.getElementById('videoElement');
@@ -583,6 +599,8 @@
     const collectBtn = document.getElementById('collectBtn');
     const pinDisplay = document.getElementById('pinDisplay');
     const toast = document.getElementById('toast');
+    const modeHint = document.getElementById('modeHint');
+    const recognizeBtn = document.getElementById('recognizeBtn');
 
     // Khởi tạo
     document.addEventListener('DOMContentLoaded', function() {
@@ -850,6 +868,24 @@
             this.style.borderColor = 'var(--medium-gray)';
           }
         });
+      });
+
+      document.querySelectorAll('input[name="recognitionMode"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          uiRecognitionMode = radio.value;
+          if (uiRecognitionMode === 'face_only') {
+            modeHint.textContent = 'Chế độ: chỉ nhận diện, không mở cửa.';
+          } else {
+            modeHint.textContent = 'Chế độ: nhận diện xong sẽ yêu cầu nhập PIN trên thiết bị để mở cửa.';
+          }
+          showToast('Đã chọn: ' + (uiRecognitionMode === 'face_only' ? 'Chỉ nhận diện' : 'Nhận diện + PIN trên thiết bị'), 'success');
+        });
+      });
+
+      recognizeBtn.addEventListener('click', () => {
+        // LUỒNG MỚI: Không kiểm tra PIN ở đây. Chỉ cần gửi mode.
+        const url = `/face/recognize?mode=${uiRecognitionMode}`;
+        window.location.href = url;
       });
     }
   </script>
