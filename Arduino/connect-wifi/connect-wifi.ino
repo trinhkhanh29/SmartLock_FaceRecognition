@@ -1,9 +1,10 @@
 #include <WiFi.h>
 #include <WebServer.h>
+#include <HTTPClient.h>
 #include <SPI.h>
 #include <MFRC522.h>
 #include <Keypad.h>
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C.h>  // DÙNG THƯ VIỆN NÀY: Frank de Brabander
 #include <Wire.h>
 #include <Preferences.h>
 
@@ -20,7 +21,7 @@ const char* password = "28280303";
 #define ECHO_PIN 27
 #define MAX_UIDS 109
 
-// --- Khởi tạo các đối tượng và biến toàn cục ---
+// --- Keypad ---
 const byte ROWS = 4;
 const byte COLS = 4;
 char keys[ROWS][COLS] = {
@@ -31,14 +32,15 @@ char keys[ROWS][COLS] = {
 };
 byte rowPins[ROWS] = {17, 4, 14, 12};
 byte colPins[COLS] = {25, 26, 32, 33};
-
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+// --- LCD, RFID, Web ---
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 WebServer server(80);
 MFRC522 rfid(SS_PIN, RST_PIN);
 Preferences preferences;
 
-// Biến trạng thái
+// --- Biến trạng thái ---
 unsigned long doorOpenTime = 0;
 const unsigned long doorOpenDuration = 5000;
 bool doorIsOpen = false;
@@ -58,9 +60,12 @@ const unsigned long activeMeasureInterval = 500;
 bool obstacleDetected = false;
 const float obstacleThreshold = 100;
 
-// =================================================================
-// *** KHAI BÁO NGUYÊN MẪU HÀM (FUNCTION PROTOTYPES) ĐỂ SỬA LỖI ***
-// =================================================================
+// --- PIN_REQUIRED ---
+bool waitingForPin = false;
+unsigned long pinEntryStartTime = 0;
+const unsigned long pinEntryTimeout = 30000;
+
+// --- Hàm nguyên mẫu ---
 void loadDataFromFlash();
 void savePinToFlash(String pinToSave);
 void saveUIDsToFlash();
@@ -71,40 +76,39 @@ void addCard();
 void deleteCard();
 void displayCard();
 void measureDistance();
-// =================================================================
+void resetPinEntryMode();
+void handleKeypad(char key);
+void clearLine(int line);
 
+// =================================================================
 void setup() {
   Serial.begin(115200);
-  while (!Serial) {
-    ; // Chờ kết nối Serial
-  }
-  Serial.println("ESP32 Serial Initialized");
-  Wire.begin(15, 16);
+  while (!Serial);
 
+  Wire.begin(15, 16);
   if (!checkLCD()) {
-    Serial.println("Warning: LCD not responding.");
+    Serial.println("LCD not found!");
   }
   lcd.init();
-  lcd.begin(20, 4);
   lcd.backlight();
-  delay(100);
+  lcd.begin(20, 4);
 
   loadDataFromFlash();
 
-  lcd.setCursor(0, 0);
-  lcd.print("DOOR CLOSED");
-  lcd.setCursor(0, 1);
-  lcd.print("PIN: ");
-  lcd.setCursor(0, 2);
-  lcd.print("SYSTEM READY");
-  lcd.setCursor(0, 3);
-  lcd.print("IP: ");
+  lcd.setCursor(0, 0); lcd.print("DOOR CLOSED    ");
+  lcd.setCursor(0, 1); lcd.print("PIN: ");
+  lcd.setCursor(0, 2); lcd.print("SYSTEM READY   ");
+  lcd.setCursor(0, 3); lcd.print("IP: ");
 
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
+  pinMode(GREEN_LED_PIN, OUTPUT);
+  pinMode(RED_LED_PIN, OUTPUT);
+  pinMode(RELAY_PIN, OUTPUT);
+  closeDoor();
 
   WiFi.begin(ssid, password);
-  Serial.println("Connecting to WiFi...");
+  Serial.print("Connecting to WiFi");
   int retries = 0;
   while (WiFi.status() != WL_CONNECTED && retries < 30) {
     delay(500);
@@ -113,106 +117,106 @@ void setup() {
   }
   if (WiFi.status() == WL_CONNECTED) {
     String ip = WiFi.localIP().toString();
-    Serial.println("\nWiFi connected, IP: " + ip);
-    lcd.setCursor(4, 3);
-    lcd.print(ip);
+    Serial.println("\nWiFi connected: " + ip);
+    lcd.setCursor(4, 3); lcd.print(ip);
   } else {
-    Serial.println("\nFailed to connect to WiFi.");
-    lcd.setCursor(0, 2);
-    lcd.print("WIFI ERROR     ");
+    Serial.println("\nWiFi failed");
+    lcd.setCursor(0, 2); lcd.print("WIFI ERROR     ");
     while (true);
   }
-  
-  // Web Server Routes với bảo mật API Key
-  server.on("/SUCCESS", []() {
-    String apiKey = "28280303";
-    if (server.hasArg("key") && server.arg("key") == apiKey) {
-        openDoor();
-        server.send(200, "text/plain", "Door opened");
+
+  // Web routes
+  server.on("/SUCCESS", HTTP_GET, []() {
+    if (server.hasArg("key") && server.arg("key") == "28280303") {
+      openDoor();
+      server.send(200, "text/plain", "Door opened");
     } else {
-        server.send(401, "text/plain", "Unauthorized");
+      server.send(401, "text/plain", "Unauthorized");
     }
   });
 
-  server.on("/FAIL", []() {
-    Serial.println("Recognition failed - Turn on red LED");
-    digitalWrite(GREEN_LED_PIN, LOW);
+  server.on("/FAIL", HTTP_GET, []() {
     digitalWrite(RED_LED_PIN, HIGH);
-    lcd.setCursor(0, 2);
-    lcd.print("ACCESS DENIED  ");
+    clearLine(2); lcd.print("ACCESS DENIED  ");
+    server.send(200, "text/plain", "Access denied");
     delay(2000);
     digitalWrite(RED_LED_PIN, LOW);
-    lcd.setCursor(0, 2);
-    lcd.print("               ");
-    server.send(200, "text/plain", "Access denied");
+    clearLine(2);
   });
 
-  server.on("/CLOSE", []() {
+  server.on("/CLOSE", HTTP_GET, []() {
     closeDoor();
     server.send(200, "text/plain", "Door closed");
   });
-  
-  server.begin();
-  Serial.println("WebServer started on port 80");
 
+  server.begin();
   SPI.begin();
   rfid.PCD_Init();
-  Serial.println("RFID ready...");
-
-  pinMode(GREEN_LED_PIN, OUTPUT);
-  pinMode(RED_LED_PIN, OUTPUT);
-  pinMode(RELAY_PIN, OUTPUT);
-  closeDoor();
-
-  lcd.setCursor(0, 2);
-  lcd.print("               ");
 }
 
+// =================================================================
 void loop() {
   server.handleClient();
 
-  // Xử lý lệnh từ Serial
-  if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n');
-    command.trim();
-    Serial.println("[LOG] Nhận lệnh Serial: " + command);
-    if (command == "SUCCESS") {
+  // === Serial từ Python ===
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
+    Serial.println("[CMD] " + cmd);
+
+    if (cmd == "PIN_REQUIRED") {
+      waitingForPin = true;
+      inputPin = "";
+      pinEntryStartTime = millis();
+      clearLine(2);
+      lcd.setCursor(0, 2); lcd.print("ENTER PIN TO OPEN");
+      lcd.setCursor(5, 1); lcd.print("    ");
+      Serial.println("PIN_PROMPT");
+    }
+    else if (cmd == "SUCCESS") {
       openDoor();
-      Serial.println("Door opened via Serial");
-    } else if (command == "FAIL") {
-      digitalWrite(GREEN_LED_PIN, LOW);
+      clearLine(2);
+      lcd.print("DOOR OPENED    ");
+    }
+    else if (cmd == "FAIL") {
       digitalWrite(RED_LED_PIN, HIGH);
-      lcd.setCursor(0, 2);
-      lcd.print("ACCESS DENIED  ");
-      Serial.println("Access denied via Serial");
+      clearLine(2); lcd.print("ACCESS DENIED  ");
       delay(2000);
       digitalWrite(RED_LED_PIN, LOW);
-      lcd.setCursor(0, 2);
-      lcd.print("               ");
+      clearLine(2);
+    }
+    else if (cmd == "RECOGNIZING") {
+      clearLine(2); lcd.print("RECOGNIZING... ");
     }
   }
 
+  // === Timeout PIN ===
+  if (waitingForPin && (millis() - pinEntryStartTime > pinEntryTimeout)) {
+    waitingForPin = false;
+    clearLine(2); lcd.print("PIN TIMEOUT    ");
+    Serial.println("PIN_TIMEOUT");
+    delay(2000);
+    clearLine(2);
+    inputPin = "";
+    lcd.setCursor(5, 1); lcd.print("    ");
+  }
+
+  // === Đo khoảng cách ===
   unsigned long currentTime = millis();
-  if (obstacleDetected) {
-    if (currentTime - lastDistanceMeasureTime >= activeMeasureInterval) {
-      measureDistance();
-      lastDistanceMeasureTime = currentTime;
-    }
-  } else {
-    if (currentTime - lastDistanceMeasureTime >= idleMeasureInterval) {
-      measureDistance();
-      lastDistanceMeasureTime = currentTime;
-    }
+  unsigned long interval = obstacleDetected ? activeMeasureInterval : idleMeasureInterval;
+  if (currentTime - lastDistanceMeasureTime >= interval) {
+    measureDistance();
+    lastDistanceMeasureTime = currentTime;
   }
 
-  if (!isCardMode && rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+  // === RFID ===
+  if (!isCardMode && !waitingForPin && rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
     String cardUID = "";
     for (byte i = 0; i < rfid.uid.size; i++) {
       cardUID += String(rfid.uid.uidByte[i] < 0x10 ? "0" : "");
       cardUID += String(rfid.uid.uidByte[i], HEX);
     }
     cardUID.toUpperCase();
-    Serial.println("UID: " + cardUID);
 
     bool isAuthorized = false;
     for (int i = 0; i < numAuthorizedUIDs; i++) {
@@ -224,142 +228,36 @@ void loop() {
 
     if (isAuthorized) {
       openDoor();
-      lcd.setCursor(0, 2);
-      lcd.print("OPEN BY RFID   ");
+      clearLine(2); lcd.print("OPEN BY RFID   ");
     } else {
       digitalWrite(RED_LED_PIN, HIGH);
-      lcd.setCursor(0, 2);
-      lcd.print("INVALID CARD   ");
+      clearLine(2); lcd.print("INVALID CARD   ");
       delay(2000);
       digitalWrite(RED_LED_PIN, LOW);
-      lcd.setCursor(0, 2);
-      lcd.print("               ");
+      clearLine(2);
     }
     rfid.PICC_HaltA();
     rfid.PCD_StopCrypto1();
-    delay(500);
-  }
-  
-  char key = keypad.getKey();
-  if (key) {
-    if (key == '#') {
-      if (changePinMode) {
-        if (newPin.length() == 4) {
-          savePinToFlash(newPin);
-          lcd.setCursor(0, 2);
-          lcd.print("PIN CHANGE OK  ");
-          digitalWrite(GREEN_LED_PIN, HIGH);
-          delay(2000);
-          digitalWrite(GREEN_LED_PIN, LOW);
-        } else {
-          lcd.setCursor(0, 2);
-          lcd.print("PIN MUST BE 4  ");
-          digitalWrite(RED_LED_PIN, HIGH);
-          delay(2000);
-          digitalWrite(RED_LED_PIN, LOW);
-        }
-        changePinMode = false;
-        newPin = "";
-        inputPin = "";
-        pinValidated = false;
-        lcd.setCursor(0, 2);
-        lcd.print("               ");
-        lcd.setCursor(5, 1);
-        lcd.print("    ");
-      } else {
-        if (inputPin == currentPin) {
-          pinValidated = true;
-          openDoor();
-          lcd.setCursor(0, 2);
-          lcd.print("OPEN BY PIN    ");
-        } else {
-          lcd.setCursor(0, 2);
-          lcd.print("WRONG PIN      ");
-          digitalWrite(RED_LED_PIN, HIGH);
-          delay(2000);
-          digitalWrite(RED_LED_PIN, LOW);
-          pinValidated = false;
-        }
-        inputPin = "";
-        lcd.setCursor(5, 1);
-        lcd.print("    ");
-        delay(1000);
-        lcd.setCursor(0, 2);
-        lcd.print("               ");
-      }
-      isCardMode = false;
-    } 
-    else if (key == '*') {
-      if (!changePinMode && pinValidated) {
-        changePinMode = true;
-        newPin = "";
-        inputPin = "";
-        lcd.setCursor(0, 2);
-        lcd.print("ENTER NEW PIN  ");
-        lcd.setCursor(5, 1);
-        lcd.print("    ");
-      } else {
-        lcd.setCursor(0, 2);
-        lcd.print("WRONG PIN/DENIED");
-        digitalWrite(RED_LED_PIN, HIGH);
-        delay(2000);
-        digitalWrite(RED_LED_PIN, LOW);
-        lcd.setCursor(0, 2);
-        lcd.print("               ");
-      }
-      isCardMode = false;
-    } 
-    else if (key >= '0' && key <= '9') {
-      if (changePinMode) {
-        if (newPin.length() < 4) {
-          newPin += key;
-          lcd.setCursor(5, 1);
-          lcd.print(newPin);
-        }
-      } else {
-        if (inputPin.length() < 4) {
-          inputPin += key;
-          lcd.setCursor(5, 1);
-          lcd.print(inputPin);
-        }
-      }
-      isCardMode = false;
-    } else if (pinValidated) {
-      if (key == 'A') {
-        isCardMode = true;
-        currentCardIndex = 0;
-        displayCard();
-      } else if (key == 'B') {
-        isCardMode = true;
-        addCard();
-        displayCard();
-      } else if (key == 'C') {
-        isCardMode = true;
-        deleteCard();
-        displayCard();
-      } else if (key == 'D' && isCardMode) {
-        isCardMode = false;
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(doorIsOpen ? "DOOR OPEN      " : "DOOR CLOSED    ");
-        lcd.setCursor(0, 1);
-        lcd.print("PIN: ");
-        lcd.setCursor(0, 3);
-        lcd.print("IP: ");
-        lcd.print(WiFi.localIP().toString());
-      }
-    }
   }
 
+  // === XỬ LÝ PHÍM ===
+  char key = keypad.getKey();
+  if (key) {
+    handleKeypad(key);
+  }
+
+  // === ĐÓNG CỬA SAU 5S ===
   if (doorIsOpen && (millis() - doorOpenTime >= doorOpenDuration)) {
     closeDoor();
   }
-  delay(100);
 }
 
 // =================================================================
-// *** ĐỊNH NGHĨA CHI TIẾT CÁC HÀM ***
-// =================================================================
+void resetPinEntryMode() {
+  waitingForPin = false;
+  clearLine(2);
+  lcd.setCursor(5, 1); lcd.print("    ");
+}
 
 void loadDataFromFlash() {
   preferences.begin("smartlock", false);
@@ -376,13 +274,6 @@ void loadDataFromFlash() {
     preferences.putString("uid_0", "C35A0905");
   }
   preferences.end();
-  Serial.println("--- Data Loaded From Flash ---");
-  Serial.println("PIN: " + currentPin);
-  Serial.println("UID Count: " + String(numAuthorizedUIDs));
-  for(int i=0; i<numAuthorizedUIDs; i++){
-    Serial.println("UID " + String(i) + ": " + authorizedUIDs[i]);
-  }
-  Serial.println("----------------------------");
 }
 
 void savePinToFlash(String pinToSave) {
@@ -390,31 +281,24 @@ void savePinToFlash(String pinToSave) {
   preferences.putString("pin", pinToSave);
   preferences.end();
   currentPin = pinToSave;
-  Serial.println("PIN saved to flash: " + pinToSave);
 }
 
 void saveUIDsToFlash() {
   preferences.begin("smartlock", false);
   preferences.putInt("uid_count", numAuthorizedUIDs);
   for (int i = 0; i < numAuthorizedUIDs; i++) {
-    String key = "uid_" + String(i);
-    preferences.putString(key.c_str(), authorizedUIDs[i]);
+    preferences.putString(("uid_" + String(i)).c_str(), authorizedUIDs[i]);
   }
   for (int i = numAuthorizedUIDs; i < MAX_UIDS; i++) {
-     String key = "uid_" + String(i);
-     if (preferences.isKey(key.c_str())) {
-        preferences.remove(key.c_str());
-     }
+    String k = "uid_" + String(i);
+    if (preferences.isKey(k.c_str())) preferences.remove(k.c_str());
   }
   preferences.end();
-  Serial.println("UID list saved to flash.");
 }
 
 void addCard() {
-  lcd.setCursor(0, 2);
-  lcd.print("SCAN NEW CARD  ");
-  lcd.setCursor(0, 3);
-  lcd.print("               ");
+  clearLine(2); lcd.print("SCAN NEW CARD  ");
+  clearLine(3); lcd.print("               ");
 
   unsigned long startTime = millis();
   while (millis() - startTime < 5000) {
@@ -425,97 +309,68 @@ void addCard() {
         cardUID += String(rfid.uid.uidByte[i], HEX);
       }
       cardUID.toUpperCase();
-      
+
       for (int i = 0; i < numAuthorizedUIDs; i++) {
         if (authorizedUIDs[i] == cardUID) {
-          lcd.setCursor(0, 2);
-          lcd.print("CARD EXISTS    ");
+          clearLine(2); lcd.print("CARD EXISTS    ");
           delay(2000);
-          rfid.PICC_HaltA();
-          rfid.PCD_StopCrypto1();
+          rfid.PICC_HaltA(); rfid.PCD_StopCrypto1();
           return;
         }
       }
 
       if (numAuthorizedUIDs < MAX_UIDS) {
-        authorizedUIDs[numAuthorizedUIDs] = cardUID;
-        numAuthorizedUIDs++;
+        authorizedUIDs[numAuthorizedUIDs++] = cardUID;
         saveUIDsToFlash();
-        lcd.setCursor(0, 2);
-        lcd.print("CARD ADDED     ");
+        clearLine(2); lcd.print("CARD ADDED     ");
       } else {
-        lcd.setCursor(0, 2);
-        lcd.print("CARD LIST FULL ");
+        clearLine(2); lcd.print("CARD LIST FULL ");
       }
       delay(2000);
-      rfid.PICC_HaltA();
-      rfid.PCD_StopCrypto1();
+      rfid.PICC_HaltA(); rfid.PCD_StopCrypto1();
       return;
     }
   }
-  lcd.setCursor(0, 2);
-  lcd.print("TIMEOUT        ");
+  clearLine(2); lcd.print("TIMEOUT        ");
   delay(2000);
 }
 
 void deleteCard() {
   if (numAuthorizedUIDs == 0) {
-    lcd.setCursor(0, 2);
-    lcd.print("NO CARDS       ");
-    delay(2000);
-    return;
+    clearLine(2); lcd.print("NO CARDS       ");
+    delay(2000); return;
   }
-  lcd.setCursor(0, 2);
-  lcd.print("DELETE CARD ");
-  lcd.print(currentCardIndex + 1);
-  lcd.print("?");
-  lcd.setCursor(0, 3);
-  lcd.print("1: YES  2: NO  ");
+  clearLine(2); lcd.print("DELETE CARD "); lcd.print(currentCardIndex + 1); lcd.print("?");
+  clearLine(3); lcd.print("1: YES 2: NO   ");
 
   unsigned long startTime = millis();
   while (millis() - startTime < 5000) {
-    char confirmKey = keypad.getKey();
-    if (confirmKey) {
-      if (confirmKey == '1') {
-        for (int i = currentCardIndex; i < numAuthorizedUIDs - 1; i++) {
-          authorizedUIDs[i] = authorizedUIDs[i + 1];
-        }
-        authorizedUIDs[numAuthorizedUIDs - 1] = "";
-        numAuthorizedUIDs--;
-        saveUIDsToFlash();
-        if (currentCardIndex >= numAuthorizedUIDs && currentCardIndex > 0) {
-          currentCardIndex--;
-        }
-        lcd.setCursor(0, 2);
-        lcd.print("CARD DELETED   ");
-        delay(2000);
-        return;
-      } else if (confirmKey == '2') {
-        lcd.setCursor(0, 2);
-        lcd.print("CANCELLED      ");
-        delay(2000);
-        return;
+    char k = keypad.getKey();
+    if (k == '1') {
+      for (int i = currentCardIndex; i < numAuthorizedUIDs - 1; i++) {
+        authorizedUIDs[i] = authorizedUIDs[i + 1];
       }
+      numAuthorizedUIDs--;
+      saveUIDsToFlash();
+      if (currentCardIndex >= numAuthorizedUIDs && currentCardIndex > 0) currentCardIndex--;
+      clearLine(2); lcd.print("CARD DELETED   ");
+      delay(2000); return;
+    } else if (k == '2') {
+      clearLine(2); lcd.print("CANCELLED      ");
+      delay(2000); return;
     }
   }
-  lcd.setCursor(0, 2);
-  lcd.print("TIMEOUT        ");
+  clearLine(2); lcd.print("TIMEOUT        ");
   delay(2000);
 }
 
 void openDoor() {
-  if (doorIsOpen) {
-    doorOpenTime = millis();
-    return;
-  }
+  if (doorIsOpen) { doorOpenTime = millis(); return; }
   digitalWrite(GREEN_LED_PIN, HIGH);
-  digitalWrite(RED_LED_PIN, LOW);
   digitalWrite(RELAY_PIN, HIGH);
   doorIsOpen = true;
   doorOpenTime = millis();
-  Serial.println("Door OPENED");
-  lcd.setCursor(0, 0);
-  lcd.print("DOOR OPEN      ");
+  lcd.setCursor(0, 0); lcd.print("DOOR OPEN      ");
 }
 
 void closeDoor() {
@@ -523,78 +378,183 @@ void closeDoor() {
   digitalWrite(GREEN_LED_PIN, LOW);
   doorIsOpen = false;
   pinValidated = false;
-  Serial.println("Door CLOSED");
-  lcd.setCursor(0, 0);
-  lcd.print("DOOR CLOSED    ");
+  lcd.setCursor(0, 0); lcd.print("DOOR CLOSED    ");
 }
 
 bool checkLCD() {
   Wire.beginTransmission(0x27);
-  int error = Wire.endTransmission();
-  return (error == 0);
+  return Wire.endTransmission() == 0;
 }
 
 void displayCard() {
   if (numAuthorizedUIDs == 0) {
-    lcd.setCursor(0, 2);
-    lcd.print("NO CARDS       ");
-    lcd.setCursor(0, 3);
-    lcd.print("               ");
+    clearLine(2); lcd.print("NO CARDS       ");
+    clearLine(3); lcd.print("               ");
     return;
   }
-  // Di chuyển tới thẻ tiếp theo hoặc quay vòng
-  if (keypad.getKey() == 'A') {
-      currentCardIndex++;
-      if(currentCardIndex >= numAuthorizedUIDs) {
-        currentCardIndex = 0;
-      }
-  }
-  lcd.setCursor(0, 2);
-  lcd.print("CARD ");
-  lcd.print(currentCardIndex + 1);
-  lcd.print("/");
-  lcd.print(numAuthorizedUIDs);
-  lcd.print("      ");
-  lcd.setCursor(0, 3);
-  lcd.print(authorizedUIDs[currentCardIndex] + "          ");
+  clearLine(2); lcd.print("CARD "); lcd.print(currentCardIndex + 1); lcd.print("/"); lcd.print(numAuthorizedUIDs);
+  clearLine(3); lcd.print(authorizedUIDs[currentCardIndex] + " ");
 }
 
 void measureDistance() {
+  digitalWrite(TRIG_PIN, LOW); delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH); delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-  long duration = pulseIn(ECHO_PIN, HIGH, 30000); // Tăng timeout lên 30ms (~5m)
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
   distance = duration * 0.034 / 2;
 
-  // Log thêm để debug
-  Serial.print("Duration: ");
-  Serial.print(duration);
-  Serial.print(" us, Distance: ");
-  Serial.print(distance, 1);
-  Serial.println(" cm");
-
-  // Gửi khoảng cách qua Serial
   if (distance > 0 && distance < 400) {
-      Serial.println("DISTANCE:" + String(distance, 1) + " cm");
-      obstacleDetected = (distance < obstacleThreshold);
+    obstacleDetected = (distance < obstacleThreshold);
   } else {
-      Serial.println("DISTANCE:OUT_RANGE");
-      obstacleDetected = false;
+    obstacleDetected = false;
   }
 
-  if (!changePinMode && !pinValidated && !isCardMode) {
+  if (!changePinMode && !pinValidated && !isCardMode && !waitingForPin) {
+    clearLine(2);
     if (distance > 0 && distance < 400) {
-      lcd.setCursor(0, 2);
-      lcd.print("DIST: ");
-      lcd.print(distance, 0); // Hiển thị số nguyên
-      lcd.print(" cm      ");
-      obstacleDetected = (distance < obstacleThreshold);
+      lcd.print("DIST: "); lcd.print(distance, 0); lcd.print(" cm ");
     } else {
-      lcd.setCursor(0, 2);
       lcd.print("DIST: OUT RANGE");
-      obstacleDetected = false;
     }
   }
+}
+
+void handleKeypad(char key) {
+  // === TRƯỜNG HỢP 1: ĐANG CHỜ NHẬP PIN SAU NHẬN DIỆN (GỬI VỀ PYTHON) ===
+  if (waitingForPin) {
+    pinEntryStartTime = millis(); // Reset timeout mỗi khi bấm phím
+
+    if (key >= '0' && key <= '9') {
+      if (inputPin.length() < 4) {
+        inputPin += key;
+        lcd.setCursor(5, 1);
+        lcd.print(inputPin);
+        lcd.print("    "); // Xóa ký tự dư
+        Serial.println("[DEBUG] PIN Input: " + inputPin);
+      }
+    }
+    else if (key == '#') {
+      // Xác nhận PIN và gửi về Python
+      if (inputPin.length() == 0) {
+        clearLine(2);
+        lcd.print("NHAP PIN TRUOC!");
+        delay(1000);
+        clearLine(2);
+        lcd.setCursor(0, 2); lcd.print("ENTER PIN TO OPEN");
+        return;
+      }
+
+      // GỬI PIN VỀ PYTHON ĐỂ KIỂM TRA
+      Serial.println("PIN_ENTERED:" + inputPin);
+      clearLine(2);
+      lcd.print("CHECKING PIN...");
+      inputPin = "";
+      lcd.setCursor(5, 1); lcd.print("    ");
+      waitingForPin = false; // Kết thúc trạng thái nhập PIN
+    }
+    return; // QUAN TRỌNG: Thoát khỏi hàm
+  }
+
+  // === TRƯỜNG HỢP 2: ĐANG ĐỔI PIN ===
+  if (changePinMode) {
+    if (key >= '0' && key <= '9') {
+      if (newPin.length() < 4) {
+        newPin += key;
+        lcd.setCursor(5, 1);
+        lcd.print(newPin);
+        lcd.print("    ");
+      }
+    }
+    else if (key == '#') {
+      if (newPin.length() == 4) {
+        savePinToFlash(newPin);
+        clearLine(2); lcd.print("PIN CHANGE OK  ");
+        digitalWrite(GREEN_LED_PIN, HIGH); 
+        delay(2000); 
+        digitalWrite(GREEN_LED_PIN, LOW);
+      } else {
+        clearLine(2); lcd.print("PIN MUST BE 4  ");
+        digitalWrite(RED_LED_PIN, HIGH); 
+        delay(2000); 
+        digitalWrite(RED_LED_PIN, LOW);
+      }
+      changePinMode = false; 
+      newPin = ""; 
+      inputPin = ""; 
+      pinValidated = false;
+      resetPinEntryMode();
+    }
+    return; // Thoát khỏi hàm
+  }
+
+  // === TRƯỜNG HỢP 3: NHẬP PIN BÌNH THƯỜNG (MỞ CỬA TRỰC TIẾP) ===
+  if (key >= '0' && key <= '9') {
+    if (inputPin.length() < 4) {
+      inputPin += key;
+      lcd.setCursor(5, 1);
+      lcd.print(inputPin);
+      lcd.print("    ");
+    }
+  }
+  else if (key == '#') {
+    if (inputPin == currentPin) {
+      pinValidated = true;
+      openDoor();
+      clearLine(2); lcd.print("OPEN BY PIN    ");
+    } else {
+      clearLine(2); lcd.print("WRONG PIN      ");
+      digitalWrite(RED_LED_PIN, HIGH); 
+      delay(2000); 
+      digitalWrite(RED_LED_PIN, LOW);
+      clearLine(2);
+    }
+    inputPin = ""; 
+    lcd.setCursor(5, 1); lcd.print("    ");
+  }
+  else if (key == '*') {
+    if (pinValidated) {
+      changePinMode = true; 
+      newPin = ""; 
+      inputPin = "";
+      clearLine(2); lcd.print("ENTER NEW PIN  ");
+      lcd.setCursor(5, 1); lcd.print("    ");
+    } else {
+      clearLine(2); lcd.print("DENIED         ");
+      digitalWrite(RED_LED_PIN, HIGH); 
+      delay(2000); 
+      digitalWrite(RED_LED_PIN, LOW);
+      clearLine(2);
+    }
+  }
+  // === TRƯỜNG HỢP 4: QUẢN LÝ THẺ ===
+  else if (pinValidated) {
+    if (key == 'A') { 
+      isCardMode = true; 
+      currentCardIndex = 0; 
+      displayCard(); 
+    }
+    else if (key == 'B') { 
+      isCardMode = true; 
+      addCard(); 
+      displayCard(); 
+    }
+    else if (key == 'C') { 
+      isCardMode = true; 
+      deleteCard(); 
+      displayCard(); 
+    }
+    else if (key == 'D' && isCardMode) {
+      isCardMode = false;
+      lcd.clear();
+      lcd.setCursor(0, 0); lcd.print(doorIsOpen ? "DOOR OPEN      " : "DOOR CLOSED    ");
+      lcd.setCursor(0, 1); lcd.print("PIN: ");
+      lcd.setCursor(0, 3); lcd.print("IP: "); lcd.print(WiFi.localIP().toString());
+    }
+  }
+}
+
+void clearLine(int line) {
+  lcd.setCursor(0, line);
+  lcd.print("                    ");
+  lcd.setCursor(0, line);
 }

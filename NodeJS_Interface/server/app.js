@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Import routes
-import faceRouter from "./routes/face.js";
+import faceRouter from "./routes/faceRoutes.js"; // Sửa từ face.js -> faceRoutes.js
 import apiRouter from "./routes/api.js"; // Thêm router cho API
 
 // Route để render trang upload.ejs
