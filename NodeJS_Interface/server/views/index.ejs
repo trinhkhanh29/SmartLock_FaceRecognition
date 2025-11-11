@@ -762,12 +762,6 @@
 
     // Xử lý thu thập khuôn mặt
     async function collectFaceData() {
-      // Validation PIN
-      if (!isPinVerified) {
-        showToast('Vui lòng nhập và xác nhận mã PIN trước!', 'error');
-        return;
-      }
-      
       // Tắt camera trên web trước khi chuyển hướng
       stopCamera();
       
@@ -776,7 +770,7 @@
       collectBtn.innerHTML = '<i class="fas fa-spinner spinner"></i> Đang chuyển hướng...';
       collectBtn.disabled = true;
       
-      showToast('Đã xác thực! Đang chuyển đến trang thu thập...', 'success');
+      showToast('Đang chuyển đến trang thu thập...', 'success');
       
       // Chuyển hướng đến trang nhập thông tin
       setTimeout(() => {
