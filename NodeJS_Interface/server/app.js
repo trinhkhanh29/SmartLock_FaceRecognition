@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import { spawn } from "child_process"; // Thêm dòng này
 
 dotenv.config();
 const app = express();
@@ -31,6 +32,46 @@ import apiRouter from "./routes/api.js"; // Thêm router cho API
 // Route này phải được đặt TRƯỚC app.use('/face', faceRouter) để được ưu tiên xử lý.
 app.get('/face/upload-page', (req, res) => {
   res.render('upload'); // Đảm bảo 'upload.ejs' nằm trong thư mục views
+});
+
+// Route để hiển thị trang nhập thông tin thu thập khuôn mặt
+app.get('/face/collect', (req, res) => {
+  res.render('collect_face'); // Render file collect_face.ejs
+});
+
+// Route để xử lý dữ liệu POST từ form thu thập
+app.post('/face/collect', (req, res) => {
+  const { userId, userName } = req.body;
+
+  if (!userId || !userName) {
+    return res.status(400).send("Mã người dùng và Tên người dùng là bắt buộc.");
+  }
+
+  console.log(`Bắt đầu thu thập cho ID: ${userId}, Tên: ${userName}`);
+
+  // Đường dẫn đến kịch bản Python
+  const pythonScriptPath = path.join(__dirname, '..', '..', 'PyCharm', 'src', 'facedetect.py');
+
+  // Gọi kịch bản Python
+  const pythonProcess = spawn('python', [pythonScriptPath, userId, userName]);
+
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(`[Python] stdout: ${data}`);
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+    console.error(`[Python] stderr: ${data}`);
+  });
+
+  pythonProcess.on('close', (code) => {
+    console.log(`[Python] child process exited with code ${code}`);
+  });
+
+  // Phản hồi bằng cách render một trang EJS mới
+  res.render('processing', {
+    userName: userName,
+    userId: userId
+  });
 });
 
 app.use("/face", faceRouter);

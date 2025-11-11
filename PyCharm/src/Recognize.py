@@ -469,10 +469,12 @@ def main():
                         min_distance = min(distances)
                         min_idx = distances.index(min_distance)
                         confidence_percent = max(0, min(100, (1 - min_distance / 2) * 100))
-                        if min_distance < 0.6:
+                        if min_distance < 0.6: #0.3
                             name = known_names[min_idx]
                             total_recognitions += 1
                             correct_recognitions += 1
+
+                            
 
                 now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 cv2.putText(frame, f"{name}: {confidence_percent:.1f}%", (x, y - 10),

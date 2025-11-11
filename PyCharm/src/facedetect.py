@@ -147,6 +147,9 @@ def speak(text):
             tts_engine.runAndWait()
         except:
             pass
+    # In ra stdout để Node.js có thể bắt được
+    if "Bắt đầu" in text or "Chuyển hướng" in text or "Đã thu thập" in text or "Cảm ơn" in text:
+        print(f"STATUS:{text}")
     print(f"[VOICE] {text}")
 
 
@@ -281,12 +284,13 @@ def main():
         return
 
     # === Camera ===
-    cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     if not cam.isOpened():
         cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     if not cam.isOpened():
         speak("Không thể mở camera.")
         logging.error("Camera không mở được")
+        print("ERROR:Không thể mở camera.") # Thêm dòng này
         return
 
     cam.set(3, 640)
@@ -390,16 +394,23 @@ def main():
                 cv2.putText(frame, "Khong phat hien khuon mat", (10, 60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
+            # Cập nhật tiến trình cho Node.js
+            progress = int((count / sample_limit) * 100)
+            print(f"PROGRESS:{progress}")
+
             cv2.imshow('Thu thap khuon mat - Nhan ESC de thoat', frame)
-            if cv2.waitKey(100) & 0xFF == 27:
+            if cv2.waitKey(10) & 0xFF == 27: # Giảm waitKey để mượt hơn
                 break
 
     except Exception as e:
         logging.error(f"Lỗi trong vòng lặp: {e}")
+        print(f"ERROR:Đã xảy ra lỗi: {e}") # Thêm dòng này
     finally:
         cam.release()
         cv2.destroyAllWindows()
-        speak(f"Đã thu thập {count} ảnh. Cảm ơn {face_name}!")
+        final_message = f"Đã thu thập {count} ảnh. Cảm ơn {face_name}!"
+        speak(final_message)
+        print(f"COMPLETE:{final_message}") # Thêm dòng này
         send_telegram_message(
             f"<b>HOÀN TẤT THU THẬP</b>\n"
             f"Người dùng: <b>{face_name}</b>\n"

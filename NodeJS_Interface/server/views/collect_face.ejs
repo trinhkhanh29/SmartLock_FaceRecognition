@@ -206,6 +206,7 @@
       </div>
 
       <form action="/face/collect" method="POST">
+        <input type="hidden" name="socketId" id="socketIdField">
         <div class="form-group">
           <label for="userId">Mã người dùng</label>
           <div class="input-container">
@@ -244,7 +245,14 @@
     </div>
   </div>
 
+  <script src="/socket.io/socket.io.js"></script>
   <script>
+    const socket = io();
+    socket.on('connect', () => {
+      console.log('Connected to server with ID:', socket.id);
+      document.getElementById('socketIdField').value = socket.id;
+    });
+
     // Thêm hiệu ứng tương tác cho các input
     document.querySelectorAll('input').forEach(input => {
       input.addEventListener('focus', function() {
