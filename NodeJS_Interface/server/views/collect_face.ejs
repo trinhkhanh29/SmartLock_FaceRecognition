@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thu thập khuôn mặt</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary-color: #7209b7;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --success-color: #4bb543;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text-color);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 40px;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .logo i {
+      color: white;
+      font-size: 36px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--dark-gray);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: var(--transition);
+      background-color: var(--light-gray);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dark-gray);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), #6511a8);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .info-box {
+      background-color: var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      margin-top: 30px;
+      font-size: 14px;
+      color: var(--dark-gray);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .info-box h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+
+    .info-box ul {
+      padding-left: 20px;
+    }
+
+    .info-box li {
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 576px) {
+      .card {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h1>Thu thập khuôn mặt</h1>
+        <p class="subtitle">Nhập thông tin của bạn để bắt đầu quá trình thu thập dữ liệu khuôn mặt</p>
+      </div>
+
+      <form action="/face/collect" method="POST">
+        <input type="hidden" name="lockId" value="<%= lockId %>">
+        <div class="form-group">
+          <label for="userId">Mã người dùng</label>
+          <div class="input-container">
+            <input type="text" name="userId" id="userId" required placeholder="Nhập mã người dùng">
+            <div class="input-icon">
+              <i class="fas fa-id-card"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="userName">Tên người dùng</label>
+          <div class="input-container">
+            <input type="text" name="userName" id="userName" required placeholder="Nhập tên người dùng">
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">
+          <i class="fas fa-camera"></i>
+          Bắt đầu thu thập
+        </button>
+      </form>
+
+      <div class="info-box">
+        <h3>Lưu ý quan trọng</h3>
+        <ul>
+          <li>Đảm bảo khuôn mặt được chiếu sáng đầy đủ</li>
+          <li>Giữ khuôn mặt thẳng với camera</li>
+          <li>Loại bỏ kính râm và mũ</li>
+          <li>Quá trình sẽ mất khoảng 1-2 phút</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Thêm hiệu ứng tương tác cho các input
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        if (!this.value) {
+          this.parentElement.classList.remove('focused');
+        }
+      });
+    });
+
+    // Hiệu ứng loading khi submit form
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const btn = this.querySelector('.btn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+      btn.disabled = true;
+    });
+  </script>
+</body>
+</html>

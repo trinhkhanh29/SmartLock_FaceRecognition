@@ -1,0 +1,1414 @@
+2025-11-04 20:43:55,045 | INFO | Bắt đầu thu thập cho: ID=123, Tên=trinh
+2025-11-04 20:43:55,089 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 20:43:57,496 | INFO | MTCNN đã sẵn sàng
+2025-11-04 20:43:57,562 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 20:43:57,563 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 20:43:57,730 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 20:44:01,422 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 20:44:05,059 | INFO | Đã upload: faces/123/123_trinh_1_20251104_204401.jpg
+2025-11-04 20:44:06,715 | INFO | Đã upload: faces/123/123_trinh_2_20251104_204405.jpg
+2025-11-04 20:44:08,642 | INFO | Đã upload: faces/123/123_trinh_3_20251104_204406.jpg
+2025-11-04 20:44:10,541 | INFO | Đã upload: faces/123/123_trinh_4_20251104_204409.jpg
+2025-11-04 20:44:12,433 | INFO | Đã upload: faces/123/123_trinh_5_20251104_204410.jpg
+2025-11-04 20:44:14,104 | INFO | Đã upload: faces/123/123_trinh_6_20251104_204412.jpg
+2025-11-04 20:44:15,884 | INFO | Đã upload: faces/123/123_trinh_7_20251104_204414.jpg
+2025-11-04 20:44:17,568 | INFO | Đã upload: faces/123/123_trinh_8_20251104_204416.jpg
+2025-11-04 20:44:19,337 | INFO | Đã upload: faces/123/123_trinh_9_20251104_204417.jpg
+2025-11-04 20:44:20,993 | INFO | Đã upload: faces/123/123_trinh_10_20251104_204419.jpg
+2025-11-04 20:44:22,763 | INFO | Chuyển hướng: Quay mặt sang trái
+2025-11-04 20:44:24,345 | INFO | Đã upload: faces/123/123_trinh_11_20251104_204422.jpg
+2025-11-04 20:44:26,261 | INFO | Đã upload: faces/123/123_trinh_12_20251104_204424.jpg
+2025-11-04 20:44:27,874 | INFO | Đã upload: faces/123/123_trinh_13_20251104_204426.jpg
+2025-11-04 20:44:29,721 | INFO | Đã upload: faces/123/123_trinh_14_20251104_204428.jpg
+2025-11-04 20:44:31,338 | INFO | Đã upload: faces/123/123_trinh_15_20251104_204429.jpg
+2025-11-04 20:44:33,126 | INFO | Đã upload: faces/123/123_trinh_16_20251104_204431.jpg
+2025-11-04 20:44:34,815 | INFO | Đã upload: faces/123/123_trinh_17_20251104_204433.jpg
+2025-11-04 20:44:36,598 | INFO | Đã upload: faces/123/123_trinh_18_20251104_204434.jpg
+2025-11-04 20:44:38,264 | INFO | Đã upload: faces/123/123_trinh_19_20251104_204436.jpg
+2025-11-04 20:44:40,632 | INFO | Đã upload: faces/123/123_trinh_20_20251104_204439.jpg
+2025-11-04 20:44:42,362 | INFO | Chuyển hướng: Quay mặt sang phải
+2025-11-04 20:44:44,019 | INFO | Đã upload: faces/123/123_trinh_21_20251104_204442.jpg
+2025-11-04 20:44:45,877 | INFO | Đã upload: faces/123/123_trinh_22_20251104_204444.jpg
+2025-11-04 20:44:47,541 | INFO | Đã upload: faces/123/123_trinh_23_20251104_204446.jpg
+2025-11-04 20:44:49,340 | INFO | Đã upload: faces/123/123_trinh_24_20251104_204447.jpg
+2025-11-04 20:44:51,001 | INFO | Đã upload: faces/123/123_trinh_25_20251104_204449.jpg
+2025-11-04 20:44:52,825 | INFO | Đã upload: faces/123/123_trinh_26_20251104_204451.jpg
+2025-11-04 20:44:54,497 | INFO | Đã upload: faces/123/123_trinh_27_20251104_204452.jpg
+2025-11-04 20:44:56,273 | INFO | Đã upload: faces/123/123_trinh_28_20251104_204454.jpg
+2025-11-04 20:44:57,985 | INFO | Đã upload: faces/123/123_trinh_29_20251104_204456.jpg
+2025-11-04 20:44:59,762 | INFO | Đã upload: faces/123/123_trinh_30_20251104_204458.jpg
+2025-11-04 20:45:01,381 | INFO | Chuyển hướng: Nhìn lên trên
+2025-11-04 20:45:02,980 | INFO | Đã upload: faces/123/123_trinh_31_20251104_204501.jpg
+2025-11-04 20:45:04,810 | INFO | Đã upload: faces/123/123_trinh_32_20251104_204503.jpg
+2025-11-04 20:45:06,463 | INFO | Đã upload: faces/123/123_trinh_33_20251104_204504.jpg
+2025-11-04 20:45:07,398 | INFO | Đã upload: faces/123/123_trinh_34_20251104_204506.jpg
+2025-11-04 20:45:08,346 | INFO | Đã upload: faces/123/123_trinh_35_20251104_204507.jpg
+2025-11-04 20:45:09,943 | INFO | Đã upload: faces/123/123_trinh_36_20251104_204509.jpg
+2025-11-04 20:45:10,996 | INFO | Đã upload: faces/123/123_trinh_37_20251104_204510.jpg
+2025-11-04 20:45:11,947 | INFO | Đã upload: faces/123/123_trinh_38_20251104_204511.jpg
+2025-11-04 20:45:12,897 | INFO | Đã upload: faces/123/123_trinh_39_20251104_204512.jpg
+2025-11-04 20:45:13,837 | INFO | Đã upload: faces/123/123_trinh_40_20251104_204513.jpg
+2025-11-04 20:45:15,481 | INFO | Chuyển hướng: Nhìn xuống dưới
+2025-11-04 20:45:16,436 | INFO | Đã upload: faces/123/123_trinh_41_20251104_204515.jpg
+2025-11-04 20:45:17,396 | INFO | Đã upload: faces/123/123_trinh_42_20251104_204516.jpg
+2025-11-04 20:45:18,364 | INFO | Đã upload: faces/123/123_trinh_43_20251104_204517.jpg
+2025-11-04 20:45:19,400 | INFO | Đã upload: faces/123/123_trinh_44_20251104_204518.jpg
+2025-11-04 20:45:20,403 | INFO | Đã upload: faces/123/123_trinh_45_20251104_204519.jpg
+2025-11-04 20:45:21,393 | INFO | Đã upload: faces/123/123_trinh_46_20251104_204520.jpg
+2025-11-04 20:45:22,389 | INFO | Đã upload: faces/123/123_trinh_47_20251104_204521.jpg
+2025-11-04 20:45:23,541 | INFO | Đã upload: faces/123/123_trinh_48_20251104_204522.jpg
+2025-11-04 20:45:25,078 | INFO | Đã upload: faces/123/123_trinh_49_20251104_204523.jpg
+2025-11-04 20:45:26,052 | INFO | Đã upload: faces/123/123_trinh_50_20251104_204525.jpg
+2025-11-04 20:45:29,791 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-04 20:49:06,898 | INFO | Bắt đầu thu thập cho: ID=123, Tên=triinh
+2025-11-04 20:49:06,936 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 20:49:09,346 | INFO | MTCNN đã sẵn sàng
+2025-11-04 20:49:09,414 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 20:49:09,414 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 20:49:09,589 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 20:49:13,261 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 20:49:16,766 | INFO | Đã upload: faces/123/123_triinh_1_20251104_204913.jpg
+2025-11-04 20:49:18,369 | INFO | Đã upload: faces/123/123_triinh_2_20251104_204916.jpg
+2025-11-04 20:49:20,260 | INFO | Đã upload: faces/123/123_triinh_3_20251104_204918.jpg
+2025-11-04 20:49:21,859 | INFO | Đã upload: faces/123/123_triinh_4_20251104_204920.jpg
+2025-11-04 20:49:23,740 | INFO | Đã upload: faces/123/123_triinh_5_20251104_204922.jpg
+2025-11-04 20:49:25,306 | INFO | Đã upload: faces/123/123_triinh_6_20251104_204923.jpg
+2025-11-04 20:49:27,209 | INFO | Đã upload: faces/123/123_triinh_7_20251104_204925.jpg
+2025-11-04 20:49:31,923 | INFO | Hoàn tất: 8/50 ảnh
+2025-11-04 21:47:15,783 | INFO | Bắt đầu thu thập cho: ID=1, Tên=trghg
+2025-11-04 21:47:15,825 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:47:18,600 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:47:18,699 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:47:18,700 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:47:18,915 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:47:22,637 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:47:25,489 | INFO | Đã upload: faces/1/1_trghg_1_20251104_214722.jpg
+2025-11-04 21:47:30,212 | INFO | Bắt đầu thu thập cho: ID=1, Tên=trghg
+2025-11-04 21:47:30,264 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:47:31,140 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:47:31,225 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:47:31,225 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:47:31,548 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:47:35,296 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:47:38,365 | INFO | Hoàn tất: 1/50 ảnh
+2025-11-04 21:47:43,276 | INFO | Hoàn tất: 0/50 ảnh
+2025-11-04 21:48:12,606 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trfc
+2025-11-04 21:48:12,650 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:48:15,209 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:48:15,301 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:48:15,301 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:48:15,499 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:48:19,212 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:48:22,754 | INFO | Đã upload: faces/3/3_trfc_1_20251104_214819.jpg
+2025-11-04 21:48:24,528 | INFO | Đã upload: faces/3/3_trfc_2_20251104_214823.jpg
+2025-11-04 21:48:30,607 | INFO | Hoàn tất: 2/50 ảnh
+2025-11-04 21:53:03,322 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trfc
+2025-11-04 21:53:03,361 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:53:05,851 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:53:05,930 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:53:05,931 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:53:06,093 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:53:09,784 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:53:12,873 | INFO | Đã upload: faces/3/3_trfc_1_20251104_215310.jpg
+2025-11-04 21:53:14,724 | INFO | Đã upload: faces/3/3_trfc_2_20251104_215313.jpg
+2025-11-04 21:53:16,414 | INFO | Đã upload: faces/3/3_trfc_3_20251104_215314.jpg
+2025-11-04 21:53:18,258 | INFO | Đã upload: faces/3/3_trfc_4_20251104_215316.jpg
+2025-11-04 21:53:20,158 | INFO | Đã upload: faces/3/3_trfc_5_20251104_215318.jpg
+2025-11-04 21:53:22,115 | INFO | Đã upload: faces/3/3_trfc_6_20251104_215320.jpg
+2025-11-04 21:53:23,734 | INFO | Đã upload: faces/3/3_trfc_7_20251104_215322.jpg
+2025-11-04 21:53:26,129 | INFO | Đã upload: faces/3/3_trfc_8_20251104_215324.jpg
+2025-11-04 21:53:30,370 | INFO | Hoàn tất: 8/50 ảnh
+2025-11-04 21:56:20,452 | INFO | Bắt đầu thu thập cho: ID=1312, Tên=3wqe
+2025-11-04 21:56:20,490 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 21:56:22,983 | INFO | MTCNN đã sẵn sàng
+2025-11-04 21:56:23,061 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 21:56:23,061 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 21:56:23,231 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 21:56:26,930 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 21:56:29,757 | INFO | Đã upload: faces/1312/1312_3wqe_1_20251104_215626.jpg
+2025-11-04 21:56:31,969 | INFO | Đã upload: faces/1312/1312_3wqe_2_20251104_215629.jpg
+2025-11-04 21:56:35,608 | INFO | Hoàn tất: 2/50 ảnh
+2025-11-04 22:53:35,429 | INFO | Bắt đầu thu thập cho: ID=1, Tên=rtgbfbsd
+2025-11-04 22:53:35,476 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 22:53:38,283 | INFO | MTCNN đã sẵn sàng
+2025-11-04 22:53:38,359 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 22:53:38,360 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 22:53:38,580 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 22:53:42,301 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 22:53:45,920 | INFO | Đã upload: faces/1/1_rtgbfbsd_1_20251104_225342.jpg
+2025-11-04 22:53:47,531 | INFO | Đã upload: faces/1/1_rtgbfbsd_2_20251104_225346.jpg
+2025-11-04 22:53:49,426 | INFO | Đã upload: faces/1/1_rtgbfbsd_3_20251104_225347.jpg
+2025-11-04 22:53:53,122 | INFO | Hoàn tất: 3/50 ảnh
+2025-11-04 23:53:41,087 | INFO | Bắt đầu thu thập cho: ID=23, Tên=trunkj
+2025-11-04 23:53:41,141 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-04 23:53:43,822 | INFO | MTCNN đã sẵn sàng
+2025-11-04 23:53:43,928 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-04 23:53:43,928 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-04 23:53:44,164 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-04 23:53:47,908 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-04 23:53:52,138 | INFO | Đã upload: faces/23/23_trunkj_1_20251104_235348.jpg
+2025-11-04 23:53:54,434 | INFO | Đã upload: faces/23/23_trunkj_2_20251104_235353.jpg
+2025-11-04 23:53:56,341 | INFO | Đã upload: faces/23/23_trunkj_3_20251104_235354.jpg
+2025-11-04 23:53:59,901 | INFO | Hoàn tất: 3/50 ảnh
+2025-11-06 19:25:24,383 | INFO | Bắt đầu thu thập cho: ID=2, Tên=trinh
+2025-11-06 19:25:24,422 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 19:25:24,422 | INFO | Đã khởi tạo Telegram Bot. Chat ID: 8036471605
+2025-11-06 19:25:26,757 | INFO | MTCNN đã sẵn sàng trên thiết bị: cpu
+2025-11-06 19:25:26,859 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 19:25:26,859 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 19:25:27,282 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 19:25:31,070 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-06 19:25:33,901 | INFO | Đã upload: faces/2/2_trinh_0_20251106_192531.jpg
+2025-11-06 19:25:35,661 | INFO | Chuyển hướng: Quay mặt sang trái
+2025-11-06 19:25:37,359 | INFO | Đã upload: faces/2/2_trinh_0_20251106_192535.jpg
+2025-11-06 19:25:39,140 | INFO | Chuyển hướng: Quay mặt sang phải
+2025-11-06 19:25:40,791 | INFO | Đã upload: faces/2/2_trinh_0_20251106_192539.jpg
+2025-11-06 19:25:42,396 | INFO | Chuyển hướng: Nhìn lên trên
+2025-11-06 19:25:44,153 | INFO | Đã upload: faces/2/2_trinh_0_20251106_192542.jpg
+2025-11-06 19:25:45,813 | INFO | Chuyển hướng: Nhìn xuống dưới
+2025-11-06 19:25:47,955 | INFO | Đã upload: faces/2/2_trinh_0_20251106_192546.jpg
+2025-11-06 19:25:47,956 | ERROR | Lỗi trong vòng lặp: list index out of range
+2025-11-06 19:25:54,859 | INFO | Hoàn tất thu thập cho ID: 2, Tên: trinh. Đã lưu 0/50 ảnh.
+2025-11-06 19:25:57,760 | INFO | Đã gửi thông báo Telegram.
+2025-11-06 19:27:17,835 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trinhh
+2025-11-06 19:27:17,872 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 19:27:20,091 | INFO | MTCNN đã sẵn sàng
+2025-11-06 19:27:20,165 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 19:27:20,165 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 19:27:20,324 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 19:27:24,000 | INFO | Bắt đầu vòng lặp thu thập...
+2025-11-06 19:27:26,681 | INFO | Đã upload: faces/3/3_trinhh_1_20251106_192724.jpg
+2025-11-06 19:27:28,743 | INFO | Đã upload: faces/3/3_trinhh_2_20251106_192726.jpg
+2025-11-06 19:27:30,351 | INFO | Đã upload: faces/3/3_trinhh_3_20251106_192728.jpg
+2025-11-06 19:27:32,251 | INFO | Đã upload: faces/3/3_trinhh_4_20251106_192730.jpg
+2025-11-06 19:27:33,880 | INFO | Đã upload: faces/3/3_trinhh_5_20251106_192732.jpg
+2025-11-06 19:27:35,825 | INFO | Đã upload: faces/3/3_trinhh_6_20251106_192734.jpg
+2025-11-06 19:27:37,442 | INFO | Đã upload: faces/3/3_trinhh_7_20251106_192736.jpg
+2025-11-06 19:27:39,395 | INFO | Đã upload: faces/3/3_trinhh_8_20251106_192737.jpg
+2025-11-06 19:27:40,983 | INFO | Đã upload: faces/3/3_trinhh_9_20251106_192739.jpg
+2025-11-06 19:27:44,468 | INFO | Hoàn tất: 9/50 ảnh
+2025-11-06 19:31:20,203 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-06 19:31:20,203 | INFO | Bắt đầu thu thập cho: ID=4, Tên=khanh
+2025-11-06 19:31:21,571 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 19:31:23,801 | INFO | MTCNN đã sẵn sàng
+2025-11-06 19:31:23,862 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 19:31:23,862 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 19:31:24,028 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 19:31:32,653 | INFO | Upload: faces/4/4_khanh_1_20251106_193129.jpg
+2025-11-06 19:31:34,375 | INFO | Upload: faces/4/4_khanh_2_20251106_193132.jpg
+2025-11-06 19:31:34,392 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:36,154 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:36,328 | INFO | Upload: faces/4/4_khanh_3_20251106_193134.jpg
+2025-11-06 19:31:37,953 | INFO | Upload: faces/4/4_khanh_4_20251106_193136.jpg
+2025-11-06 19:31:38,138 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:39,668 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:39,994 | INFO | Upload: faces/4/4_khanh_5_20251106_193138.jpg
+2025-11-06 19:31:41,733 | INFO | Upload: faces/4/4_khanh_6_20251106_193140.jpg
+2025-11-06 19:31:42,085 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:43,341 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:43,714 | INFO | Upload: faces/4/4_khanh_7_20251106_193141.jpg
+2025-11-06 19:31:45,455 | INFO | Upload: faces/4/4_khanh_8_20251106_193143.jpg
+2025-11-06 19:31:46,230 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:47,274 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:47,291 | INFO | Upload: faces/4/4_khanh_9_20251106_193145.jpg
+2025-11-06 19:31:48,985 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:49,145 | INFO | Upload: faces/4/4_khanh_10_20251106_193147.jpg
+2025-11-06 19:31:50,962 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:53,911 | INFO | Upload: faces/4/4_khanh_11_20251106_193152.jpg
+2025-11-06 19:31:55,516 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:55,823 | INFO | Upload: faces/4/4_khanh_12_20251106_193154.jpg
+2025-11-06 19:31:57,504 | INFO | Upload: faces/4/4_khanh_13_20251106_193155.jpg
+2025-11-06 19:31:57,726 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:59,315 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:31:59,425 | INFO | Upload: faces/4/4_khanh_14_20251106_193157.jpg
+2025-11-06 19:32:01,123 | INFO | Upload: faces/4/4_khanh_15_20251106_193159.jpg
+2025-11-06 19:32:01,443 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:02,999 | INFO | Upload: faces/4/4_khanh_16_20251106_193201.jpg
+2025-11-06 19:32:03,226 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:04,536 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:04,791 | INFO | Upload: faces/4/4_khanh_17_20251106_193203.jpg
+2025-11-06 19:32:06,413 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:06,743 | INFO | Upload: faces/4/4_khanh_18_20251106_193204.jpg
+2025-11-06 19:32:08,595 | INFO | Upload: faces/4/4_khanh_19_20251106_193206.jpg
+2025-11-06 19:32:08,907 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:10,357 | INFO | Upload: faces/4/4_khanh_20_20251106_193208.jpg
+2025-11-06 19:32:10,361 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:12,556 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:15,051 | INFO | Upload: faces/4/4_khanh_21_20251106_193213.jpg
+2025-11-06 19:32:16,684 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:17,074 | INFO | Upload: faces/4/4_khanh_22_20251106_193215.jpg
+2025-11-06 19:32:18,698 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:18,714 | INFO | Upload: faces/4/4_khanh_23_20251106_193217.jpg
+2025-11-06 19:32:20,472 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:20,667 | INFO | Upload: faces/4/4_khanh_24_20251106_193218.jpg
+2025-11-06 19:32:22,266 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:22,449 | INFO | Upload: faces/4/4_khanh_25_20251106_193220.jpg
+2025-11-06 19:32:24,241 | INFO | Upload: faces/4/4_khanh_26_20251106_193222.jpg
+2025-11-06 19:32:24,489 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:25,856 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:26,043 | INFO | Upload: faces/4/4_khanh_27_20251106_193224.jpg
+2025-11-06 19:32:27,850 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:27,987 | INFO | Upload: faces/4/4_khanh_28_20251106_193226.jpg
+2025-11-06 19:32:29,672 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:29,963 | INFO | Upload: faces/4/4_khanh_29_20251106_193228.jpg
+2025-11-06 19:32:31,523 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:31,595 | INFO | Upload: faces/4/4_khanh_30_20251106_193230.jpg
+2025-11-06 19:32:33,597 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:36,129 | INFO | Upload: faces/4/4_khanh_31_20251106_193234.jpg
+2025-11-06 19:32:37,714 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:38,078 | INFO | Upload: faces/4/4_khanh_32_20251106_193236.jpg
+2025-11-06 19:32:39,379 | INFO | Upload: faces/4/4_khanh_33_20251106_193238.jpg
+2025-11-06 19:32:39,827 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:40,400 | INFO | Upload: faces/4/4_khanh_34_20251106_193239.jpg
+2025-11-06 19:32:40,968 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:41,547 | INFO | Upload: faces/4/4_khanh_35_20251106_193240.jpg
+2025-11-06 19:32:41,977 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:42,581 | INFO | Upload: faces/4/4_khanh_36_20251106_193241.jpg
+2025-11-06 19:32:43,510 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:44,016 | INFO | Upload: faces/4/4_khanh_37_20251106_193242.jpg
+2025-11-06 19:32:44,663 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:45,055 | INFO | Upload: faces/4/4_khanh_38_20251106_193244.jpg
+2025-11-06 19:32:46,407 | INFO | Upload: faces/4/4_khanh_39_20251106_193245.jpg
+2025-11-06 19:32:46,928 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:46,990 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:47,487 | INFO | Upload: faces/4/4_khanh_40_20251106_193246.jpg
+2025-11-06 19:32:48,950 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:49,175 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:51,444 | INFO | Upload: faces/4/4_khanh_41_20251106_193250.jpg
+2025-11-06 19:32:52,562 | INFO | Upload: faces/4/4_khanh_42_20251106_193251.jpg
+2025-11-06 19:32:53,121 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:53,630 | INFO | Upload: faces/4/4_khanh_43_20251106_193252.jpg
+2025-11-06 19:32:54,298 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:54,655 | INFO | Upload: faces/4/4_khanh_44_20251106_193253.jpg
+2025-11-06 19:32:55,166 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:55,725 | INFO | Upload: faces/4/4_khanh_45_20251106_193254.jpg
+2025-11-06 19:32:56,319 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:56,787 | INFO | Upload: faces/4/4_khanh_46_20251106_193255.jpg
+2025-11-06 19:32:57,258 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:57,880 | INFO | Upload: faces/4/4_khanh_47_20251106_193256.jpg
+2025-11-06 19:32:58,364 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:32:58,978 | INFO | Upload: faces/4/4_khanh_48_20251106_193258.jpg
+2025-11-06 19:32:59,421 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:33:00,027 | INFO | Upload: faces/4/4_khanh_49_20251106_193259.jpg
+2025-11-06 19:33:00,558 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:33:01,081 | INFO | Upload: faces/4/4_khanh_50_20251106_193300.jpg
+2025-11-06 19:33:01,968 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:33:02,695 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:33:06,169 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-06 19:40:10,270 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-06 19:40:10,270 | INFO | Bắt đầu thu thập cho: ID=4, Tên=khanh
+2025-11-06 19:40:11,571 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 19:40:13,736 | INFO | MTCNN đã sẵn sàng
+2025-11-06 19:40:13,807 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 19:40:13,807 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 19:40:13,963 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 19:40:21,694 | INFO | Upload: faces/4/4_khanh_1_20251106_194018.jpg
+2025-11-06 19:40:23,424 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:40:23,586 | INFO | Upload: faces/4/4_khanh_2_20251106_194021.jpg
+2025-11-06 19:40:25,278 | INFO | Upload: faces/4/4_khanh_3_20251106_194023.jpg
+2025-11-06 19:40:27,159 | INFO | Upload: faces/4/4_khanh_4_20251106_194025.jpg
+2025-11-06 19:40:28,837 | INFO | Upload: faces/4/4_khanh_5_20251106_194027.jpg
+2025-11-06 19:40:31,022 | INFO | Upload: faces/4/4_khanh_6_20251106_194028.jpg
+2025-11-06 19:40:32,634 | INFO | Upload: faces/4/4_khanh_7_20251106_194031.jpg
+2025-11-06 19:40:33,591 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF8209F70>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:34,554 | INFO | Upload: faces/4/4_khanh_8_20251106_194032.jpg
+2025-11-06 19:40:35,292 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C0230>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:36,253 | INFO | Upload: faces/4/4_khanh_9_20251106_194034.jpg
+2025-11-06 19:40:37,164 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C1760>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:38,138 | INFO | Upload: faces/4/4_khanh_10_20251106_194036.jpg
+2025-11-06 19:40:38,840 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C2C30>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:41,028 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C1D00>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:42,638 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C3B00>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:44,560 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82D8BF0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:46,335 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF7D4F620>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:48,150 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF820B9B0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:40:51,594 | INFO | Upload: faces/4/4_khanh_11_20251106_194050.jpg
+2025-11-06 19:40:53,623 | INFO | Upload: faces/4/4_khanh_12_20251106_194051.jpg
+2025-11-06 19:40:55,333 | INFO | Upload: faces/4/4_khanh_13_20251106_194053.jpg
+2025-11-06 19:40:57,310 | INFO | Upload: faces/4/4_khanh_14_20251106_194055.jpg
+2025-11-06 19:40:58,948 | INFO | Upload: faces/4/4_khanh_15_20251106_194057.jpg
+2025-11-06 19:41:00,863 | INFO | Upload: faces/4/4_khanh_16_20251106_194059.jpg
+2025-11-06 19:41:01,618 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82DA0C0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:02,550 | INFO | Upload: faces/4/4_khanh_17_20251106_194101.jpg
+2025-11-06 19:41:03,643 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF820BAA0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:04,452 | INFO | Upload: faces/4/4_khanh_18_20251106_194102.jpg
+2025-11-06 19:41:05,347 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C3650>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:06,124 | INFO | Upload: faces/4/4_khanh_19_20251106_194104.jpg
+2025-11-06 19:41:08,032 | INFO | Upload: faces/4/4_khanh_20_20251106_194106.jpg
+2025-11-06 19:41:09,609 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:41:10,869 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82C0350>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:12,564 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF7D6B0B0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:15,098 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:41:15,161 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:41:18,046 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000029FF82B08F0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:41:19,808 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:41:21,990 | INFO | Upload: faces/4/4_khanh_21_20251106_194120.jpg
+2025-11-06 19:41:23,968 | INFO | Upload: faces/4/4_khanh_22_20251106_194122.jpg
+2025-11-06 19:41:24,980 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:25,553 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:25,573 | INFO | Upload: faces/4/4_khanh_23_20251106_194124.jpg
+2025-11-06 19:41:27,283 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:27,553 | INFO | Upload: faces/4/4_khanh_24_20251106_194125.jpg
+2025-11-06 19:41:29,114 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:29,120 | INFO | Upload: faces/4/4_khanh_25_20251106_194127.jpg
+2025-11-06 19:41:30,674 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:31,064 | INFO | Upload: faces/4/4_khanh_26_20251106_194129.jpg
+2025-11-06 19:41:32,714 | INFO | Upload: faces/4/4_khanh_27_20251106_194131.jpg
+2025-11-06 19:41:32,842 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:34,549 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:35,349 | INFO | Upload: faces/4/4_khanh_28_20251106_194132.jpg
+2025-11-06 19:41:37,486 | INFO | Upload: faces/4/4_khanh_29_20251106_194135.jpg
+2025-11-06 19:41:39,075 | INFO | Upload: faces/4/4_khanh_30_20251106_194137.jpg
+2025-11-06 19:41:39,088 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:40,644 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:43,597 | INFO | Upload: faces/4/4_khanh_31_20251106_194142.jpg
+2025-11-06 19:41:45,153 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:45,496 | INFO | Upload: faces/4/4_khanh_32_20251106_194143.jpg
+2025-11-06 19:41:46,466 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:41:47,077 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:47,164 | INFO | Upload: faces/4/4_khanh_33_20251106_194145.jpg
+2025-11-06 19:41:48,154 | INFO | Upload: faces/4/4_khanh_34_20251106_194147.jpg
+2025-11-06 19:41:48,710 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:49,161 | INFO | Upload: faces/4/4_khanh_35_20251106_194148.jpg
+2025-11-06 19:41:49,716 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:50,170 | INFO | Upload: faces/4/4_khanh_36_20251106_194149.jpg
+2025-11-06 19:41:50,978 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:51,172 | INFO | Upload: faces/4/4_khanh_37_20251106_194150.jpg
+2025-11-06 19:41:51,729 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:52,171 | INFO | Upload: faces/4/4_khanh_38_20251106_194151.jpg
+2025-11-06 19:41:53,186 | INFO | Upload: faces/4/4_khanh_39_20251106_194152.jpg
+2025-11-06 19:41:53,328 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:53,703 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:54,198 | INFO | Upload: faces/4/4_khanh_40_20251106_194153.jpg
+2025-11-06 19:41:54,753 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:55,802 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:41:58,191 | INFO | Upload: faces/4/4_khanh_41_20251106_194157.jpg
+2025-11-06 19:41:59,222 | INFO | Upload: faces/4/4_khanh_42_20251106_194158.jpg
+2025-11-06 19:42:00,209 | INFO | Upload: faces/4/4_khanh_43_20251106_194159.jpg
+2025-11-06 19:42:01,215 | INFO | Upload: faces/4/4_khanh_44_20251106_194200.jpg
+2025-11-06 19:42:02,228 | INFO | Upload: faces/4/4_khanh_45_20251106_194201.jpg
+2025-11-06 19:42:03,389 | INFO | Upload: faces/4/4_khanh_46_20251106_194202.jpg
+2025-11-06 19:42:04,427 | INFO | Upload: faces/4/4_khanh_47_20251106_194203.jpg
+2025-11-06 19:42:05,117 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,357 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,434 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,435 | INFO | Upload: faces/4/4_khanh_48_20251106_194204.jpg
+2025-11-06 19:42:05,490 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,589 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,654 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:05,991 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:06,460 | INFO | Upload: faces/4/4_khanh_49_20251106_194205.jpg
+2025-11-06 19:42:07,052 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:07,499 | INFO | Upload: faces/4/4_khanh_50_20251106_194206.jpg
+2025-11-06 19:42:08,187 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:09,205 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:42:12,525 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-06 19:44:52,537 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-06 19:44:52,537 | INFO | Bắt đầu thu thập cho: ID=4, Tên=khanh
+2025-11-06 19:45:02,631 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 19:45:04,812 | INFO | MTCNN đã sẵn sàng trên thiết bị: cpu
+2025-11-06 19:45:04,880 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 19:45:04,880 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 19:45:05,040 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 19:45:21,947 | INFO | Upload: faces/4/4_khanh_1_20251106_194518.jpg
+2025-11-06 19:45:23,645 | INFO | Upload: faces/4/4_khanh_2_20251106_194522.jpg
+2025-11-06 19:45:25,479 | INFO | Upload: faces/4/4_khanh_3_20251106_194523.jpg
+2025-11-06 19:45:27,211 | INFO | Upload: faces/4/4_khanh_4_20251106_194525.jpg
+2025-11-06 19:45:29,613 | INFO | Upload: faces/4/4_khanh_5_20251106_194527.jpg
+2025-11-06 19:45:31,230 | INFO | Upload: faces/4/4_khanh_6_20251106_194529.jpg
+2025-11-06 19:45:33,181 | INFO | Upload: faces/4/4_khanh_7_20251106_194531.jpg
+2025-11-06 19:45:33,655 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000002090987B9E0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:45:34,866 | INFO | Upload: faces/4/4_khanh_8_20251106_194533.jpg
+2025-11-06 19:45:36,790 | INFO | Upload: faces/4/4_khanh_9_20251106_194535.jpg
+2025-11-06 19:45:37,087 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:45:37,220 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000020909931670>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:45:38,440 | INFO | Upload: faces/4/4_khanh_10_20251106_194536.jpg
+2025-11-06 19:45:39,584 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:45:43,245 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 19:45:44,541 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:44,883 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000020909948B60>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 19:45:45,979 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:51,510 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:51,904 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:52,430 | INFO | Upload: faces/4/4_khanh_11_20251106_194551.jpg
+2025-11-06 19:45:54,365 | INFO | Upload: faces/4/4_khanh_12_20251106_194552.jpg
+2025-11-06 19:45:56,276 | INFO | Upload: faces/4/4_khanh_13_20251106_194554.jpg
+2025-11-06 19:45:57,849 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:57,952 | INFO | Upload: faces/4/4_khanh_14_20251106_194556.jpg
+2025-11-06 19:45:57,957 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:59,049 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:59,492 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:45:59,967 | INFO | Upload: faces/4/4_khanh_15_20251106_194558.jpg
+2025-11-06 19:46:01,535 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:01,621 | INFO | Upload: faces/4/4_khanh_16_20251106_194600.jpg
+2025-11-06 19:46:03,397 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:03,570 | INFO | Upload: faces/4/4_khanh_17_20251106_194601.jpg
+2025-11-06 19:46:05,190 | INFO | Upload: faces/4/4_khanh_18_20251106_194603.jpg
+2025-11-06 19:46:05,398 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:06,872 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:07,110 | INFO | Upload: faces/4/4_khanh_19_20251106_194605.jpg
+2025-11-06 19:46:08,757 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:08,825 | INFO | Upload: faces/4/4_khanh_20_20251106_194607.jpg
+2025-11-06 19:46:10,457 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:14,345 | INFO | Upload: faces/4/4_khanh_21_20251106_194612.jpg
+2025-11-06 19:46:15,985 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:16,294 | INFO | Upload: faces/4/4_khanh_22_20251106_194614.jpg
+2025-11-06 19:46:17,943 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:17,960 | INFO | Upload: faces/4/4_khanh_23_20251106_194616.jpg
+2025-11-06 19:46:19,535 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:19,917 | INFO | Upload: faces/4/4_khanh_24_20251106_194618.jpg
+2025-11-06 19:46:21,507 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:21,575 | INFO | Upload: faces/4/4_khanh_25_20251106_194620.jpg
+2025-11-06 19:46:23,083 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:23,470 | INFO | Upload: faces/4/4_khanh_26_20251106_194621.jpg
+2025-11-06 19:46:25,106 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:25,116 | INFO | Upload: faces/4/4_khanh_27_20251106_194623.jpg
+2025-11-06 19:46:26,702 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:27,114 | INFO | Upload: faces/4/4_khanh_28_20251106_194625.jpg
+2025-11-06 19:46:28,750 | INFO | Upload: faces/4/4_khanh_29_20251106_194627.jpg
+2025-11-06 19:46:28,828 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:30,363 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:30,687 | INFO | Upload: faces/4/4_khanh_30_20251106_194628.jpg
+2025-11-06 19:46:32,213 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:35,218 | INFO | Upload: faces/4/4_khanh_31_20251106_194633.jpg
+2025-11-06 19:46:36,764 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:36,972 | INFO | Upload: faces/4/4_khanh_32_20251106_194635.jpg
+2025-11-06 19:46:37,956 | INFO | Upload: faces/4/4_khanh_33_20251106_194637.jpg
+2025-11-06 19:46:38,585 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:39,014 | INFO | Upload: faces/4/4_khanh_34_20251106_194638.jpg
+2025-11-06 19:46:39,606 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:40,180 | INFO | Upload: faces/4/4_khanh_35_20251106_194639.jpg
+2025-11-06 19:46:40,695 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:41,175 | INFO | Upload: faces/4/4_khanh_36_20251106_194640.jpg
+2025-11-06 19:46:41,691 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:42,170 | INFO | Upload: faces/4/4_khanh_37_20251106_194641.jpg
+2025-11-06 19:46:42,749 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:43,154 | INFO | Upload: faces/4/4_khanh_38_20251106_194642.jpg
+2025-11-06 19:46:43,741 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:44,174 | INFO | Upload: faces/4/4_khanh_39_20251106_194643.jpg
+2025-11-06 19:46:44,861 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:45,222 | INFO | Upload: faces/4/4_khanh_40_20251106_194644.jpg
+2025-11-06 19:46:45,722 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:46,898 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:49,309 | INFO | Upload: faces/4/4_khanh_41_20251106_194648.jpg
+2025-11-06 19:46:50,457 | INFO | Upload: faces/4/4_khanh_42_20251106_194649.jpg
+2025-11-06 19:46:50,967 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:51,494 | INFO | Upload: faces/4/4_khanh_43_20251106_194650.jpg
+2025-11-06 19:46:52,059 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:52,530 | INFO | Upload: faces/4/4_khanh_44_20251106_194651.jpg
+2025-11-06 19:46:53,054 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:53,570 | INFO | Upload: faces/4/4_khanh_45_20251106_194652.jpg
+2025-11-06 19:46:54,107 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:54,640 | INFO | Upload: faces/4/4_khanh_46_20251106_194653.jpg
+2025-11-06 19:46:55,219 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:55,681 | INFO | Upload: faces/4/4_khanh_47_20251106_194654.jpg
+2025-11-06 19:46:56,198 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:56,689 | INFO | Upload: faces/4/4_khanh_48_20251106_194655.jpg
+2025-11-06 19:46:57,297 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:57,661 | INFO | Upload: faces/4/4_khanh_49_20251106_194656.jpg
+2025-11-06 19:46:58,363 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:46:58,653 | INFO | Upload: faces/4/4_khanh_50_20251106_194657.jpg
+2025-11-06 19:46:59,187 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:47:00,274 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 19:47:03,845 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-06 20:15:23,513 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-06 20:15:23,513 | INFO | Bắt đầu thu thập cho: ID=5, Tên=trvv
+2025-11-06 20:15:24,809 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-06 20:15:27,002 | INFO | MTCNN đã sẵn sàng
+2025-11-06 20:15:27,069 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-06 20:15:27,069 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-06 20:15:27,226 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-06 20:15:34,945 | INFO | Upload: faces/5/5_trvv_1_20251106_201532.jpg
+2025-11-06 20:15:36,575 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:36,743 | INFO | Upload: faces/5/5_trvv_2_20251106_201535.jpg
+2025-11-06 20:15:38,204 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:38,509 | INFO | Upload: faces/5/5_trvv_3_20251106_201536.jpg
+2025-11-06 20:15:40,204 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:40,302 | INFO | Upload: faces/5/5_trvv_4_20251106_201538.jpg
+2025-11-06 20:15:41,949 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:41,981 | INFO | Upload: faces/5/5_trvv_5_20251106_201540.jpg
+2025-11-06 20:15:43,682 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:44,141 | INFO | Upload: faces/5/5_trvv_6_20251106_201542.jpg
+2025-11-06 20:15:45,729 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:46,094 | INFO | Upload: faces/5/5_trvv_7_20251106_201544.jpg
+2025-11-06 20:15:47,965 | INFO | Upload: faces/5/5_trvv_8_20251106_201546.jpg
+2025-11-06 20:15:49,658 | INFO | Upload: faces/5/5_trvv_9_20251106_201548.jpg
+2025-11-06 20:15:51,484 | INFO | Upload: faces/5/5_trvv_10_20251106_201549.jpg
+2025-11-06 20:15:54,888 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:57,055 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 20:15:57,287 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:15:58,677 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:16:04,801 | INFO | Upload: faces/5/5_trvv_11_20251106_201603.jpg
+2025-11-06 20:16:16,760 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 20:17:14,639 | INFO | Upload: faces/5/5_trvv_12_20251106_201713.jpg
+2025-11-06 20:17:16,116 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:16,595 | INFO | Upload: faces/5/5_trvv_13_20251106_201714.jpg
+2025-11-06 20:17:18,099 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:18,181 | INFO | Upload: faces/5/5_trvv_14_20251106_201716.jpg
+2025-11-06 20:17:19,666 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:20,268 | INFO | Upload: faces/5/5_trvv_15_20251106_201718.jpg
+2025-11-06 20:17:21,819 | INFO | Upload: faces/5/5_trvv_16_20251106_201720.jpg
+2025-11-06 20:17:21,882 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:23,357 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:23,737 | INFO | Upload: faces/5/5_trvv_17_20251106_201721.jpg
+2025-11-06 20:17:25,390 | INFO | Upload: faces/5/5_trvv_18_20251106_201723.jpg
+2025-11-06 20:17:25,403 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:26,888 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:27,324 | INFO | Upload: faces/5/5_trvv_19_20251106_201725.jpg
+2025-11-06 20:17:28,859 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:28,987 | INFO | Upload: faces/5/5_trvv_20_20251106_201727.jpg
+2025-11-06 20:17:30,559 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:33,764 | INFO | Upload: faces/5/5_trvv_21_20251106_201732.jpg
+2025-11-06 20:17:35,298 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:35,636 | INFO | Upload: faces/5/5_trvv_22_20251106_201733.jpg
+2025-11-06 20:17:37,149 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:37,420 | INFO | Upload: faces/5/5_trvv_23_20251106_201735.jpg
+2025-11-06 20:17:38,966 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:39,167 | INFO | Upload: faces/5/5_trvv_24_20251106_201737.jpg
+2025-11-06 20:17:40,932 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:41,001 | INFO | Upload: faces/5/5_trvv_25_20251106_201739.jpg
+2025-11-06 20:17:42,554 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:42,670 | INFO | Upload: faces/5/5_trvv_26_20251106_201741.jpg
+2025-11-06 20:17:44,193 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:44,599 | INFO | Upload: faces/5/5_trvv_27_20251106_201742.jpg
+2025-11-06 20:17:46,177 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:46,187 | INFO | Upload: faces/5/5_trvv_28_20251106_201744.jpg
+2025-11-06 20:17:47,803 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:17:48,054 | INFO | Upload: faces/5/5_trvv_29_20251106_201746.jpg
+2025-11-06 20:17:49,220 | INFO | Upload: faces/5/5_trvv_30_20251106_201748.jpg
+2025-11-06 20:17:49,544 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-06 20:18:01,257 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 20:18:01,880 | INFO | Upload: faces/5/5_trvv_31_20251106_201801.jpg
+2025-11-06 20:18:02,893 | INFO | Upload: faces/5/5_trvv_32_20251106_201802.jpg
+2025-11-06 20:18:03,934 | INFO | Upload: faces/5/5_trvv_33_20251106_201803.jpg
+2025-11-06 20:18:04,907 | INFO | Upload: faces/5/5_trvv_34_20251106_201804.jpg
+2025-11-06 20:18:05,960 | INFO | Upload: faces/5/5_trvv_35_20251106_201805.jpg
+2025-11-06 20:18:07,016 | INFO | Upload: faces/5/5_trvv_36_20251106_201806.jpg
+2025-11-06 20:18:08,065 | INFO | Upload: faces/5/5_trvv_37_20251106_201807.jpg
+2025-11-06 20:18:09,112 | INFO | Upload: faces/5/5_trvv_38_20251106_201808.jpg
+2025-11-06 20:18:10,169 | INFO | Upload: faces/5/5_trvv_39_20251106_201809.jpg
+2025-11-06 20:18:11,205 | INFO | Upload: faces/5/5_trvv_40_20251106_201810.jpg
+2025-11-06 20:18:11,907 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58DBA10>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:12,897 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58D9880>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:13,943 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E47E60>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:14,919 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E44620>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:15,967 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5DA7470>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:17,025 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58DA780>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:18,073 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5DA4F80>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:19,117 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58E97C0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:20,176 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E503E0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:21,211 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E44110>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:23,953 | INFO | Upload: faces/5/5_trvv_41_20251106_201823.jpg
+2025-11-06 20:18:25,017 | INFO | Upload: faces/5/5_trvv_42_20251106_201824.jpg
+2025-11-06 20:18:26,102 | INFO | Upload: faces/5/5_trvv_43_20251106_201825.jpg
+2025-11-06 20:18:27,172 | INFO | Upload: faces/5/5_trvv_44_20251106_201826.jpg
+2025-11-06 20:18:28,264 | INFO | Upload: faces/5/5_trvv_45_20251106_201827.jpg
+2025-11-06 20:18:29,298 | INFO | Upload: faces/5/5_trvv_46_20251106_201828.jpg
+2025-11-06 20:18:30,326 | INFO | Upload: faces/5/5_trvv_47_20251106_201829.jpg
+2025-11-06 20:18:31,384 | INFO | Upload: faces/5/5_trvv_48_20251106_201830.jpg
+2025-11-06 20:18:32,406 | INFO | Upload: faces/5/5_trvv_49_20251106_201831.jpg
+2025-11-06 20:18:33,517 | INFO | Upload: faces/5/5_trvv_50_20251106_201832.jpg
+2025-11-06 20:18:34,603 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-06 20:18:35,020 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E528A0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:36,114 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E47620>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:37,190 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5DA4FB0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:38,267 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5DA7470>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:39,303 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58DA480>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:40,333 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58DA510>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:41,388 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E44EC0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:42,416 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA58D93D0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:43,528 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016CA5E50860>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-06 20:18:48,003 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-08 14:04:24,980 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-08 14:04:24,981 | INFO | Bắt đầu thu thập cho: ID=2, Tên=TRINH QUOC KHANH
+2025-11-08 14:04:35,026 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-08 14:04:35,332 | INFO | MTCNN đã sẵn sàng
+2025-11-08 14:04:35,419 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-08 14:04:35,419 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-08 14:04:35,582 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-08 14:05:57,891 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_1_20251108_140554.jpg
+2025-11-08 14:05:59,745 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_2_20251108_140558.jpg
+2025-11-08 14:06:00,441 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:01,789 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_3_20251108_140559.jpg
+2025-11-08 14:06:02,310 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:03,873 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_4_20251108_140601.jpg
+2025-11-08 14:06:03,951 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:05,627 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_5_20251108_140604.jpg
+2025-11-08 14:06:06,207 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:07,437 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_6_20251108_140605.jpg
+2025-11-08 14:06:09,165 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_7_20251108_140607.jpg
+2025-11-08 14:06:09,777 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:10,968 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_8_20251108_140609.jpg
+2025-11-08 14:06:11,350 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:12,782 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_9_20251108_140611.jpg
+2025-11-08 14:06:13,657 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:14,647 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_10_20251108_140612.jpg
+2025-11-08 14:06:14,810 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:16,550 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-08 14:06:17,136 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:20,070 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_11_20251108_140618.jpg
+2025-11-08 14:06:21,975 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_12_20251108_140620.jpg
+2025-11-08 14:06:22,413 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:23,607 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_13_20251108_140622.jpg
+2025-11-08 14:06:23,793 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:25,550 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_14_20251108_140623.jpg
+2025-11-08 14:06:25,760 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:27,223 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_15_20251108_140625.jpg
+2025-11-08 14:06:27,608 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:29,097 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_16_20251108_140627.jpg
+2025-11-08 14:06:29,334 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:30,776 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_17_20251108_140629.jpg
+2025-11-08 14:06:31,159 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:32,705 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_18_20251108_140630.jpg
+2025-11-08 14:06:32,854 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:34,430 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_19_20251108_140632.jpg
+2025-11-08 14:06:34,753 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:36,279 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_20_20251108_140634.jpg
+2025-11-08 14:06:36,828 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:38,492 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:41,896 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_21_20251108_140640.jpg
+2025-11-08 14:06:43,763 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_22_20251108_140642.jpg
+2025-11-08 14:06:43,887 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:45,488 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_23_20251108_140643.jpg
+2025-11-08 14:06:45,840 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:47,454 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:47,512 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_24_20251108_140645.jpg
+2025-11-08 14:06:49,338 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_25_20251108_140647.jpg
+2025-11-08 14:06:49,619 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:51,314 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_26_20251108_140649.jpg
+2025-11-08 14:06:51,408 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:53,236 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_27_20251108_140651.jpg
+2025-11-08 14:06:53,544 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:55,084 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_28_20251108_140653.jpg
+2025-11-08 14:06:55,431 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:56,886 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_29_20251108_140655.jpg
+2025-11-08 14:06:57,435 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:06:58,716 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_30_20251108_140657.jpg
+2025-11-08 14:06:59,324 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:00,897 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:04,326 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_31_20251108_140702.jpg
+2025-11-08 14:07:06,122 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_32_20251108_140704.jpg
+2025-11-08 14:07:06,329 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:07,413 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_33_20251108_140706.jpg
+2025-11-08 14:07:08,083 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:08,430 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_34_20251108_140707.jpg
+2025-11-08 14:07:09,403 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:09,410 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_35_20251108_140708.jpg
+2025-11-08 14:07:10,384 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:10,425 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_36_20251108_140709.jpg
+2025-11-08 14:07:11,227 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:11,462 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_37_20251108_140710.jpg
+2025-11-08 14:07:12,026 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:12,475 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_38_20251108_140711.jpg
+2025-11-08 14:07:13,169 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:13,540 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_39_20251108_140712.jpg
+2025-11-08 14:07:14,529 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:14,664 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_40_20251108_140713.jpg
+2025-11-08 14:07:15,546 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:16,576 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:19,300 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_41_20251108_140718.jpg
+2025-11-08 14:07:20,335 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_42_20251108_140719.jpg
+2025-11-08 14:07:21,239 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:21,384 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_43_20251108_140720.jpg
+2025-11-08 14:07:22,222 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:22,429 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_44_20251108_140721.jpg
+2025-11-08 14:07:23,419 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:23,537 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_45_20251108_140722.jpg
+2025-11-08 14:07:24,122 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:24,643 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_46_20251108_140723.jpg
+2025-11-08 14:07:25,684 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:25,787 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_47_20251108_140724.jpg
+2025-11-08 14:07:26,818 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:26,936 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_48_20251108_140725.jpg
+2025-11-08 14:07:27,835 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:27,995 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_49_20251108_140727.jpg
+2025-11-08 14:07:28,901 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:29,064 | INFO | Upload: faces/2/2_TRINH_QUOC_KHANH_50_20251108_140728.jpg
+2025-11-08 14:07:29,975 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:31,205 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-08 14:07:34,801 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-11 18:50:53,695 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-11 18:50:53,695 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trd
+2025-11-11 18:51:03,816 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-11 18:51:06,483 | INFO | MTCNN đã sẵn sàng
+2025-11-11 18:51:06,564 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-11 18:51:06,564 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-11 18:51:06,864 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-11 18:51:16,751 | INFO | Upload: faces/3/3_trd_1_20251111_185114.jpg
+2025-11-11 18:51:18,678 | INFO | Upload: faces/3/3_trd_2_20251111_185116.jpg
+2025-11-11 18:51:20,363 | INFO | Upload: faces/3/3_trd_3_20251111_185118.jpg
+2025-11-11 18:51:22,158 | INFO | Upload: faces/3/3_trd_4_20251111_185120.jpg
+2025-11-11 18:51:23,813 | INFO | Upload: faces/3/3_trd_5_20251111_185122.jpg
+2025-11-11 18:51:25,619 | INFO | Upload: faces/3/3_trd_6_20251111_185123.jpg
+2025-11-11 18:51:26,761 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A614AA0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:27,261 | INFO | Upload: faces/3/3_trd_7_20251111_185125.jpg
+2025-11-11 18:51:28,686 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A616360>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:29,061 | INFO | Upload: faces/3/3_trd_8_20251111_185127.jpg
+2025-11-11 18:51:30,372 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A6178F0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:30,697 | INFO | Upload: faces/3/3_trd_9_20251111_185129.jpg
+2025-11-11 18:51:32,161 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A6B49B0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:32,611 | INFO | Upload: faces/3/3_trd_10_20251111_185130.jpg
+2025-11-11 18:51:35,452 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-11 18:51:35,630 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A6B5A90>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:37,270 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A6B6E70>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:39,129 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A6B7260>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:40,700 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x0000016B3A614D10>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-11 18:51:41,935 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:42,211 | INFO | Upload: faces/3/3_trd_11_20251111_185140.jpg
+2025-11-11 18:51:44,026 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:44,125 | INFO | Upload: faces/3/3_trd_12_20251111_185142.jpg
+2025-11-11 18:51:45,682 | INFO | Upload: faces/3/3_trd_13_20251111_185144.jpg
+2025-11-11 18:51:45,689 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:47,184 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:47,563 | INFO | Upload: faces/3/3_trd_14_20251111_185145.jpg
+2025-11-11 18:51:49,112 | INFO | Upload: faces/3/3_trd_15_20251111_185147.jpg
+2025-11-11 18:51:49,417 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:50,820 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:51,089 | INFO | Upload: faces/3/3_trd_16_20251111_185149.jpg
+2025-11-11 18:51:52,684 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:51:56,782 | INFO | Hoàn tất: 16/50 ảnh
+2025-11-11 18:56:23,997 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-11 18:56:23,998 | INFO | Bắt đầu thu thập cho: ID=3, Tên=trd
+2025-11-11 18:56:26,426 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-11 18:56:28,852 | INFO | MTCNN đã sẵn sàng
+2025-11-11 18:56:28,941 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-11 18:56:28,941 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-11 18:56:29,110 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-11 18:56:37,256 | INFO | Upload: faces/3/3_trd_1_20251111_185634.jpg
+2025-11-11 18:56:38,957 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:56:39,151 | INFO | Upload: faces/3/3_trd_2_20251111_185637.jpg
+2025-11-11 18:56:40,714 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:56:40,776 | INFO | Upload: faces/3/3_trd_3_20251111_185639.jpg
+2025-11-11 18:56:42,563 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:56:46,057 | INFO | Hoàn tất: 3/50 ảnh
+2025-11-11 18:59:24,233 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-11 18:59:24,233 | INFO | Bắt đầu thu thập cho: ID=5, Tên=trcfa
+2025-11-11 18:59:25,640 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-11 18:59:28,030 | INFO | MTCNN đã sẵn sàng
+2025-11-11 18:59:28,103 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-11 18:59:28,104 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-11 18:59:28,274 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-11 18:59:35,675 | INFO | Upload: faces/5/5_trcfa_1_20251111_185933.jpg
+2025-11-11 18:59:37,335 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:37,579 | INFO | Upload: faces/5/5_trcfa_2_20251111_185935.jpg
+2025-11-11 18:59:39,126 | INFO | Upload: faces/5/5_trcfa_3_20251111_185937.jpg
+2025-11-11 18:59:39,208 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:40,536 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:41,056 | INFO | Upload: faces/5/5_trcfa_4_20251111_185939.jpg
+2025-11-11 18:59:42,623 | INFO | Upload: faces/5/5_trcfa_5_20251111_185941.jpg
+2025-11-11 18:59:42,652 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:44,335 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:44,502 | INFO | Upload: faces/5/5_trcfa_6_20251111_185942.jpg
+2025-11-11 18:59:46,093 | INFO | Upload: faces/5/5_trcfa_7_20251111_185944.jpg
+2025-11-11 18:59:46,126 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:47,589 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:47,886 | INFO | Upload: faces/5/5_trcfa_8_20251111_185946.jpg
+2025-11-11 18:59:49,368 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:49,481 | INFO | Upload: faces/5/5_trcfa_9_20251111_185948.jpg
+2025-11-11 18:59:51,035 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 18:59:54,446 | INFO | Hoàn tất: 9/50 ảnh
+2025-11-11 19:20:39,379 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-11 19:20:39,379 | INFO | Bắt đầu thu thập cho: ID=4, Tên=tỷb
+2025-11-11 19:20:40,830 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-11 19:20:43,257 | INFO | MTCNN đã sẵn sàng
+2025-11-11 19:20:43,330 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-11 19:20:43,330 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-11 19:20:43,494 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-11 19:20:51,059 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,158 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,227 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,297 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,353 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,422 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,494 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,576 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,767 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:51,927 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,354 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,417 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,560 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,633 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,734 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,800 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,872 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:55,996 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:56,041 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:56,306 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:59,714 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:59,782 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:59,849 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:20:59,914 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,037 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,114 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,164 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,242 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,404 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:00,437 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,010 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,081 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,157 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,212 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,268 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,391 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,435 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,469 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,707 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:04,709 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,105 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,202 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,237 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,283 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,361 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,436 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,519 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,552 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:08,633 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:09,014 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-11 19:21:12,711 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-13 23:27:09,912 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-13 23:27:09,912 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=1, Tên=Quốc Khánh
+2025-11-13 23:27:11,788 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-13 23:27:14,390 | INFO | MTCNN đã sẵn sàng
+2025-11-13 23:27:14,555 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-13 23:27:14,555 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-13 23:27:14,945 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-13 23:27:22,469 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:22,655 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:22,702 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:22,775 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:22,865 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:22,940 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:23,048 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:23,273 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:23,410 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:26,627 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:26,787 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:26,958 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:27,017 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:27,105 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:27,157 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:27,279 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:27,430 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:28,354 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:28,433 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:30,373 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:31,790 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:31,858 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:31,933 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:31,994 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,078 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,177 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,383 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,724 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,812 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:32,892 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:35,894 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,011 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,075 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,182 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,261 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,337 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,404 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,506 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,708 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:36,883 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,375 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,447 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,597 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,662 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,714 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,767 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,845 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:40,923 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:41,304 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:41,366 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:27:44,960 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-13 23:33:41,022 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-13 23:33:41,022 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=3, Tên=trinh
+2025-11-13 23:33:42,403 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-13 23:33:44,892 | INFO | MTCNN đã sẵn sàng
+2025-11-13 23:33:44,959 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-13 23:33:44,959 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-13 23:33:45,127 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-13 23:33:53,573 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_1_20251113_233350.jpg
+2025-11-13 23:33:55,094 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_2_20251113_233353.jpg
+2025-11-13 23:33:55,220 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:33:56,796 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:33:56,997 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_3_20251113_233355.jpg
+2025-11-13 23:33:58,480 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_4_20251113_233357.jpg
+2025-11-13 23:33:58,535 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:00,156 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:00,350 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_5_20251113_233358.jpg
+2025-11-13 23:34:01,869 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_6_20251113_233400.jpg
+2025-11-13 23:34:01,930 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:03,628 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:03,764 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_7_20251113_233401.jpg
+2025-11-13 23:34:05,234 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_8_20251113_233403.jpg
+2025-11-13 23:34:05,299 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:06,719 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:07,145 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_9_20251113_233405.jpg
+2025-11-13 23:34:08,632 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_10_20251113_233407.jpg
+2025-11-13 23:34:08,665 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:10,213 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:13,126 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_11_20251113_233411.jpg
+2025-11-13 23:34:14,951 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:15,037 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_12_20251113_233413.jpg
+2025-11-13 23:34:16,520 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_13_20251113_233415.jpg
+2025-11-13 23:34:16,572 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:18,056 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:18,387 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_14_20251113_233416.jpg
+2025-11-13 23:34:19,858 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_15_20251113_233418.jpg
+2025-11-13 23:34:19,979 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:22,050 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_16_20251113_233420.jpg
+2025-11-13 23:34:22,189 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:23,959 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_17_20251113_233422.jpg
+2025-11-13 23:34:25,441 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_18_20251113_233424.jpg
+2025-11-13 23:34:25,594 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:27,036 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:27,336 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_19_20251113_233425.jpg
+2025-11-13 23:34:28,849 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_20_20251113_233427.jpg
+2025-11-13 23:34:28,914 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:30,567 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:32,938 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-13 23:34:33,370 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_21_20251113_233431.jpg
+2025-11-13 23:34:35,270 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_22_20251113_233433.jpg
+2025-11-13 23:34:36,764 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_23_20251113_233435.jpg
+2025-11-13 23:34:37,075 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:38,399 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:38,637 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_24_20251113_233436.jpg
+2025-11-13 23:34:40,156 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_25_20251113_233438.jpg
+2025-11-13 23:34:40,296 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:41,852 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:42,021 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_26_20251113_233440.jpg
+2025-11-13 23:34:43,570 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_27_20251113_233442.jpg
+2025-11-13 23:34:43,594 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:44,190 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-13 23:34:45,176 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:45,332 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_28_20251113_233443.jpg
+2025-11-13 23:34:46,950 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:46,951 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_29_20251113_233445.jpg
+2025-11-13 23:34:48,690 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:48,716 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_30_20251113_233447.jpg
+2025-11-13 23:34:50,309 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:53,104 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_31_20251113_233451.jpg
+2025-11-13 23:34:54,663 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:54,983 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_32_20251113_233453.jpg
+2025-11-13 23:34:56,141 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_33_20251113_233455.jpg
+2025-11-13 23:34:56,600 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:57,042 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_34_20251113_233456.jpg
+2025-11-13 23:34:57,704 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:57,928 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_35_20251113_233457.jpg
+2025-11-13 23:34:58,744 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:58,824 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_36_20251113_233458.jpg
+2025-11-13 23:34:59,553 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:34:59,676 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_37_20251113_233458.jpg
+2025-11-13 23:35:00,446 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:00,530 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_38_20251113_233459.jpg
+2025-11-13 23:35:01,387 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_39_20251113_233500.jpg
+2025-11-13 23:35:01,478 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:02,175 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:02,235 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_40_20251113_233501.jpg
+2025-11-13 23:35:03,027 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:03,760 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:06,008 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_41_20251113_233505.jpg
+2025-11-13 23:35:06,941 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_42_20251113_233506.jpg
+2025-11-13 23:35:07,678 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:07,794 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_43_20251113_233506.jpg
+2025-11-13 23:35:08,673 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_44_20251113_233507.jpg
+2025-11-13 23:35:08,779 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:09,438 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:09,532 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_45_20251113_233508.jpg
+2025-11-13 23:35:10,272 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:10,416 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_46_20251113_233509.jpg
+2025-11-13 23:35:11,239 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:11,382 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_47_20251113_233510.jpg
+2025-11-13 23:35:12,035 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:12,251 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_48_20251113_233511.jpg
+2025-11-13 23:35:13,057 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:13,109 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_49_20251113_233512.jpg
+2025-11-13 23:35:13,891 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:13,966 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_trinh_50_20251113_233513.jpg
+2025-11-13 23:35:14,658 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:15,693 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-13 23:35:18,999 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-14 01:21:09,441 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-14 01:21:09,441 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=d971c250, Tên=Trinh Quoc hanh
+2025-11-14 01:21:19,525 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-14 01:21:21,972 | INFO | MTCNN đã sẵn sàng
+2025-11-14 01:21:22,047 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-14 01:21:22,047 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-14 01:21:22,230 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-14 01:33:13,390 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-14 01:33:13,390 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=3, Tên=cam
+2025-11-14 01:33:14,735 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-14 01:33:17,162 | INFO | MTCNN đã sẵn sàng
+2025-11-14 01:33:17,232 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-14 01:33:17,232 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-14 01:33:17,400 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-14 01:33:33,648 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_1_20251114_013331.jpg
+2025-11-14 01:33:35,072 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_2_20251114_013333.jpg
+2025-11-14 01:33:35,784 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:36,869 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:37,062 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_3_20251114_013335.jpg
+2025-11-14 01:33:38,554 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_4_20251114_013337.jpg
+2025-11-14 01:33:38,846 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:40,207 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:40,461 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_5_20251114_013338.jpg
+2025-11-14 01:33:41,957 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_6_20251114_013340.jpg
+2025-11-14 01:33:43,850 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_7_20251114_013342.jpg
+2025-11-14 01:33:45,382 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_8_20251114_013343.jpg
+2025-11-14 01:33:45,589 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:47,245 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_9_20251114_013345.jpg
+2025-11-14 01:33:47,611 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:48,783 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_10_20251114_013347.jpg
+2025-11-14 01:33:49,501 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:50,466 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499E8C20>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:33:50,828 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:33:51,965 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499E9730>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:02,013 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_11_20251114_013400.jpg
+2025-11-14 01:34:03,790 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:03,929 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_12_20251114_013402.jpg
+2025-11-14 01:34:05,404 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_13_20251114_013403.jpg
+2025-11-14 01:34:05,921 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:07,253 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:07,316 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_14_20251114_013405.jpg
+2025-11-14 01:34:08,827 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_15_20251114_013407.jpg
+2025-11-14 01:34:10,401 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:10,740 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_16_20251114_013408.jpg
+2025-11-14 01:34:12,247 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_17_20251114_013410.jpg
+2025-11-14 01:34:12,360 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:14,160 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_18_20251114_013412.jpg
+2025-11-14 01:34:14,573 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:15,715 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_19_20251114_013414.jpg
+2025-11-14 01:34:17,320 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499F4C20>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:17,546 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_20_20251114_013415.jpg
+2025-11-14 01:34:18,062 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:19,236 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:22,038 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_21_20251114_013420.jpg
+2025-11-14 01:34:23,935 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_22_20251114_013422.jpg
+2025-11-14 01:34:24,162 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499EBD10>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:25,400 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_23_20251114_013423.jpg
+2025-11-14 01:34:25,520 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:26,918 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_24_20251114_013425.jpg
+2025-11-14 01:34:26,970 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:28,806 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_25_20251114_013426.jpg
+2025-11-14 01:34:30,301 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_26_20251114_013428.jpg
+2025-11-14 01:34:30,469 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:32,032 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:32,042 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000002534993E030>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:32,231 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_27_20251114_013430.jpg
+2025-11-14 01:34:33,731 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_28_20251114_013432.jpg
+2025-11-14 01:34:33,887 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:35,608 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_29_20251114_013433.jpg
+2025-11-14 01:34:36,927 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499EA960>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:37,805 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_30_20251114_013435.jpg
+2025-11-14 01:34:39,582 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:43,741 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499F7020>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:45,620 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499F5220>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:34:50,818 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_31_20251114_013449.jpg
+2025-11-14 01:34:51,712 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_32_20251114_013450.jpg
+2025-11-14 01:34:52,571 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_33_20251114_013451.jpg
+2025-11-14 01:34:53,402 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_34_20251114_013452.jpg
+2025-11-14 01:34:54,255 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_35_20251114_013453.jpg
+2025-11-14 01:34:54,838 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:55,117 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_36_20251114_013454.jpg
+2025-11-14 01:34:55,952 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_37_20251114_013455.jpg
+2025-11-14 01:34:56,704 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:56,825 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_38_20251114_013456.jpg
+2025-11-14 01:34:57,721 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_39_20251114_013456.jpg
+2025-11-14 01:34:58,081 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:58,133 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:34:58,558 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_40_20251114_013457.jpg
+2025-11-14 01:35:01,667 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-14 01:35:02,119 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:02,171 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:02,252 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:03,031 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:03,430 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_41_20251114_013502.jpg
+2025-11-14 01:35:04,294 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_42_20251114_013503.jpg
+2025-11-14 01:35:05,186 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_43_20251114_013504.jpg
+2025-11-14 01:35:05,904 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:05,957 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499F5820>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:35:06,113 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_44_20251114_013505.jpg
+2025-11-14 01:35:06,991 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_45_20251114_013506.jpg
+2025-11-14 01:35:07,884 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_46_20251114_013507.jpg
+2025-11-14 01:35:08,389 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:08,779 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_47_20251114_013507.jpg
+2025-11-14 01:35:08,955 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:09,658 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_48_20251114_013508.jpg
+2025-11-14 01:35:10,564 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_49_20251114_013509.jpg
+2025-11-14 01:35:11,299 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:11,418 | INFO | Upload: locks/6f09bb553305966b/faces/3/3_cam_50_20251114_013510.jpg
+2025-11-14 01:35:11,431 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:35:14,299 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000253499F7C50>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:35:16,994 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000002534944E390>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:35:17,696 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-14 01:46:03,655 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-14 01:46:03,704 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-14 01:46:03,704 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=1, Tên=Trinh, Pending=False
+2025-11-14 01:46:07,459 | INFO | MTCNN đã sẵn sàng
+2025-11-14 01:46:07,540 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-14 01:46:07,541 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-14 01:46:07,708 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-14 01:46:16,051 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_1_20251114_014612.jpg
+2025-11-14 01:46:17,606 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_2_20251114_014616.jpg
+2025-11-14 01:46:18,098 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:19,522 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_3_20251114_014617.jpg
+2025-11-14 01:46:21,038 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_4_20251114_014619.jpg
+2025-11-14 01:46:21,661 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:22,951 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_5_20251114_014621.jpg
+2025-11-14 01:46:24,481 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_6_20251114_014623.jpg
+2025-11-14 01:46:24,708 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:26,224 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:26,395 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_7_20251114_014624.jpg
+2025-11-14 01:46:27,612 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C284D0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:27,958 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_8_20251114_014626.jpg
+2025-11-14 01:46:28,220 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:29,841 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_9_20251114_014628.jpg
+2025-11-14 01:46:30,004 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:31,388 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_10_20251114_014629.jpg
+2025-11-14 01:46:31,845 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-14 01:46:35,891 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_11_20251114_014634.jpg
+2025-11-14 01:46:37,793 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_12_20251114_014635.jpg
+2025-11-14 01:46:39,415 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_13_20251114_014637.jpg
+2025-11-14 01:46:40,675 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-14 01:46:41,289 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_14_20251114_014639.jpg
+2025-11-14 01:46:41,393 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C3C560>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:42,840 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_15_20251114_014641.jpg
+2025-11-14 01:46:44,602 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:44,725 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_16_20251114_014642.jpg
+2025-11-14 01:46:45,895 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C3DAF0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:46,275 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_17_20251114_014644.jpg
+2025-11-14 01:46:47,799 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C3ECF0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:48,143 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_18_20251114_014646.jpg
+2025-11-14 01:46:48,736 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:49,420 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C2B1D0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:49,697 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_19_20251114_014648.jpg
+2025-11-14 01:46:49,848 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:51,292 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20B732F0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:51,578 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_20_20251114_014649.jpg
+2025-11-14 01:46:52,132 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:53,368 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:54,732 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C2BD40>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:46:56,035 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_21_20251114_014654.jpg
+2025-11-14 01:46:57,937 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_22_20251114_014656.jpg
+2025-11-14 01:46:58,146 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:46:59,458 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_23_20251114_014658.jpg
+2025-11-14 01:46:59,503 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:01,169 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:01,358 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_24_20251114_014659.jpg
+2025-11-14 01:47:02,855 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_25_20251114_014701.jpg
+2025-11-14 01:47:03,098 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:04,430 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:04,762 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_26_20251114_014702.jpg
+2025-11-14 01:47:06,281 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_27_20251114_014704.jpg
+2025-11-14 01:47:06,304 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:08,157 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:08,176 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_28_20251114_014706.jpg
+2025-11-14 01:47:09,697 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_29_20251114_014708.jpg
+2025-11-14 01:47:09,755 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:11,201 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:11,594 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_30_20251114_014709.jpg
+2025-11-14 01:47:13,091 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:15,921 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_31_20251114_014714.jpg
+2025-11-14 01:47:17,637 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:17,842 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_32_20251114_014715.jpg
+2025-11-14 01:47:19,330 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_33_20251114_014717.jpg
+2025-11-14 01:47:19,562 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:20,218 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_34_20251114_014719.jpg
+2025-11-14 01:47:21,137 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_35_20251114_014720.jpg
+2025-11-14 01:47:21,746 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:22,059 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_36_20251114_014721.jpg
+2025-11-14 01:47:22,711 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:22,975 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_37_20251114_014722.jpg
+2025-11-14 01:47:23,563 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:23,872 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_38_20251114_014723.jpg
+2025-11-14 01:47:24,460 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:24,781 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_39_20251114_014723.jpg
+2025-11-14 01:47:25,685 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_40_20251114_014724.jpg
+2025-11-14 01:47:25,748 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:29,338 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20697560>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:47:34,785 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C3CA10>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:47:35,689 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C28B60>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:47:38,235 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_41_20251114_014737.jpg
+2025-11-14 01:47:39,185 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_42_20251114_014738.jpg
+2025-11-14 01:47:39,952 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:40,075 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_43_20251114_014739.jpg
+2025-11-14 01:47:40,938 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_44_20251114_014740.jpg
+2025-11-14 01:47:41,547 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:41,802 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_45_20251114_014740.jpg
+2025-11-14 01:47:42,433 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:42,717 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_46_20251114_014741.jpg
+2025-11-14 01:47:43,603 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_47_20251114_014742.jpg
+2025-11-14 01:47:44,478 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_48_20251114_014743.jpg
+2025-11-14 01:47:45,366 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:45,770 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_49_20251114_014744.jpg
+2025-11-14 01:47:46,652 | INFO | Upload: locks/6f09bb553305966b/faces/1/1_Trinh_50_20251114_014745.jpg
+2025-11-14 01:47:48,343 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:47:49,188 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001EE20C3CF50>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:47:51,726 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-14 01:48:34,585 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-14 01:48:34,630 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-14 01:48:34,630 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=2, Tên=Tieu, Pending=False
+2025-11-14 01:48:38,342 | INFO | MTCNN đã sẵn sàng
+2025-11-14 01:48:38,430 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-14 01:48:38,430 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-14 01:48:38,601 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-14 01:48:45,974 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_1_20251114_014843.jpg
+2025-11-14 01:48:47,526 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:47,933 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_2_20251114_014846.jpg
+2025-11-14 01:48:49,425 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_3_20251114_014847.jpg
+2025-11-14 01:48:49,641 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:50,997 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:51,316 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_4_20251114_014849.jpg
+2025-11-14 01:48:52,800 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_5_20251114_014851.jpg
+2025-11-14 01:48:54,276 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:54,726 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_6_20251114_014852.jpg
+2025-11-14 01:48:56,191 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_7_20251114_014854.jpg
+2025-11-14 01:48:56,253 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:57,837 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:48:58,112 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_8_20251114_014856.jpg
+2025-11-14 01:48:59,602 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_9_20251114_014858.jpg
+2025-11-14 01:48:59,844 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:01,326 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990B3B91C0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:01,470 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:01,549 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_10_20251114_014859.jpg
+2025-11-14 01:49:06,041 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_11_20251114_014904.jpg
+2025-11-14 01:49:07,530 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:07,944 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_12_20251114_014906.jpg
+2025-11-14 01:49:09,418 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_13_20251114_014908.jpg
+2025-11-14 01:49:09,688 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:10,936 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:11,351 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_14_20251114_014909.jpg
+2025-11-14 01:49:11,552 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990B303290>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:12,819 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_15_20251114_014911.jpg
+2025-11-14 01:49:14,300 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:14,732 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_16_20251114_014912.jpg
+2025-11-14 01:49:16,190 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_17_20251114_014914.jpg
+2025-11-14 01:49:16,288 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:17,743 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:18,101 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_18_20251114_014916.jpg
+2025-11-14 01:49:19,585 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:19,654 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_19_20251114_014918.jpg
+2025-11-14 01:49:21,184 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:21,353 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990B3C0590>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:21,662 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_20_20251114_014919.jpg
+2025-11-14 01:49:23,192 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:26,102 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_21_20251114_014924.jpg
+2025-11-14 01:49:27,592 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:28,005 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_22_20251114_014926.jpg
+2025-11-14 01:49:29,514 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_23_20251114_014928.jpg
+2025-11-14 01:49:31,359 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_24_20251114_014929.jpg
+2025-11-14 01:49:32,861 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:32,923 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_25_20251114_014931.jpg
+2025-11-14 01:49:33,769 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_26_20251114_014932.jpg
+2025-11-14 01:49:34,412 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:34,643 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_27_20251114_014933.jpg
+2025-11-14 01:49:35,509 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_28_20251114_014934.jpg
+2025-11-14 01:49:36,189 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:36,364 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_29_20251114_014935.jpg
+2025-11-14 01:49:37,052 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:37,227 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_30_20251114_014936.jpg
+2025-11-14 01:49:37,947 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:38,010 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990B3031A0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:38,705 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:39,516 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990B3C3500>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:40,960 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_31_20251114_014940.jpg
+2025-11-14 01:49:41,763 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_32_20251114_014941.jpg
+2025-11-14 01:49:42,548 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:42,589 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_33_20251114_014941.jpg
+2025-11-14 01:49:43,287 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:43,413 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_34_20251114_014942.jpg
+2025-11-14 01:49:43,776 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990AD388C0>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:49:44,139 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:44,297 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_35_20251114_014943.jpg
+2025-11-14 01:49:45,152 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_36_20251114_014944.jpg
+2025-11-14 01:49:45,222 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:45,839 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:46,013 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_37_20251114_014945.jpg
+2025-11-14 01:49:46,701 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:46,876 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_38_20251114_014946.jpg
+2025-11-14 01:49:47,573 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:47,752 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_39_20251114_014946.jpg
+2025-11-14 01:49:48,439 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:48,617 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_40_20251114_014947.jpg
+2025-11-14 01:49:49,317 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:50,124 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:52,387 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_41_20251114_014951.jpg
+2025-11-14 01:49:53,250 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_42_20251114_014952.jpg
+2025-11-14 01:49:54,083 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_43_20251114_014953.jpg
+2025-11-14 01:49:54,704 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:54,943 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_44_20251114_014954.jpg
+2025-11-14 01:49:55,701 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:55,765 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_45_20251114_014955.jpg
+2025-11-14 01:49:56,495 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:56,620 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_46_20251114_014955.jpg
+2025-11-14 01:49:57,492 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_47_20251114_014956.jpg
+2025-11-14 01:49:58,160 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:58,380 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_48_20251114_014957.jpg
+2025-11-14 01:49:58,995 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:49:59,270 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_49_20251114_014958.jpg
+2025-11-14 01:49:59,992 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:50:00,164 | INFO | Upload: locks/6f09bb553305966b/faces/2/2_Tieu_50_20251114_014959.jpg
+2025-11-14 01:50:00,770 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:50:01,780 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:50:02,406 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot7813896563:AAEjRJ72lm4mzbS1EQYes8SZ4zsjkR7--DM/sendPhoto (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001990AD3B830>, 'Connection to api.telegram.org timed out. (connect timeout=10)'))
+2025-11-14 01:50:05,311 | INFO | Hoàn tất: 50/50 ảnh
+2025-11-14 01:58:17,202 | INFO | Đã tải cấu hình Telegram thành công
+2025-11-14 01:58:17,247 | INFO | Đã kết nối Firebase: smartlockfacerecognition.firebasestorage.app
+2025-11-14 01:58:17,247 | INFO | Bắt đầu thu thập cho Lock: 6f09bb553305966b, ID=3, Tên=Cẩm Tú, Pending=False
+2025-11-14 01:58:21,016 | INFO | MTCNN đã sẵn sàng
+2025-11-14 01:58:21,090 | INFO | Imported existing <module 'comtypes.gen' from 'C:\\Users\\PC\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-11-14 01:58:21,091 | INFO | Using writeable comtypes cache directory: 'C:\Users\PC\AppData\Local\Programs\Python\Python312\Lib\site-packages\comtypes\gen'
+2025-11-14 01:58:21,259 | INFO | Đã chọn giọng nói: Microsoft An - Vietnamese (Vietnam)
+2025-11-14 01:58:28,469 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:28,629 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:28,883 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:28,981 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:29,068 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:29,148 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:29,283 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:29,440 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:29,504 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:32,743 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:32,836 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:32,950 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:33,116 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:33,162 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:33,293 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:33,654 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:33,708 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:34,011 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:34,197 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,499 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,557 | ERROR | Gửi Telegram thất bại: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=10)
+2025-11-14 01:58:37,584 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,631 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,729 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,770 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:37,875 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:38,055 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:38,527 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:38,586 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:38,647 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:41,638 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:41,710 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:41,949 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,054 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,144 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,210 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,344 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,409 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,643 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:42,759 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:45,869 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:45,953 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,007 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,201 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,255 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,396 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,479 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,814 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,918 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:46,983 | INFO | Đã gửi Telegram: <b>ĐÃ CHỤP</b> 
+2025-11-14 01:58:50,462 | INFO | Hoàn tất: 50/50 ảnh

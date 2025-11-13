@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đang xử lý - Thu thập khuôn mặt</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary-color: #7209b7;
+      --text-color: #333;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --success-color: #4bb543;
+      --warning-color: #ffcc00;
+      --error-color: #ff3333;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text-color);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 550px;
+      text-align: center;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .spinner-container {
+      margin-bottom: 25px;
+    }
+
+    .spinner {
+      font-size: 50px;
+      color: var(--primary-color);
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .message {
+      font-size: 16px;
+      color: var(--dark-gray);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .user-info {
+      background-color: var(--light-gray);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      margin-bottom: 30px;
+      text-align: left;
+      font-size: 15px;
+      border-left: 4px solid var(--success-color);
+    }
+
+    .user-info p {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .user-info p:last-child {
+      margin-bottom: 0;
+    }
+
+    .user-info i {
+      margin-right: 8px;
+      width: 20px;
+    }
+
+    .progress-container {
+      margin-bottom: 25px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--dark-gray);
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: var(--medium-gray);
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .status-message {
+      padding: 12px;
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-message i {
+      font-size: 18px;
+    }
+
+    .status-message.success {
+      background-color: rgba(75, 181, 67, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+      display: flex;
+    }
+
+    .status-message.warning {
+      background-color: rgba(255, 204, 0, 0.1);
+      color: #b38f00;
+      border: 1px solid var(--warning-color);
+      display: flex;
+    }
+
+    .status-message.error {
+      background-color: rgba(255, 51, 51, 0.1);
+      color: var(--error-color);
+      border: 1px solid var(--error-color);
+      display: flex;
+    }
+
+    .status-message.info {
+      background-color: rgba(67, 97, 238, 0.1);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      display: flex;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--medium-gray);
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      font-size: 18px;
+      transition: var(--transition);
+    }
+
+    .step.active .step-icon {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+    }
+
+    .step.completed .step-icon {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: var(--dark-gray);
+    }
+
+    .step.active .step-label {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background-color: var(--dark-gray);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .action-buttons.show {
+      display: flex;
+    }
+
+    .btn-secondary {
+      background-color: var(--dark-gray);
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 22px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .step-indicator {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="status-indicator"></div>
+      <div class="spinner-container">
+        <i class="fas fa-spinner spinner"></i>
+      </div>
+      <h1 id="mainTitle">Đang khởi tạo...</h1>
+      <p class="message" id="mainMessage">
+        <%= message %>
+      </p>
+      
+      <div class="user-info">
+        <p><strong><i class="fas fa-user"></i> Người dùng:</strong> <span id="userName"><%= userName %></span></p>
+        <p><strong><i class="fas fa-id-card"></i> Mã ID:</strong> <span id="userId"><%= userId %></span></p>
+        <p><strong><i class="fas fa-lock"></i> Lock ID:</strong> <span id="lockId"><%= lockId %></span></p>
+      </div>
+
+      <div class="step-indicator">
+        <div class="step" id="step1">
+          <div class="step-icon"><i class="fas fa-camera"></i></div>
+          <div class="step-label">Khởi động camera</div>
+        </div>
+        <div class="step" id="step2">
+          <div class="step-icon"><i class="fas fa-user-check"></i></div>
+          <div class="step-label">Phát hiện khuôn mặt</div>
+        </div>
+        <div class="step" id="step3">
+          <div class="step-icon"><i class="fas fa-images"></i></div>
+          <div class="step-label">Thu thập ảnh</div>
+        </div>
+        <div class="step" id="step4">
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Tiến trình thu thập</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div id="statusMessage" class="status-message">
+        <!-- Thông báo trạng thái sẽ hiển thị ở đây -->
+      </div>
+
+      <div class="action-buttons" id="actionButtons">
+        <a href="/dashboard/<%= lockId %>" class="btn">
+          <i class="fas fa-tachometer-alt"></i> Về Dashboard
+        </a>
+        <a href="/face/collect/<%= lockId %>" class="btn btn-secondary">
+          <i class="fas fa-redo"></i> Thu thập lại
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Lưu lockId từ server
+    const lockId = '<%= lockId %>';
+    const userName = '<%= userName %>';
+    
+    // Các phần tử DOM
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const statusMessage = document.getElementById('statusMessage');
+    const actionButtons = document.getElementById('actionButtons');
+    const spinner = document.querySelector('.spinner');
+    const mainTitle = document.getElementById('mainTitle');
+    const mainMessage = document.getElementById('mainMessage');
+    
+    let currentStep = 1;
+    let isCompleted = false;
+    
+    // Cập nhật bước hiện tại
+    function updateStep(step) {
+      // Đánh dấu các bước trước đó là hoàn tất
+      for (let i = 1; i < step; i++) {
+        document.getElementById(`step${i}`).classList.add('completed');
+        document.getElementById(`step${i}`).classList.remove('active');
+      }
+      
+      // Đánh dấu bước hiện tại
+      document.getElementById(`step${step}`).classList.add('active');
+      currentStep = step;
+    }
+    
+    // Cập nhật thanh tiến trình
+    function updateProgress(value) {
+      progressFill.style.width = `${value}%`;
+      progressPercent.textContent = `${Math.round(value)}%`;
+    }
+    
+    // Hiển thị thông báo trạng thái
+    function showStatus(message, type = 'info') {
+      statusMessage.textContent = message;
+      statusMessage.className = `status-message ${type}`;
+      
+      // Thêm icon phù hợp
+      const iconClass = {
+        'success': 'fa-check-circle',
+        'error': 'fa-exclamation-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+      }[type];
+      
+      statusMessage.innerHTML = `<i class="fas ${iconClass}"></i><span>${message}</span>`;
+    }
+    
+    // Hoàn thành quá trình
+    function completeProcess() {
+      if (isCompleted) return;
+      isCompleted = true;
+      
+      updateStep(4);
+      updateProgress(100);
+      
+      spinner.style.color = 'var(--success-color)';
+      spinner.classList.remove('fa-spinner');
+      spinner.classList.add('fa-check-circle');
+      spinner.style.animation = 'none';
+      
+      mainTitle.textContent = 'Thu thập hoàn tất!';
+      mainMessage.textContent = `Quá trình thu thập khuôn mặt cho ${userName} đã hoàn tất thành công. Dữ liệu đã được lưu trữ an toàn.`;
+      
+      showStatus('Quá trình thu thập khuôn mặt đã hoàn tất thành công!', 'success');
+      
+      actionButtons.classList.add('show');
+      
+      // Tự động chuyển hướng sau 5 giây
+      setTimeout(() => {
+        window.location.href = `/dashboard/${lockId}`;
+      }, 5000);
+    }
+    
+    // Xử lý lỗi
+    function handleError(errorMessage) {
+      spinner.style.color = 'var(--error-color)';
+      spinner.classList.remove('fa-spinner');
+      spinner.classList.add('fa-exclamation-triangle');
+      spinner.style.animation = 'none';
+      
+      mainTitle.textContent = 'Đã xảy ra lỗi';
+      mainMessage.textContent = 'Đã xảy ra sự cố trong quá trình thu thập khuôn mặt. Vui lòng thử lại.';
+      
+      showStatus(errorMessage || 'Đã xảy ra lỗi trong quá trình thu thập. Vui lòng thử lại.', 'error');
+      
+      actionButtons.classList.add('show');
+    }
+    
+    // Giả lập quá trình thu thập (sẽ được thay thế bằng WebSocket hoặc polling thực tế)
+    function simulateProgress() {
+      let progress = 0;
+      
+      // Bước 1: Khởi động camera
+      updateStep(1);
+      mainTitle.textContent = 'Đang khởi động camera...';
+      showStatus('Đang kết nối với camera...', 'info');
+      
+      setTimeout(() => {
+        // Bước 2: Phát hiện khuôn mặt
+        updateStep(2);
+        mainTitle.textContent = 'Đang phát hiện khuôn mặt...';
+        mainMessage.textContent = 'Vui lòng nhìn thẳng vào camera và giữ khuôn mặt trong khung hình.';
+        showStatus('Đã phát hiện khuôn mặt! Đang chuẩn bị thu thập...', 'success');
+        progress = 25;
+        updateProgress(progress);
+      }, 2000);
+      
+      setTimeout(() => {
+        // Bước 3: Thu thập ảnh
+        updateStep(3);
+        mainTitle.textContent = 'Đang thu thập ảnh...';
+        mainMessage.textContent = 'Vui lòng làm theo hướng dẫn trên cửa sổ camera để thu thập ảnh từ nhiều góc độ.';
+        showStatus('Đang thu thập ảnh... Vui lòng di chuyển khuôn mặt theo hướng dẫn.', 'info');
+        
+        // Giả lập tiến trình thu thập
+        const interval = setInterval(() => {
+          progress += Math.random() * 5;
+          if (progress >= 95) {
+            progress = 95;
+            clearInterval(interval);
+            
+            // Hoàn tất
+            setTimeout(() => {
+              completeProcess();
+            }, 1500);
+          }
+          updateProgress(progress);
+        }, 800);
+      }, 4000);
+    }
+    
+    // Bắt đầu quá trình khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Processing page loaded for lock:', lockId);
+      simulateProgress();
+      
+      // TODO: Thay thế bằng WebSocket hoặc Server-Sent Events thực tế
+      // const eventSource = new EventSource(`/api/face-collection-progress/${userId}`);
+      // eventSource.onmessage = (event) => {
+      //   const data = JSON.parse(event.data);
+      //   updateProgress(data.progress);
+      //   if (data.status === 'completed') {
+      //     completeProcess();
+      //   } else if (data.status === 'error') {
+      //     handleError(data.message);
+      //   }
+      // };
+    });
+  </script>
+</body>
+</html>
