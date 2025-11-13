@@ -4,11 +4,10 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import cv2
 import numpy as np
 import os
-import sys
 import pickle
 from datetime import datetime
 import firebase_admin
-from firebase_admin import credentials, storage
+from firebase_admin import credentials, storage, db
 import requests
 from dotenv import load_dotenv
 import pyttsx3
@@ -18,7 +17,6 @@ import time
 import traceback
 import serial
 import pygame
-from playsound import playsound
 import threading
 import re
 import cProfile
@@ -46,7 +44,7 @@ else:
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-EXPECTED_PIN = os.getenv('EXPECTED_PIN', '2828')  # ĐỌC TỪ .ENV
+EXPECTED_PIN = os.getenv('EXPECTED_PIN', '2828')
 print(f"[DEBUG] TELEGRAM_BOT_TOKEN: {TELEGRAM_BOT_TOKEN}")
 print(f"[DEBUG] TELEGRAM_CHAT_ID: {TELEGRAM_CHAT_ID}")
 print(f"[DEBUG] EXPECTED_PIN: {EXPECTED_PIN}")
@@ -59,9 +57,9 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
 distance = None
 distance_lock = threading.Lock()
 
-# Xác định device cho Torch (hỗ trợ CUDA trên Dell G3 3579 với GPU NVIDIA GTX 1050 Ti hoặc tương tự)
+# Xác định device cho Torch
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print(f"[INFO] Sử dụng device: {device} trên Dell G3 3579")
+print(f"[INFO] Sử dụng device: {device}")
 
 # Khởi tạo Serial và đọc khoảng cách
 def init_serial(port='COM4', baudrate=115200):
@@ -170,95 +168,119 @@ def initialize_firebase():
     cred_path = os.path.join(os.path.dirname(__file__), '../.env/firebase_credentials.json')
     if not os.path.exists(cred_path):
         raise FileNotFoundError("[ERROR] Firebase credentials file not found.")
+    
+    database_url = os.getenv('FIREBASE_DATABASE_URL', 'https://smartlockfacerecognition-default-rtdb.asia-southeast1.firebasedatabase.app/')
+    
     cred = credentials.Certificate(cred_path)
-    firebase_admin.initialize_app(cred, {
-        'storageBucket': 'smartlockfacerecognition.firebasestorage.app'
-    })
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred, {
+            'storageBucket': 'smartlockfacerecognition.firebasestorage.app',
+            'databaseURL': database_url
+        })
     return storage.bucket()
 
+# --- Hàm mới để ghi log vào Realtime Database ---
+def write_activity_log(lock_id, event_type, user_name, confidence, image_url):
+    ref = db.reference(f'locks/{lock_id}/activity_log')
+    ref.push({
+        'type': event_type,
+        'name': user_name,
+        'confidence': f"{confidence:.1f}",
+        'imageUrl': image_url,
+        'timestamp': int(time.time() * 1000)
+    })
+# ---------------------------------------------
+
 # Tải danh sách tên và embeddings từ Firebase hoặc cache cục bộ (sử dụng device)
-def load_known_faces(bucket, local_dir):
-    os.makedirs(local_dir, exist_ok=True)
-    embeddings_path = os.path.join(local_dir, "embeddings.pkl")
-    cached_data = None
+def load_known_faces(bucket, local_dir, lock_id):
+    # Tạo thư mục riêng cho từng lock_id
+    lock_dataset_dir = os.path.join(local_dir, lock_id)
+    os.makedirs(lock_dataset_dir, exist_ok=True)
+    embeddings_path = os.path.join(lock_dataset_dir, "embeddings.pkl")
+    
+    # Kiểm tra xem file embeddings đã tồn tại chưa
+    if not os.path.exists(embeddings_path):
+        print(f"[INFO] Không tìm thấy embeddings cho khóa {lock_id}. Đang gọi trainer...")
+        # Gọi trainer.py để tạo embeddings
+        trainer_script = os.path.join(os.path.dirname(__file__), 'trainer.py')
+        import subprocess
+        try:
+            result = subprocess.run(
+                [sys.executable, trainer_script, lock_id],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding='utf-8'
+            )
+            print(result.stdout)
+            if result.stderr:
+                print(f"[WARNING] Trainer stderr: {result.stderr}")
+        except subprocess.CalledProcessError as e:
+            print(f"[ERROR] Trainer thất bại: {e.stderr}")
+            return [], [], []
+    
+    # Tải embeddings từ file đã được tạo
     if os.path.exists(embeddings_path):
         try:
             with open(embeddings_path, 'rb') as f:
-                cached_data = pickle.load(f)
-                known_embeddings, known_ids, known_names, cached_files = cached_data
-                print(f"[INFO] Đã tải {len(known_ids)} embeddings từ cache: {embeddings_path}")
-                firebase_files = set(blob.name for blob in bucket.list_blobs(prefix='faces/'))
-                if set(cached_files) == firebase_files:
-                    print("[INFO] Cache hợp lệ, không cần tải lại từ Firebase.")
-                    return known_embeddings, known_ids, known_names
+                data = pickle.load(f)
+                # Xử lý cả định dạng cũ (4 phần tử) và mới (3 phần tử)
+                if len(data) == 4:
+                    print("[WARNING] Phát hiện file embeddings định dạng cũ. Đang xóa và tạo lại...")
+                    os.remove(embeddings_path)
+                    # Gọi lại trainer để tạo mới
+                    trainer_script = os.path.join(os.path.dirname(__file__), 'trainer.py')
+                    import subprocess
+                    try:
+                        result = subprocess.run(
+                            [sys.executable, trainer_script, lock_id],
+                            check=True,
+                            capture_output=True,
+                            text=True,
+                            encoding='utf-8'
+                        )
+                        print(result.stdout)
+                        # Đọc lại file mới
+                        with open(embeddings_path, 'rb') as f2:
+                            known_embeddings, known_ids, known_names = pickle.load(f2)
+                    except subprocess.CalledProcessError as e:
+                        print(f"[ERROR] Trainer thất bại: {e.stderr}")
+                        return [], [], []
+                elif len(data) == 3:
+                    known_embeddings, known_ids, known_names = data
                 else:
-                    print("[INFO] Phát hiện thay đổi trong Firebase, cập nhật embeddings.")
+                    print(f"[ERROR] Định dạng file embeddings không hợp lệ")
+                    return [], [], []
+                
+                print(f"[INFO] Đã tải {len(known_ids)} embeddings từ cache cho khóa {lock_id}")
+                return known_embeddings, known_ids, known_names
         except Exception as e:
-            print(f"[WARNING] Lỗi khi tải cache embeddings: {e}. Tải lại từ Firebase.")
-
-    mtcnn = MTCNN(keep_all=False, min_face_size=150, thresholds=[0.7, 0.8, 0.8], device=device)
-    resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
-    known_embeddings = []
-    known_ids = []
-    known_names = []
-    processed_files = []
-
-    for blob in bucket.list_blobs(prefix='faces/'):
-        blob_name = blob.name
-        print(f"[DEBUG] Xử lý file Firebase: {blob_name}")
-        try:
-            parts = blob_name.split('/')
-            if len(parts) < 3:
-                print(f"[WARNING] Đường dẫn không hợp lệ: {blob_name}")
-                continue
-            user_id = int(parts[1])
-            filename = parts[2]
-            user_name_parts = os.path.splitext(filename)[0].split('_')
-            if len(user_name_parts) < 4:
-                print(f"[WARNING] Tên file không đúng định dạng: {filename}")
-                continue
-            user_name = '_'.join(user_name_parts[1:-2]).replace('_', ' ')
-            local_path = os.path.join(local_dir, filename)
-            if not os.path.exists(local_path):
-                print(f"[DEBUG] Tải file về: {local_path}")
-                blob.download_to_filename(local_path)
-            else:
-                print(f"[DEBUG] Sử dụng ảnh cục bộ: {local_path}")
-            img = cv2.imread(local_path)
-            if img is None:
-                print(f"[WARNING] Không thể đọc ảnh: {local_path}")
-                continue
-            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            print(f"[ERROR] Lỗi khi đọc file embeddings: {e}")
+            print("[INFO] Đang xóa file lỗi và tạo lại...")
             try:
-                face = mtcnn(img_rgb)
-            except RuntimeError as e:
-                if "non-empty list of Tensors" in str(e):
-                    print(f"[WARNING] Không phát hiện khuôn mặt trong ảnh (lỗi runtime): {filename}")
-                    face = None
-                else:
-                    raise e # Ném lại các lỗi runtime khác
-
-            if face is not None:
-                embedding = resnet(face.unsqueeze(0).to(device)).detach().cpu().numpy()
-                known_embeddings.append(embedding)
-                known_ids.append(user_id)
-                known_names.append(user_name)
-                processed_files.append(blob_name)
-                print(f"[INFO] Đã thêm khuôn mặt: ID={user_id}, Name={user_name}")
-            else:
-                print(f"[WARNING] Không phát hiện khuôn mặt trong: {filename}")
-        except (ValueError, IndexError) as e:
-            print(f"[WARNING] Bỏ qua file không hợp lệ: {blob_name}, {str(e)}")
-
-    if known_embeddings:
-        try:
-            with open(embeddings_path, 'wb') as f:
-                pickle.dump((known_embeddings, known_ids, known_names, processed_files), f)
-            print(f"[INFO] Đã lưu embeddings vào: {embeddings_path}")
-        except Exception as e:
-            print(f"[WARNING] Lỗi khi lưu cache embeddings: {e}")
-
-    return known_embeddings, known_ids, known_names
+                os.remove(embeddings_path)
+                # Gọi trainer để tạo mới
+                trainer_script = os.path.join(os.path.dirname(__file__), 'trainer.py')
+                import subprocess
+                result = subprocess.run(
+                    [sys.executable, trainer_script, lock_id],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    encoding='utf-8'
+                )
+                print(result.stdout)
+                # Đọc lại file mới
+                with open(embeddings_path, 'rb') as f:
+                    known_embeddings, known_ids, known_names = pickle.load(f)
+                    print(f"[INFO] Đã tải {len(known_ids)} embeddings từ cache sau khi tạo lại")
+                    return known_embeddings, known_ids, known_names
+            except Exception as e2:
+                print(f"[ERROR] Không thể tạo lại embeddings: {e2}")
+                return [], [], []
+    
+    print(f"[WARNING] Không thể tạo embeddings cho khóa {lock_id}")
+    return [], [], []
 
 # Tải mô hình DNN
 def get_model_paths():
@@ -337,17 +359,38 @@ def send_telegram_message_with_photo(message, photo_path):
     finally:
         files['photo'].close()
 
+# --- Hàm mới để upload ảnh và lấy URL ---
+def upload_and_get_url(bucket, local_path, lock_id, remote_folder='logs'):
+    if not os.path.exists(local_path):
+        return None
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"log_{timestamp}.jpg"
+    blob = bucket.blob(f"locks/{lock_id}/{remote_folder}/{filename}")
+    
+    try:
+        blob.upload_from_filename(local_path)
+        blob.make_public()
+        return blob.public_url
+    except Exception as e:
+        print(f"[ERROR] Lỗi khi upload ảnh log: {e}")
+        return None
+# -----------------------------------------
+
 # Parse command-line arguments for mode & pin
 def parse_cli_args():
     parser = argparse.ArgumentParser(description="Face recognition runtime mode selection")
     parser.add_argument("--mode", choices=["face_only", "face_pin"], default="face_only", help="Recognition mode")
+    parser.add_argument("--lock_id", required=True, help="ID of the lock to use")
     return parser.parse_args()
 
 def main():
     args = parse_cli_args()
     selected_mode = args.mode
+    lock_id = args.lock_id
 
     print(f"[MODE] Chế độ hoạt động: {selected_mode}")
+    print(f"[LOCK] Sử dụng lock_id: {lock_id}")
 
     profiler = cProfile.Profile()
     profiler.enable()
@@ -359,7 +402,7 @@ def main():
     tts_engine = init_tts_engine()
     ser = init_serial(port='COM4')
     if ser:
-        send_serial_command(ser, "RECOGNIZING")
+        send_serial_command(ser, "SYSTEM_READY") # SỬA: Gửi SYSTEM_READY thay vì RECOGNIZING
         threading.Thread(target=read_distance_from_serial, args=(ser,), daemon=True).start()
 
     fail_count = 0
@@ -383,7 +426,7 @@ def main():
         bucket = initialize_firebase()
         dataset_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dataset"))
         load_start = time.perf_counter()
-        known_embeddings, known_ids, known_names = load_known_faces(bucket, dataset_path)
+        known_embeddings, known_ids, known_names = load_known_faces(bucket, dataset_path, lock_id)
         load_time = time.perf_counter() - load_start
         logger.info(f"Thời gian tải embeddings: {load_time:.3f}s")
         print(f"[INFO] Tải embeddings: {load_time:.3f}s")
@@ -469,12 +512,10 @@ def main():
                         min_distance = min(distances)
                         min_idx = distances.index(min_distance)
                         confidence_percent = max(0, min(100, (1 - min_distance / 2) * 100))
-                        if min_distance < 0.6: #0.3
+                        if min_distance < 0.6:
                             name = known_names[min_idx]
                             total_recognitions += 1
                             correct_recognitions += 1
-
-                            
 
                 now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 cv2.putText(frame, f"{name}: {confidence_percent:.1f}%", (x, y - 10),
@@ -484,6 +525,10 @@ def main():
                 if name != "Unknown":
                     fail_count = 0
                     cv2.imwrite(temp_photo_path, frame)
+                    
+                    # Upload ảnh log và ghi vào Realtime Database
+                    log_image_url = upload_and_get_url(bucket, temp_photo_path, lock_id)
+                    write_activity_log(lock_id, 'SUCCESS', name, confidence_percent, log_image_url)
 
                     if selected_mode == "face_only":
                         # CHẾ ĐỘ 1: MỞ CỬA NGAY
@@ -497,6 +542,11 @@ def main():
                             tts_engine.runAndWait()
                         
                         print("[INFO] Chế độ face_only: Đã mở cửa.")
+                        
+                        # THÊM: Đợi 6 giây (5s mở cửa + 1s buffer) rồi gửi lệnh RECOGNITION_DONE
+                        time.sleep(6)
+                        send_serial_command(ser, "RECOGNITION_DONE")
+                        
                         return
 
                     elif selected_mode == "face_pin":
@@ -515,11 +565,11 @@ def main():
                         # CHỜ NHẬN PIN TỪ ESP32
                         print("[INFO] Đang chờ người dùng nhập PIN trên ESP32...")
                         received_pin = ""
-                        expected_pin = EXPECTED_PIN  # SỬ DỤNG BIẾN ĐÃ ĐỌC TỪ .ENV
+                        expected_pin = EXPECTED_PIN
                         print(f"[DEBUG] Mã PIN mong đợi: {expected_pin}")
                         start_wait = time.time()
                         
-                        while time.time() - start_wait < 35:  # Chờ tối đa 35 giây
+                        while time.time() - start_wait < 35:
                             if ser.in_waiting > 0:
                                 response = ser.readline().decode('utf-8').strip()
                                 print(f"[DEBUG] ESP32 Response: {response}")
@@ -543,12 +593,22 @@ def main():
                             send_telegram_message_with_photo(message, temp_photo_path)
                             send_serial_command(ser, "SUCCESS")
                             print("[INFO] Đã gửi lệnh mở cửa.")
+                            write_activity_log(lock_id, 'SUCCESS_PIN', name, confidence_percent, log_image_url)
+                            
+                            # THÊM: Đợi 6 giây rồi gửi RECOGNITION_DONE
+                            time.sleep(6)
+                            send_serial_command(ser, "RECOGNITION_DONE")
                         else:
                             print("[FAIL] PIN sai hoặc không nhận được PIN.")
                             message = f"[❌ PIN sai] {name} - PIN: {received_pin} | {now_str}"
                             send_telegram_message_with_photo(message, temp_photo_path)
                             send_serial_command(ser, "FAIL")
                             print("[INFO] Đã gửi lệnh báo thất bại.")
+                            write_activity_log(lock_id, 'FAIL_PIN', name, confidence_percent, log_image_url)
+                            
+                            # THÊM: Gửi RECOGNITION_DONE sau khi thất bại
+                            time.sleep(2)
+                            send_serial_command(ser, "RECOGNITION_DONE")
                         
                         return
 
@@ -557,6 +617,11 @@ def main():
                     if time_since_last_voice > voice_cooldown:
                         fail_count += 1
                         cv2.imwrite(temp_photo_path, frame)
+                        
+                        # Upload ảnh log và ghi vào Realtime Database
+                        log_image_url = upload_and_get_url(bucket, temp_photo_path, lock_id)
+                        write_activity_log(lock_id, 'FAIL', 'Unknown', 0, log_image_url)
+
                         message = f"[CẢNH BÁO] Người lạ (lần {fail_count})"
                         send_telegram_message_with_photo(message, temp_photo_path)
                         

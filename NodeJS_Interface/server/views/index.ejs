@@ -772,9 +772,10 @@
       
       showToast('Đang chuyển đến trang thu thập...', 'success');
       
-      // Chuyển hướng đến trang nhập thông tin
+      // Chuyển hướng đến trang nhập thông tin với một lockId cụ thể
+      const lockId = 'lock_nha_toi'; // <-- ID khóa mặc định để demo
       setTimeout(() => {
-        window.location.href = `/face/collect`;
+        window.location.href = `/face/collect/${lockId}`;
       }, 1000);
     }
 

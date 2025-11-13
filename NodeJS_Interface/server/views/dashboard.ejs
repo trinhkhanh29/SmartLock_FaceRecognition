@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quản lý khóa cửa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #28a745;
+            --danger-color: #e74c3c;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --text-dark: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 i {
+            font-size: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            font-size: 1.2rem;
+        }
+
+        .user-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-list th, .user-list td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .user-list th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .user-list tr:hover {
+            background-color: var(--light-gray);
+        }
+
+        .user-list img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            vertical-align: middle;
+            border: 2px solid var(--medium-gray);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: var(--text-dark);
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-info {
+            background-color: var(--info-color);
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .log-list .log-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .log-list img {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid var(--medium-gray);
+        }
+
+        .log-info {
+            flex: 1;
+        }
+
+        .log-info p {
+            margin: 0;
+        }
+
+        .log-info .log-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .log-info .log-time {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        .log-type-SUCCESS {
+            color: var(--success-color);
+        }
+
+        .log-type-FAIL {
+            color: var(--danger-color);
+        }
+
+        .pending-users, .log-list {
+            margin-top: 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--dark-gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--medium-gray);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-running {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-stopped {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-buttons form {
+            margin: 0;
+        }
+
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-option {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .mode-option:hover {
+            border-color: var(--primary-color);
+            background: white;
+        }
+
+        .mode-option.selected {
+            border-color: var(--primary-color);
+            background: #e3f2fd;
+        }
+
+        .mode-option h3 {
+            margin: 0 0 10px 0;
+            color: var(--primary-color);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-option p {
+            margin: 0;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-confirm {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: #218838;
+        }
+
+        .btn-cancel {
+            background-color: var(--dark-gray);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        /* Stats cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .stat-card .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .stat-users i { color: var(--primary-color); }
+        .stat-pending i { color: var(--warning-color); }
+        .stat-success i { color: var(--success-color); }
+        .stat-fail i { color: var(--danger-color); }
+
+        /* Log list styles */
+        .log-items-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 0 15px;
+        }
+
+        .log-items-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .log-items-container::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 3px;
+        }
+
+        .log-items-container::-webkit-scrollbar-thumb {
+            background: var(--dark-gray);
+            border-radius: 3px;
+        }
+
+        .log-items-container::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        .log-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-load-more {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-load-more:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .hidden-log {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .user-list table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .log-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 5% auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-door-closed"></i> Dashboard: <%= lockId %>
+                <% if (serviceStatus === 'stopped') { %>
+                    <span class="status-badge status-stopped">Dịch vụ dừng</span>
+                <% } else { %>
+                    <span class="status-badge status-running">Dịch vụ đang chạy</span>
+                <% } %>
+            </h1>
+            <div class="header-actions">
+                <% if (serviceStatus === 'stopped') { %>
+                    <button id="btnStartService" class="btn btn-success"><i class="fas fa-play"></i> Bắt đầu Dịch vụ</button>
+                <% } else { %>
+                    <form action="/service/stop/<%= lockId %>" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-stop"></i> Dừng Dịch vụ</button>
+                    </form>
+                <% } %>
+                <a href="/livestream/<%= lockId %>" class="btn btn-info" target="_blank"><i class="fas fa-video"></i> Xem Live Stream</a>
+                <a href="/face/collect/<%= lockId %>" class="btn btn-primary"><i class="fas fa-user-plus"></i> Thêm người dùng</a>
+                <form action="/dashboard/train-model" method="POST" style="display:inline;" onsubmit="return confirm('Quá trình này có thể mất vài phút. Bạn có muốn tiếp tục?');">
+                    <input type="hidden" name="lockId" value="<%= lockId %>">
+                    <button type="submit" class="btn btn-warning"><i class="fas fa-robot"></i> Train lại Model</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card stat-users">
+                <i class="fas fa-users"></i>
+                <div class="stat-value"><%= users.length %></div>
+                <div class="stat-label">Người dùng</div>
+            </div>
+            <div class="stat-card stat-pending">
+                <i class="fas fa-user-clock"></i>
+                <div class="stat-value"><%= locals.pendingUsers ? pendingUsers.length : 0 %></div>
+                <div class="stat-label">Chờ phê duyệt</div>
+            </div>
+            <div class="stat-card stat-success">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-value"><%= logs.filter(log => log.type.includes('SUCCESS')).length %></div>
+                <div class="stat-label">Truy cập thành công</div>
+            </div>
+            <div class="stat-card stat-fail">
+                <i class="fas fa-times-circle"></i>
+                <div class="stat-value"><%= logs.filter(log => log.type.includes('FAIL')).length %></div>
+                <div class="stat-label">Truy cập thất bại</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card user-list">
+                <h2><i class="fas fa-list"></i> Danh sách người dùng</h2>
+                <% if (users.length > 0) { %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Người dùng</th>
+                                <th>Mã ID</th>
+                                <th>Số lượng ảnh</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
+                                <tr>
+                                    <td>
+                                        <img src="<%= user.sampleImage || 'https://via.placeholder.com/40' %>" alt="Ảnh mẫu">
+                                        <span><%= user.name %></span>
+                                    </td>
+                                    <td><%= user.id %></td>
+                                    <td><%= user.imageCount %></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <form action="/dashboard/delete-user" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">
+                                                <input type="hidden" name="userId" value="<%= user.id %>">
+                                                <input type="hidden" name="lockId" value="<%= lockId %>">
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Chưa có người dùng nào</p>
+                        <a href="/face/collect/<%= lockId %>" class="btn btn-primary" style="margin-top: 15px;"><i class="fas fa-user-plus"></i> Thêm người dùng đầu tiên</a>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="card">
+                <div class="pending-users">
+                    <h2><i class="fas fa-user-clock"></i> Chờ phê duyệt (<%= locals.pendingUsers ? pendingUsers.length : 0 %>)</h2>
+                    <% if (locals.pendingUsers && pendingUsers.length > 0) { %>
+                        <% pendingUsers.forEach(user => { %>
+                            <div class="log-item">
+                                <img src="<%= user.sampleImage || 'https://via.placeholder.com/50' %>" alt="Ảnh mẫu">
+                                <div class="log-info">
+                                    <p class="log-name"><%= user.name %></p>
+                                    <p class="log-time">ID: <%= user.id %></p>
+                                </div>
+                                <div style="margin-left: auto; display: flex; gap: 10px;">
+                                    <form action="/dashboard/approve-user" method="POST" onsubmit="return confirm('Phê duyệt người dùng này?');">
+                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                        <input type="hidden" name="lockId" value="<%= lockId %>">
+                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Duyệt</button>
+                                    </form>
+                                    <form action="/dashboard/reject-user" method="POST" onsubmit="return confirm('Từ chối người dùng này?');">
+                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                        <input type="hidden" name="lockId" value="<%= lockId %>">
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Từ chối</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>Không có yêu cầu nào đang chờ</p>
+                        </div>
+                    <% } %>
+                </div>
+                <hr style="margin: 20px 0;">
+                <div class="log-list">
+                    <h2><i class="fas fa-history"></i> Lịch sử truy cập gần đây</h2>
+                    <% if (logs.length > 0) { %>
+                        <div class="log-items-container" id="logContainer">
+                            <% logs.forEach((log, index) => { %>
+                                <div class="log-item <%= index >= 5 ? 'hidden-log' : '' %>" data-index="<%= index %>">
+                                    <img src="<%= log.imageUrl || 'https://via.placeholder.com/50' %>" alt="Ảnh log">
+                                    <div class="log-info">
+                                        <p class="log-name <%= log.type.includes('SUCCESS') ? 'log-type-SUCCESS' : 'log-type-FAIL' %>">
+                                            <%= log.name %> - <%= log.type %>
+                                        </p>
+                                        <p class="log-time"><%= new Date(log.timestamp).toLocaleString('vi-VN') %></p>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                        
+                        <div class="log-actions">
+                            <% if (logs.length > 5) { %>
+                                <button id="btnLoadMore" class="btn-load-more">
+                                    <i class="fas fa-chevron-down"></i> Xem thêm (<span id="remainingCount"><%= logs.length - 5 %></span>)
+                                </button>
+                            <% } %>
+                            
+                            <form action="/dashboard/clear-logs" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa toàn bộ lịch sử truy cập của khóa này?');">
+                                <input type="hidden" name="lockId" value="<%= lockId %>">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Xóa Lịch sử</button>
+                            </form>
+                        </div>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <p>Chưa có lịch sử truy cập</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CHỌN CHẾ ĐỘ -->
+    <div id="modeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><i class="fas fa-cog"></i> Chọn chế độ nhận diện</div>
+            
+            <div class="mode-option" data-mode="face_only">
+                <h3><i class="fas fa-unlock"></i> Chỉ khuôn mặt</h3>
+                <p>Mở cửa ngay khi nhận diện thành công khuôn mặt</p>
+            </div>
+            
+            <div class="mode-option" data-mode="face_pin">
+                <h3><i class="fas fa-lock"></i> Khuôn mặt + Mã PIN</h3>
+                <p>Yêu cầu nhập mã PIN sau khi nhận diện khuôn mặt thành công</p>
+            </div>
+
+            <form id="startServiceForm" action="/service/start/<%= lockId %>" method="POST">
+                <input type="hidden" name="mode" id="selectedMode" value="face_only">
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-confirm"><i class="fas fa-check"></i> Xác nhận</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()"><i class="fas fa-times"></i> Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mở modal khi nhấn nút "Bắt đầu Dịch vụ"
+        const btnStart = document.getElementById('btnStartService');
+        if (btnStart) {
+            btnStart.addEventListener('click', () => {
+                document.getElementById('modeModal').style.display = 'block';
+            });
+        }
+
+        // Đóng modal
+        function closeModal() {
+            document.getElementById('modeModal').style.display = 'none';
+        }
+
+        // Xử lý chọn chế độ
+        document.querySelectorAll('.mode-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Bỏ chọn tất cả
+                document.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('selected'));
+                // Chọn option hiện tại
+                this.classList.add('selected');
+                // Cập nhật giá trị hidden input
+                document.getElementById('selectedMode').value = this.getAttribute('data-mode');
+            });
+        });
+
+        // Mặc định chọn "face_only"
+        document.querySelector('.mode-option[data-mode="face_only"]').classList.add('selected');
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function(event) {
+            const modal = document.getElementById('modeModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Thêm hiệu ứng loading khi submit form
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+
+        // Xử lý nút "Xem thêm" cho lịch sử truy cập
+        const btnLoadMore = document.getElementById('btnLoadMore');
+        if (btnLoadMore) {
+            btnLoadMore.addEventListener('click', function() {
+                const hiddenLogs = document.querySelectorAll('.hidden-log');
+                const itemsToShow = 5; // Số lượng item hiển thị thêm mỗi lần nhấn
+                
+                // Hiển thị các item ẩn
+                for (let i = 0; i < Math.min(itemsToShow, hiddenLogs.length); i++) {
+                    hiddenLogs[i].classList.remove('hidden-log');
+                }
+                
+                // Cập nhật số lượng còn lại
+                const remainingHidden = document.querySelectorAll('.hidden-log').length;
+                const remainingCount = document.getElementById('remainingCount');
+                
+                if (remainingCount) {
+                    remainingCount.textContent = remainingHidden;
+                }
+                
+                // Ẩn nút "Xem thêm" nếu không còn item nào ẩn
+                if (remainingHidden === 0) {
+                    btnLoadMore.style.display = 'none';
+                }
+                
+                // Cuộn đến vị trí mới hiển thị
+                const logContainer = document.getElementById('logContainer');
+                logContainer.scrollTop = logContainer.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>

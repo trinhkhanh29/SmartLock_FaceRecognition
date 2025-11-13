@@ -154,13 +154,17 @@ def speak(text):
 
 
 # ========================== UPLOAD ==========================
-def upload_to_firebase(filepath, face_id, face_name, count):
+def upload_to_firebase(filepath, face_id, face_name, count, lock_id, is_pending=False): # Thêm is_pending
     global bucket
     if not bucket or not os.path.exists(filepath):
         return None
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    firebase_path = f"faces/{face_id}/{face_id}_{face_name.replace(' ', '_')}_{count}_{timestamp}.jpg"
+    
+    # Chọn thư mục dựa trên trạng thái pending
+    folder = 'pending_faces' if is_pending else 'faces'
+    # SỬA: Thêm face_id vào đường dẫn để phân tách từng người
+    firebase_path = f"locks/{lock_id}/{folder}/{face_id}/{face_id}_{face_name.replace(' ', '_')}_{count}_{timestamp}.jpg"
 
     try:
         blob = bucket.blob(firebase_path)
@@ -172,7 +176,7 @@ def upload_to_firebase(filepath, face_id, face_name, count):
         logging.error(f"Upload thất bại: {e}")
         return None
 
-def process_single_image(image_path, face_id, face_name):
+def process_single_image(image_path, face_id, face_name, lock_id, is_pending=False): # Thêm is_pending
     """Xử lý một ảnh duy nhất: tìm khuôn mặt, cắt, và upload."""
     if not os.path.exists(image_path):
         logging.error(f"Ảnh không tồn tại: {image_path}")
@@ -209,16 +213,25 @@ def process_single_image(image_path, face_id, face_name):
         x1, y1, x2, y2 = map(int, box)
         face_crop = frame[y1:y2, x1:x2]
 
-        # Lưu ảnh đã cắt vào dataset
-        dataset_path = os.path.join(os.path.dirname(__file__), '../dataset')
+        # SỬA: Lưu ảnh vào thư mục riêng của người dùng
+        dataset_path = os.path.join(os.path.dirname(__file__), '../dataset', lock_id, face_id)
         os.makedirs(dataset_path, exist_ok=True)
         filename = f"{face_id}_{face_name.replace(' ', '_')}_uploaded_1.jpg"
         filepath = os.path.join(dataset_path, filename)
         cv2.imwrite(filepath, face_crop)
 
         # Upload và gửi thông báo
-        url = upload_to_firebase(filepath, face_id, face_name, 1)
+        url = upload_to_firebase(filepath, face_id, face_name, 1, lock_id, is_pending) # Truyền is_pending
         if url:
+            # Nếu là pending, ghi vào Realtime DB
+            if is_pending:
+                from firebase_admin import db
+                pending_ref = db.reference(f"locks/{lock_id}/pending_users/{face_id}")
+                pending_ref.set({
+                    'name': face_name,
+                    'registeredAt': datetime.now().isoformat(),
+                    'sampleImage': url
+                })
             final_message = f"Đã xử lý và lưu trữ thành công khuôn mặt cho {face_name} từ ảnh tải lên."
             logging.info(final_message)
             speak(final_message)
@@ -235,53 +248,46 @@ def process_single_image(image_path, face_id, face_name):
 def main():
     global bucket
 
-    # === Chế độ xử lý ảnh đơn ===
-    if len(sys.argv) == 4 and sys.argv[1] == '--image':
-        image_path = sys.argv[2]
-        face_id = sys.argv[3].split(':')[0]
-        face_name = sys.argv[3].split(':')[1]
-        
-        load_telegram_config()
-        try:
-            initialize_firebase()
-        except Exception as e:
-            logging.error(f"Lỗi Firebase: {e}")
-            sys.exit(1)
-            
-        process_single_image(image_path, face_id, face_name)
-        sys.exit(0)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("user_id", help="User ID")
+    parser.add_argument("user_name", help="User Name")
+    parser.add_argument("lock_id", help="Lock ID")
+    parser.add_argument("--pending", action="store_true", help="Save to pending area for approval")
+    parser.add_argument("--image", help="Path to a single image to process")
+    args = parser.parse_args()
 
+    face_id = args.user_id.strip()
+    face_name = args.user_name.strip()
+    lock_id = args.lock_id.strip()
+    is_pending = args.pending
 
     # === Load Telegram ===
     load_telegram_config()
 
-    # === Nhận tham số từ Node.js ===
-    if len(sys.argv) < 3:
-        print("Usage: python facedetect.py <user_id> <user_name>")
+    # === Khởi tạo Firebase ===
+    try:
+        initialize_firebase()
+    except Exception as e:
+        logging.error(f"Lỗi Firebase: {e}")
         sys.exit(1)
 
-    face_id = sys.argv[1].strip()
-    face_name = sys.argv[2].strip()
+    # === Chế độ xử lý ảnh đơn ===
+    if args.image:
+        process_single_image(args.image, face_id, face_name, lock_id, is_pending)
+        sys.exit(0)
 
-    if not face_id or not face_name:
-        print("ID và Tên không được để trống!")
+    if not face_id or not face_name or not lock_id:
+        print("ID, Tên và Lock ID không được để trống!")
         sys.exit(1)
 
-    logging.info(f"Bắt đầu thu thập cho: ID={face_id}, Tên={face_name}")
+    logging.info(f"Bắt đầu thu thập cho Lock: {lock_id}, ID={face_id}, Tên={face_name}, Pending={is_pending}")
     send_telegram_message(
-        f"<b>THU THẬP KHUÔN MẶT</b>\n"
+        f"<b>THU THẬP KHUÔN MẶT {'(CHỜ DUYỆT)' if is_pending else ''}</b>\n"
         f"Người dùng: <b>{face_name}</b>\n"
         f"ID: <code>{face_id}</code>\n"
         f"Thời gian: {datetime.now().strftime('%H:%M:%S %d/%m/%Y')}"
     )
-
-    # === Khởi tạo ===
-    try:
-        bucket = initialize_firebase()
-    except Exception as e:
-        logging.error(f"Firebase lỗi: {e}")
-        speak("Không thể kết nối Firebase.")
-        return
 
     # === Camera ===
     cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
@@ -290,7 +296,7 @@ def main():
     if not cam.isOpened():
         speak("Không thể mở camera.")
         logging.error("Camera không mở được")
-        print("ERROR:Không thể mở camera.") # Thêm dòng này
+        print("ERROR:Không thể mở camera.")
         return
 
     cam.set(3, 640)
@@ -319,7 +325,8 @@ def main():
     count = 0
     current_dir_idx = 0
 
-    dataset_path = os.path.join(os.path.dirname(__file__), '../dataset')
+    # SỬA: Tạo thư mục riêng cho từng người dùng
+    dataset_path = os.path.join(os.path.dirname(__file__), '../dataset', lock_id, face_id)
     os.makedirs(dataset_path, exist_ok=True)
 
     speak("Bắt đầu thu thập. Hãy nhìn thẳng vào camera.")
@@ -361,14 +368,14 @@ def main():
                     cv2.imwrite(filepath, face_crop)
 
                     # Upload
-                    public_url = upload_to_firebase(filepath, face_id, face_name, count)
+                    public_url = upload_to_firebase(filepath, face_id, face_name, count, lock_id, is_pending) # Truyền is_pending
 
                     # Gửi Telegram
                     caption = (
                         f"<b>ĐÃ CHỤP</b> | {face_name}\n"
                         f"Ảnh thứ: <b>{count}/{sample_limit}</b>\n"
                         f"Hướng: <b>{directions[current_dir_idx][0]}</b>\n"
-                        f"Thời gian: {datetime.now().strftime('%H:%M:%S')}"
+                        f"Thời gian: {datetime.now().strftime('%H:%M:%S')}"  # SỬA: Thêm dấu ngoặc kép đóng
                     )
                     send_telegram_photo_async(temp_path, caption)
 
@@ -399,20 +406,42 @@ def main():
             print(f"PROGRESS:{progress}")
 
             cv2.imshow('Thu thap khuon mat - Nhan ESC de thoat', frame)
-            if cv2.waitKey(10) & 0xFF == 27: # Giảm waitKey để mượt hơn
+            if cv2.waitKey(10) & 0xFF == 27:
                 break
 
     except Exception as e:
         logging.error(f"Lỗi trong vòng lặp: {e}")
-        print(f"ERROR:Đã xảy ra lỗi: {e}") # Thêm dòng này
+        print(f"ERROR:Đã xảy ra lỗi: {e}")
     finally:
         cam.release()
         cv2.destroyAllWindows()
         final_message = f"Đã thu thập {count} ảnh. Cảm ơn {face_name}!"
         speak(final_message)
-        print(f"COMPLETE:{final_message}") # Thêm dòng này
+        
+        # Nếu là pending, ghi vào Realtime DB
+        if is_pending and count > 0:
+            from firebase_admin import db
+            pending_ref = db.reference(f"locks/{lock_id}/pending_users/{face_id}")
+            
+            # Lấy URL ảnh đầu tiên làm ảnh mẫu
+            first_image_blob_path = f"locks/{lock_id}/pending_faces/{face_id}/{face_id}_{face_name.replace(' ', '_')}_straight_1.jpg"
+            first_image_blob = bucket.blob(first_image_blob_path)
+            sample_image_url = None
+            try:
+                if first_image_blob.exists():
+                    sample_image_url = first_image_blob.public_url
+            except Exception as e:
+                logging.warning(f"Không thể lấy public_url cho ảnh mẫu: {e}")
+
+            pending_ref.set({
+                'name': face_name,
+                'registeredAt': datetime.now().isoformat(),
+                'sampleImage': sample_image_url
+            })
+
+        print(f"COMPLETE:{final_message}")
         send_telegram_message(
-            f"<b>HOÀN TẤT THU THẬP</b>\n"
+            f"<b>HOÀN TẤT THU THẬP {'(CHỜ DUYỆT)' if is_pending else ''}</b>\n"
             f"Người dùng: <b>{face_name}</b>\n"
             f"Tổng ảnh: <b>{count}/{sample_limit}</b>\n"
             f"Thời gian: {datetime.now().strftime('%H:%M:%S %d/%m/%Y')}"
