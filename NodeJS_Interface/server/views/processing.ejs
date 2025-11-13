@@ -59,7 +59,13 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background-color: var(--primary-color);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     .spinner-container {
@@ -133,14 +139,15 @@
       background-color: var(--medium-gray);
       border-radius: 5px;
       overflow: hidden;
+      position: relative;
     }
 
     .progress-fill {
       height: 100%;
-      background-color: var(--primary-color);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       border-radius: 5px;
       width: 0%;
-      transition: width 0.5s ease;
+      transition: width 0.3s ease;
     }
 
     .status-message {
@@ -149,27 +156,88 @@
       margin-bottom: 20px;
       font-size: 14px;
       display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-message i {
+      font-size: 18px;
     }
 
     .status-message.success {
       background-color: rgba(75, 181, 67, 0.1);
       color: var(--success-color);
       border: 1px solid var(--success-color);
-      display: block;
+      display: flex;
     }
 
     .status-message.warning {
       background-color: rgba(255, 204, 0, 0.1);
       color: #b38f00;
       border: 1px solid var(--warning-color);
-      display: block;
+      display: flex;
     }
 
     .status-message.error {
       background-color: rgba(255, 51, 51, 0.1);
       color: var(--error-color);
       border: 1px solid var(--error-color);
-      display: block;
+      display: flex;
+    }
+
+    .status-message.info {
+      background-color: rgba(67, 97, 238, 0.1);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      display: flex;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--medium-gray);
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      font-size: 18px;
+      transition: var(--transition);
+    }
+
+    .step.active .step-icon {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+    }
+
+    .step.completed .step-icon {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: var(--dark-gray);
+    }
+
+    .step.active .step-label {
+      color: var(--primary-color);
+      font-weight: 600;
     }
 
     .btn {
@@ -206,6 +274,11 @@
       gap: 15px;
       justify-content: center;
       margin-top: 20px;
+      display: none;
+    }
+
+    .action-buttons.show {
+      display: flex;
     }
 
     .btn-secondary {
@@ -228,6 +301,11 @@
       .action-buttons {
         flex-direction: column;
       }
+
+      .step-indicator {
+        flex-direction: column;
+        gap: 15px;
+      }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -239,14 +317,34 @@
       <div class="spinner-container">
         <i class="fas fa-spinner spinner"></i>
       </div>
-      <h1>Yêu cầu đã được gửi</h1>
-      <p class="message">
-        Quá trình thu thập khuôn mặt đã bắt đầu. Vui lòng nhìn vào cửa sổ camera vừa xuất hiện trên màn hình và làm theo hướng dẫn.
+      <h1 id="mainTitle">Đang khởi tạo...</h1>
+      <p class="message" id="mainMessage">
+        <%= message %>
       </p>
       
       <div class="user-info">
-        <p><strong><i class="fas fa-user"></i> Người dùng:</strong> <span id="userName">Nguyễn Văn A</span></p>
-        <p><strong><i class="fas fa-id-card"></i> Mã ID:</strong> <span id="userId">UID-001234</span></p>
+        <p><strong><i class="fas fa-user"></i> Người dùng:</strong> <span id="userName"><%= userName %></span></p>
+        <p><strong><i class="fas fa-id-card"></i> Mã ID:</strong> <span id="userId"><%= userId %></span></p>
+        <p><strong><i class="fas fa-lock"></i> Lock ID:</strong> <span id="lockId"><%= lockId %></span></p>
+      </div>
+
+      <div class="step-indicator">
+        <div class="step" id="step1">
+          <div class="step-icon"><i class="fas fa-camera"></i></div>
+          <div class="step-label">Khởi động camera</div>
+        </div>
+        <div class="step" id="step2">
+          <div class="step-icon"><i class="fas fa-user-check"></i></div>
+          <div class="step-label">Phát hiện khuôn mặt</div>
+        </div>
+        <div class="step" id="step3">
+          <div class="step-icon"><i class="fas fa-images"></i></div>
+          <div class="step-label">Thu thập ảnh</div>
+        </div>
+        <div class="step" id="step4">
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
       </div>
 
       <div class="progress-container">
@@ -263,117 +361,169 @@
         <!-- Thông báo trạng thái sẽ hiển thị ở đây -->
       </div>
 
-      <div class="action-buttons">
-        <a href="/" class="btn">
-          <i class="fas fa-home"></i> Về trang chủ
+      <div class="action-buttons" id="actionButtons">
+        <a href="/dashboard/<%= lockId %>" class="btn">
+          <i class="fas fa-tachometer-alt"></i> Về Dashboard
         </a>
-        <button id="retryBtn" class="btn btn-secondary" disabled>
-          <i class="fas fa-redo"></i> Thử lại
-        </button>
+        <a href="/face/collect/<%= lockId %>" class="btn btn-secondary">
+          <i class="fas fa-redo"></i> Thu thập lại
+        </a>
       </div>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Các phần tử DOM
-      const progressFill = document.getElementById('progressFill');
-      const progressPercent = document.getElementById('progressPercent');
-      const statusMessage = document.getElementById('statusMessage');
-      const retryBtn = document.getElementById('retryBtn');
-      const spinner = document.querySelector('.spinner');
+    // Lưu lockId từ server
+    const lockId = '<%= lockId %>';
+    const userName = '<%= userName %>';
+    
+    // Các phần tử DOM
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const statusMessage = document.getElementById('statusMessage');
+    const actionButtons = document.getElementById('actionButtons');
+    const spinner = document.querySelector('.spinner');
+    const mainTitle = document.getElementById('mainTitle');
+    const mainMessage = document.getElementById('mainMessage');
+    
+    let currentStep = 1;
+    let isCompleted = false;
+    
+    // Cập nhật bước hiện tại
+    function updateStep(step) {
+      // Đánh dấu các bước trước đó là hoàn tất
+      for (let i = 1; i < step; i++) {
+        document.getElementById(`step${i}`).classList.add('completed');
+        document.getElementById(`step${i}`).classList.remove('active');
+      }
       
-      // Giả lập tiến trình thu thập khuôn mặt
+      // Đánh dấu bước hiện tại
+      document.getElementById(`step${step}`).classList.add('active');
+      currentStep = step;
+    }
+    
+    // Cập nhật thanh tiến trình
+    function updateProgress(value) {
+      progressFill.style.width = `${value}%`;
+      progressPercent.textContent = `${Math.round(value)}%`;
+    }
+    
+    // Hiển thị thông báo trạng thái
+    function showStatus(message, type = 'info') {
+      statusMessage.textContent = message;
+      statusMessage.className = `status-message ${type}`;
+      
+      // Thêm icon phù hợp
+      const iconClass = {
+        'success': 'fa-check-circle',
+        'error': 'fa-exclamation-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+      }[type];
+      
+      statusMessage.innerHTML = `<i class="fas ${iconClass}"></i><span>${message}</span>`;
+    }
+    
+    // Hoàn thành quá trình
+    function completeProcess() {
+      if (isCompleted) return;
+      isCompleted = true;
+      
+      updateStep(4);
+      updateProgress(100);
+      
+      spinner.style.color = 'var(--success-color)';
+      spinner.classList.remove('fa-spinner');
+      spinner.classList.add('fa-check-circle');
+      spinner.style.animation = 'none';
+      
+      mainTitle.textContent = 'Thu thập hoàn tất!';
+      mainMessage.textContent = `Quá trình thu thập khuôn mặt cho ${userName} đã hoàn tất thành công. Dữ liệu đã được lưu trữ an toàn.`;
+      
+      showStatus('Quá trình thu thập khuôn mặt đã hoàn tất thành công!', 'success');
+      
+      actionButtons.classList.add('show');
+      
+      // Tự động chuyển hướng sau 5 giây
+      setTimeout(() => {
+        window.location.href = `/dashboard/${lockId}`;
+      }, 5000);
+    }
+    
+    // Xử lý lỗi
+    function handleError(errorMessage) {
+      spinner.style.color = 'var(--error-color)';
+      spinner.classList.remove('fa-spinner');
+      spinner.classList.add('fa-exclamation-triangle');
+      spinner.style.animation = 'none';
+      
+      mainTitle.textContent = 'Đã xảy ra lỗi';
+      mainMessage.textContent = 'Đã xảy ra sự cố trong quá trình thu thập khuôn mặt. Vui lòng thử lại.';
+      
+      showStatus(errorMessage || 'Đã xảy ra lỗi trong quá trình thu thập. Vui lòng thử lại.', 'error');
+      
+      actionButtons.classList.add('show');
+    }
+    
+    // Giả lập quá trình thu thập (sẽ được thay thế bằng WebSocket hoặc polling thực tế)
+    function simulateProgress() {
       let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          completeProcess();
-        }
-        
+      
+      // Bước 1: Khởi động camera
+      updateStep(1);
+      mainTitle.textContent = 'Đang khởi động camera...';
+      showStatus('Đang kết nối với camera...', 'info');
+      
+      setTimeout(() => {
+        // Bước 2: Phát hiện khuôn mặt
+        updateStep(2);
+        mainTitle.textContent = 'Đang phát hiện khuôn mặt...';
+        mainMessage.textContent = 'Vui lòng nhìn thẳng vào camera và giữ khuôn mặt trong khung hình.';
+        showStatus('Đã phát hiện khuôn mặt! Đang chuẩn bị thu thập...', 'success');
+        progress = 25;
         updateProgress(progress);
-      }, 800);
+      }, 2000);
       
-      // Cập nhật thanh tiến trình
-      function updateProgress(value) {
-        progressFill.style.width = `${value}%`;
-        progressPercent.textContent = `${Math.round(value)}%`;
+      setTimeout(() => {
+        // Bước 3: Thu thập ảnh
+        updateStep(3);
+        mainTitle.textContent = 'Đang thu thập ảnh...';
+        mainMessage.textContent = 'Vui lòng làm theo hướng dẫn trên cửa sổ camera để thu thập ảnh từ nhiều góc độ.';
+        showStatus('Đang thu thập ảnh... Vui lòng di chuyển khuôn mặt theo hướng dẫn.', 'info');
         
-        // Thay đổi màu sắc dựa trên tiến trình
-        if (value < 30) {
-          progressFill.style.backgroundColor = 'var(--error-color)';
-        } else if (value < 70) {
-          progressFill.style.backgroundColor = 'var(--warning-color)';
-        } else {
-          progressFill.style.backgroundColor = 'var(--success-color)';
-        }
-      }
-      
-      // Hoàn thành quá trình
-      function completeProcess() {
-        spinner.style.color = 'var(--success-color)';
-        spinner.classList.remove('fa-spinner');
-        spinner.classList.add('fa-check-circle');
-        spinner.style.animation = 'none';
-        
-        statusMessage.textContent = 'Quá trình thu thập khuôn mặt đã hoàn tất thành công!';
-        statusMessage.className = 'status-message success';
-        
-        retryBtn.disabled = false;
-        
-        // Cập nhật thông báo
-        document.querySelector('.message').textContent = 'Quá trình thu thập khuôn mặt đã hoàn tất. Dữ liệu của bạn đã được lưu thành công.';
-      }
-      
-      // Xử lý nút thử lại
-      retryBtn.addEventListener('click', function() {
-        // Reset trạng thái
-        progress = 0;
-        updateProgress(progress);
-        
-        spinner.style.color = 'var(--primary-color)';
-        spinner.classList.remove('fa-check-circle');
-        spinner.classList.add('fa-spinner');
-        spinner.style.animation = 'spin 1.5s linear infinite';
-        
-        statusMessage.className = 'status-message';
-        retryBtn.disabled = true;
-        
-        document.querySelector('.message').textContent = 'Quá trình thu thập khuôn mặt đã bắt đầu. Vui lòng nhìn vào cửa sổ camera vừa xuất hiện trên màn hình và làm theo hướng dẫn.';
-        
-        // Bắt đầu lại quá trình
-        const newInterval = setInterval(() => {
-          progress += Math.random() * 10;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(newInterval);
-            completeProcess();
+        // Giả lập tiến trình thu thập
+        const interval = setInterval(() => {
+          progress += Math.random() * 5;
+          if (progress >= 95) {
+            progress = 95;
+            clearInterval(interval);
+            
+            // Hoàn tất
+            setTimeout(() => {
+              completeProcess();
+            }, 1500);
           }
-          
           updateProgress(progress);
         }, 800);
-      });
+      }, 4000);
+    }
+    
+    // Bắt đầu quá trình khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Processing page loaded for lock:', lockId);
+      simulateProgress();
       
-      // Giả lập lỗi sau 5 giây (chỉ để demo)
-      setTimeout(() => {
-        // Chỉ kích hoạt lỗi ngẫu nhiên 20% thời gian
-        if (Math.random() < 0.2) {
-          clearInterval(interval);
-          spinner.style.color = 'var(--error-color)';
-          spinner.classList.remove('fa-spinner');
-          spinner.classList.add('fa-exclamation-triangle');
-          spinner.style.animation = 'none';
-          
-          statusMessage.textContent = 'Đã xảy ra lỗi trong quá trình thu thập. Vui lòng thử lại.';
-          statusMessage.className = 'status-message error';
-          
-          retryBtn.disabled = false;
-          
-          document.querySelector('.message').textContent = 'Đã xảy ra sự cố trong quá trình thu thập khuôn mặt. Vui lòng thử lại.';
-        }
-      }, 5000);
+      // TODO: Thay thế bằng WebSocket hoặc Server-Sent Events thực tế
+      // const eventSource = new EventSource(`/api/face-collection-progress/${userId}`);
+      // eventSource.onmessage = (event) => {
+      //   const data = JSON.parse(event.data);
+      //   updateProgress(data.progress);
+      //   if (data.status === 'completed') {
+      //     completeProcess();
+      //   } else if (data.status === 'error') {
+      //     handleError(data.message);
+      //   }
+      // };
     });
   </script>
 </body>

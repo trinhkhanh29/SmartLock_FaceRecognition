@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký Khuôn mặt - Hệ thống Kiểm soát Truy cập</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a56d4;
+            --success-color: #28a745;
+            --danger-color: #e74c3c;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #343a40;
+            --text-dark: #212529;
+            --border-radius: 16px;
+            --box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        h1 {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--dark-gray), #495057);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #6c757d;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .lock-info {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+            text-align: left;
+        }
+
+        .lock-info strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .lock-info .lock-id {
+            font-family: 'Courier New', monospace;
+            background: rgba(67, 97, 238, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            transition: var(--transition);
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 18px 18px 50px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: var(--transition);
+            background: var(--light-gray);
+            font-weight: 500;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input:focus + i {
+            color: var(--primary-color);
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 8px;
+            display: block;
+            padding-left: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .feature:hover {
+            background: rgba(67, 97, 238, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text strong {
+            color: var(--dark-gray);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .feature-text span {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Animation for form submission */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .submitting {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Success message styling */
+        .success-message {
+            display: none;
+            padding: 30px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--success-color);
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            
+            <h1>Đăng ký Truy cập</h1>
+            <p class="subtitle">Nhập tên của bạn để bắt đầu quá trình đăng ký khuôn mặt. Yêu cầu sẽ được gửi đến quản trị viên để phê duyệt.</p>
+
+            <div class="lock-info">
+                <strong>Thiết bị khóa</strong>
+                <div>Bạn đang đăng ký truy cập cho:</div>
+                <div class="lock-id">ID: <%= lockId %></div>
+            </div>
+
+            <form id="registrationForm" action="/register" method="POST">
+                <input type="hidden" name="lockId" value="<%= lockId %>">
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="userName" name="userName" placeholder="Nhập họ và tên đầy đủ của bạn" required>
+                    </div>
+                    <span class="input-hint">Vui lòng sử dụng tên thật để dễ dàng nhận diện và phê duyệt</span>
+                </div>
+                
+                <button type="submit" class="btn" id="submitBtn">
+                    <i class="fas fa-camera"></i>
+                    <span>Bắt đầu đăng ký khuôn mặt</span>
+                </button>
+            </form>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-camera"></i>
+                    <div class="feature-text">
+                        <strong>Chụp ảnh khuôn mặt</strong>
+                        <span>Hệ thống sẽ hướng dẫn bạn chụp ảnh từ nhiều góc độ</span>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="feature-text">
+                        <strong>Bảo mật dữ liệu</strong>
+                        <span>Thông tin khuôn mặt được mã hóa và bảo vệ an toàn</span>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-clock"></i>
+                    <div class="feature-text">
+                        <strong>Phê duyệt nhanh chóng</strong>
+                        <span>Yêu cầu thường được xử lý trong vòng 24 giờ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <h3>Đã gửi yêu cầu thành công!</h3>
+                <p>Vui lòng làm theo hướng dẫn trên màn hình tiếp theo để hoàn tất đăng ký.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const userName = document.getElementById('userName').value.trim();
+            const originalText = submitBtn.innerHTML;
+            
+            // Validate name
+            if (userName.length < 2) {
+                alert('Vui lòng nhập tên hợp lệ (ít nhất 2 ký tự)');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Đang xử lý...</span>';
+            submitBtn.classList.add('submitting');
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                // In a real application, you would submit the form here
+                // For demo purposes, we'll show a success message
+                
+                // Hide form and show success message
+                document.getElementById('registrationForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Redirect to face capture page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = `/face/collect/<%= lockId %>?userName=${encodeURIComponent(userName)}`;
+                }, 2000);
+            }, 1500);
+        });
+
+        // Add real-time validation for name input
+        document.getElementById('userName').addEventListener('input', function() {
+            const name = this.value.trim();
+            
+            if (name.length < 2) {
+                this.style.borderColor = '#e9ecef';
+            } else if (name.length >= 2 && /^[a-zA-ZÀ-ỹ\s]+$/.test(name)) {
+                this.style.borderColor = '#28a745';
+            } else {
+                this.style.borderColor = '#e74c3c';
+            }
+        });
+
+        // Add focus effect to input
+        const inputWrapper = document.querySelector('.input-wrapper');
+        document.getElementById('userName').addEventListener('focus', function() {
+            inputWrapper.style.transform = 'translateY(-2px)';
+        });
+
+        document.getElementById('userName').addEventListener('blur', function() {
+            inputWrapper.style.transform = 'translateY(0)';
+        });
+
+        // Add character counter
+        document.getElementById('userName').addEventListener('input', function() {
+            const charCount = this.value.length;
+            const hint = document.querySelector('.input-hint');
+            
+            if (charCount > 0) {
+                hint.textContent = `${charCount} ký tự đã nhập`;
+            } else {
+                hint.textContent = 'Vui lòng sử dụng tên thật để dễ dàng nhận diện và phê duyệt';
+            }
+        });
+    </script>
+</body>
+</html>

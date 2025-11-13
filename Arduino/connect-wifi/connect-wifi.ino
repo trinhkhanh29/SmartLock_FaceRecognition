@@ -177,6 +177,7 @@ void loop() {
       openDoor();
       clearLine(2);
       lcd.print("DOOR OPENED    ");
+      resetPinEntryMode(); // Reset trạng thái PIN
     }
     else if (cmd == "FAIL") {
       digitalWrite(RED_LED_PIN, HIGH);
@@ -184,9 +185,25 @@ void loop() {
       delay(2000);
       digitalWrite(RED_LED_PIN, LOW);
       clearLine(2);
+      resetPinEntryMode(); // Reset trạng thái PIN
     }
     else if (cmd == "RECOGNIZING") {
-      clearLine(2); lcd.print("RECOGNIZING... ");
+      // CHỈ GHI NẾU DÒNG 2 KHÔNG PHẢI LÀ "RECOGNIZING..." (tránh ghi liên tục)
+      static String lastLine2 = "";
+      String currentMsg = "RECOGNIZING... ";
+      if (lastLine2 != currentMsg) {
+        clearLine(2); 
+        lcd.print(currentMsg);
+        lastLine2 = currentMsg;
+      }
+    }
+    else if (cmd == "RECOGNITION_DONE") { // THÊM LỆNH MỚI
+      clearLine(2);
+      // Không in gì, để hàm measureDistance() tự cập nhật
+    }
+    else if (cmd == "SYSTEM_READY") { // THÊM LỆNH MỚI
+      clearLine(2); 
+      lcd.print("SYSTEM READY   ");
     }
   }
 
@@ -379,6 +396,13 @@ void closeDoor() {
   doorIsOpen = false;
   pinValidated = false;
   lcd.setCursor(0, 0); lcd.print("DOOR CLOSED    ");
+  
+  // THÊM: Reset dòng 2 về trạng thái hiển thị khoảng cách
+  if (!changePinMode && !waitingForPin && !isCardMode) {
+    clearLine(2);
+    // Đo khoảng cách ngay lập tức để cập nhật
+    measureDistance();
+  }
 }
 
 bool checkLCD() {
