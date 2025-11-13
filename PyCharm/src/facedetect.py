@@ -14,6 +14,7 @@ import requests
 import threading
 import time
 from dotenv import load_dotenv
+from image_enhancement import enhance_image_for_low_light, detect_low_light
 
 # === Cấu hình stdout UTF-8 cho Windows ===
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -339,6 +340,14 @@ def main():
                 continue
 
             frame = cv2.flip(frame, 1)
+            
+            # === XỬ LÝ ÁNH SÁNG YẾU ===
+            is_low_light, brightness = detect_low_light(frame)
+            if is_low_light:
+                frame = enhance_image_for_low_light(frame)
+                cv2.putText(frame, "LOW LIGHT MODE", (10, 90),
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+            
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             boxes, probs = mtcnn.detect(frame_rgb)
 

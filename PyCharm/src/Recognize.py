@@ -24,6 +24,15 @@ import pstats
 import logging
 import argparse
 
+# THÊM IMPORT CÁC HÀM XỬ LÝ ÁNH SÁNG YẾU
+from image_enhancement import (
+    enhance_image_for_low_light, 
+    auto_gamma,  # THAY ĐỔI: Dùng auto_gamma thay vì adjust_gamma
+    auto_brightness_contrast, 
+    detect_low_light,
+    preprocess_image  # THÊM: Hàm pipeline tự động
+)
+
 # Thiết lập logging cho thống kê hiệu năng
 logging.basicConfig(
     filename='performance_log_dell_g3_3579.txt',
@@ -384,6 +393,23 @@ def parse_cli_args():
     parser.add_argument("--lock_id", required=True, help="ID of the lock to use")
     return parser.parse_args()
 
+def enable_ir_mode(cam):
+    """
+    Kích hoạt chế độ hồng ngoại nếu camera hỗ trợ
+    """
+    try:
+        # Tắt auto white balance
+        cam.set(cv2.CAP_PROP_AUTO_WB, 0)
+        # Tăng exposure
+        cam.set(cv2.CAP_PROP_EXPOSURE, 0.5)
+        # Tăng gain
+        cam.set(cv2.CAP_PROP_GAIN, 100)
+        print("[INFO] Đã kích hoạt chế độ IR")
+        return True
+    except Exception as e:
+        print(f"[WARNING] Không thể kích hoạt IR: {e}")
+        return False
+
 def main():
     args = parse_cli_args()
     selected_mode = args.mode
@@ -422,6 +448,10 @@ def main():
     error_count = 0
     frame_drop_count = 0
 
+    # Thống kê hiệu suất
+    low_light_frames = 0
+    enhanced_frames = 0
+
     try:
         bucket = initialize_firebase()
         dataset_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dataset"))
@@ -435,7 +465,16 @@ def main():
             print("[ERROR] Không có dữ liệu khuôn mặt.")
             sys.exit(1)
 
-        mtcnn = MTCNN(keep_all=False, min_face_size=150, thresholds=[0.7, 0.8, 0.8], device=device)
+        # Khởi tạo MTCNN với cấu hình phù hợp ánh sáng yếu
+        # Giảm ngưỡng thresholds để dễ phát hiện hơn trong điều kiện thiếu sáng
+        mtcnn = MTCNN(
+            keep_all=False, 
+            min_face_size=120,  # Giảm từ 150 xuống 120
+            thresholds=[0.6, 0.7, 0.7],  # Giảm từ [0.7, 0.8, 0.8]
+            device=device,
+            post_process=True  # Bật post-processing
+        )
+        
         resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
         face_detector = load_deep_face_detector()
         if face_detector is None:
@@ -451,6 +490,9 @@ def main():
             sys.exit(1)
         cam.set(3, 640)
         cam.set(4, 480)
+        
+        # Kích hoạt IR nếu có
+        enable_ir_mode(cam)
 
         sound_path = os.path.join(os.path.dirname(__file__), '../sound/Ring-Doorbell-Sound.wav')
         if os.path.exists(sound_path):
@@ -467,6 +509,27 @@ def main():
 
             frame = cv2.flip(frame, 1)
             frame_count += 1
+            
+            # === PHÁT HIỆN VÀ XỬ LÝ ÁNH SÁNG YẾU (CÁCH 1: Tự động hoàn toàn) ===
+            frame = preprocess_image(frame)  # SỬ DỤNG PIPELINE TỰ ĐỘNG
+            
+            # HOẶC CÁCH 2: Xử lý thủ công như cũ nhưng dùng auto_gamma
+            """
+            is_low_light, brightness = detect_low_light(frame)
+            
+            if is_low_light:
+                low_light_frames += 1
+                print(f"[WARNING] Phát hiện ánh sáng yếu (độ sáng: {brightness:.1f})")
+                
+                frame = enhance_image_for_low_light(frame)
+                enhanced_frames += 1
+                
+                cv2.putText(frame, f"LOW LIGHT - Enhanced (Brightness: {brightness:.0f})", 
+                           (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+            else:
+                frame = auto_brightness_contrast(frame, clip_hist_percent=1)
+            """
+            
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             if time.perf_counter() < lockout_time:
@@ -637,6 +700,10 @@ def main():
                                 tts_engine.say("Hệ thống tạm khóa.")
                                 tts_engine.runAndWait()
 
+            # Hiển thị thông tin độ sáng
+            cv2.putText(frame, f"Brightness: {brightness:.0f}", (10, frame.shape[0] - 40),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
+            
             fps = frame_count / (time.perf_counter() - start_time)
             cv2.putText(frame, f"FPS: {fps:.1f}", (10, frame.shape[0] - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
@@ -663,11 +730,19 @@ def main():
         print(f"Độ trễ serial: {avg_serial_latency:.3f} s")
         print(f"Tổng nhận diện: {total_recognitions}, Đúng: {correct_recognitions}")
 
+        print(f"\n[THỐNG KÊ ÁNH SÁNG]")
+        print(f"Số frame ánh sáng yếu: {low_light_frames}/{frame_count} ({low_light_frames/frame_count*100:.1f}% nếu frame_count > 0 else 0)")
+        print(f"Số frame đã nâng cao: {enhanced_frames}")
+
         if os.path.exists(temp_photo_path):
-            try: os.remove(temp_photo_path)
-            except: pass
-        if 'cam' in locals(): cam.release()
-        if 'ser' in locals() and ser and ser.is_open: ser.close()
+            try: 
+                os.remove(temp_photo_path)
+            except: 
+                pass
+        if 'cam' in locals(): 
+            cam.release()
+        if 'ser' in locals() and ser and ser.is_open: 
+            ser.close()
         cv2.destroyAllWindows()
         print("[INFO] Đã thoát chương trình.")
 
