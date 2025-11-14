@@ -433,6 +433,16 @@ void measureDistance() {
     obstacleDetected = false;
   }
 
+  // === GỬI DỮ LIỆU KHOẢNG CÁCH VỀ PYTHON ===
+  if (distance > 0 && distance < 400) {
+    Serial.print("DISTANCE:");
+    Serial.println(distance, 1);  // Gửi 1 chữ số thập phân
+  } else {
+    Serial.println("DISTANCE:OUT_RANGE");
+  }
+  // =========================================
+
+  // === HIỂN THỊ TRÊN LCD (giữ nguyên) ===
   if (!changePinMode && !pinValidated && !isCardMode && !waitingForPin) {
     clearLine(2);
     if (distance > 0 && distance < 400) {
