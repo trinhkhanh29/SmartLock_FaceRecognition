@@ -410,6 +410,10 @@ def enable_ir_mode(cam):
         print(f"[WARNING] Không thể kích hoạt IR: {e}")
         return False
 
+# --- Thêm hằng số cấu hình ---
+FACE_MATCH_THRESHOLD = 0.3
+# -----------------------------------
+
 def main():
     args = parse_cli_args()
     selected_mode = args.mode
@@ -510,6 +514,10 @@ def main():
             frame = cv2.flip(frame, 1)
             frame_count += 1
             
+            # SỬA LỖI: Lấy giá trị brightness trước khi xử lý ảnh
+            # Điều này đảm bảo biến 'brightness' luôn được định nghĩa.
+            _, brightness = detect_low_light(frame)
+
             # === PHÁT HIỆN VÀ XỬ LÝ ÁNH SÁNG YẾU (CÁCH 1: Tự động hoàn toàn) ===
             frame = preprocess_image(frame)  # SỬ DỤNG PIPELINE TỰ ĐỘNG
             
@@ -575,7 +583,7 @@ def main():
                         min_distance = min(distances)
                         min_idx = distances.index(min_distance)
                         confidence_percent = max(0, min(100, (1 - min_distance / 2) * 100))
-                        if min_distance < 0.6:
+                        if min_distance < FACE_MATCH_THRESHOLD:
                             name = known_names[min_idx]
                             total_recognitions += 1
                             correct_recognitions += 1
@@ -649,7 +657,7 @@ def main():
                                     send_serial_command(ser, "FAIL")
                                     return
                         
-                        # Kiểm tra PIN
+                        # Kiểm tra PIN  
                         if received_pin == expected_pin:
                             print("[SUCCESS] PIN chính xác!")
                             message = f"[✅ Mở cửa] {name} - PIN đúng | {now_str}"

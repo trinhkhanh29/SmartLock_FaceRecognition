@@ -246,6 +246,13 @@
   </div>
 
   <script>
+    // Tự động tạo và điền User ID ngẫu nhiên khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tạo một chuỗi hex ngẫu nhiên gồm 8 ký tự
+        const randomId = Array.from({ length: 8 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+        document.getElementById('userId').value = randomId;
+    });
+
     // Thêm hiệu ứng tương tác cho các input
     document.querySelectorAll('input').forEach(input => {
       input.addEventListener('focus', function() {

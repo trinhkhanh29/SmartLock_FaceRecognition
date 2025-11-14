@@ -463,6 +463,13 @@
                                 <a href="/dashboard/<%= lock.id %>" class="btn btn-primary">
                                     <i class="fas fa-tachometer-alt"></i> Dashboard
                                 </a>
+                                <!-- THÊM NÚT TRAIN MODEL -->
+                                <form action="/locks/train-quick" method="POST" style="display:inline;" onsubmit="return confirm('Train model cho khóa này? (Cần có ít nhất 1 người dùng)');">
+                                    <input type="hidden" name="lockId" value="<%= lock.id %>">
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fas fa-robot"></i> Train Model
+                                    </button>
+                                </form>
                                 <form action="/locks/delete" method="POST" onsubmit="return confirm('Hành động này sẽ xóa vĩnh viễn khóa và toàn bộ dữ liệu liên quan. Bạn có chắc chắn?');">
                                     <input type="hidden" name="lockId" value="<%= lock.id %>">
                                     <button type="submit" class="btn btn-danger">
