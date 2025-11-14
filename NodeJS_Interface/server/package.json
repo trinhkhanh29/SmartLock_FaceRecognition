@@ -1,6 +1,7 @@
 {
   "name": "smartlock-interface",
   "version": "1.0.0",
+  "type": "module",
   "description": "Giao diện cho Smart Lock",
   "main": "server.js",
   "scripts": {
