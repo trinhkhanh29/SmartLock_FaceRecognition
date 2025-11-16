@@ -1,0 +1,140 @@
+@startuml Face Registration Flow
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+
+title Luồng đăng ký khuôn mặt mới
+
+actor "Admin/User" as admin
+participant "Web Browser" as browser
+participant "Node.js Server" as nodejs
+participant "Python Service\n(facedetect.py)" as python
+participant "Camera" as camera
+participant "Firebase\nStorage" as storage
+participant "Firebase\nDatabase" as firebase
+participant "trainer.py" as trainer
+
+== Đăng ký người dùng mới (Admin) ==
+admin -> browser : Truy cập /face/collect/{lockId}
+browser -> nodejs : GET /face/collect/{lockId}
+nodejs -> nodejs : Check authentication
+nodejs -> nodejs : Check lock access permission
+nodejs --> browser : Render collect_face.ejs
+
+admin -> browser : Nhập userId, userName
+browser -> nodejs : POST /face/collect\n{userId, userName, lockId}
+nodejs -> nodejs : Validate input
+nodejs -> python : spawn(facedetect.py userId userName lockId)
+activate python
+nodejs --> browser : Render processing.ejs\n"Thu thập khuôn mặt đã bắt đầu"
+
+python -> camera : Initialize VideoCapture(0)
+camera --> python : Camera ready
+
+loop Thu thập 15 ảnh khuôn mặt
+    python -> camera : Capture frame
+    camera --> python : Return frame
+    python -> python : Detect face (MTCNN)
+    
+    alt Phát hiện khuôn mặt
+        python -> python : Check face quality\n(size >= 150x150)
+        python -> python : Extract face region
+        python -> python : Save to temp file
+        
+        python -> storage : Upload to locks/{lockId}/faces/{userId}/{fileName}
+        storage --> python : Upload success
+        python -> python : Increment counter (1/15)
+        
+        python -> camera : Display preview\n"Collected: 1/15"
+    else Không phát hiện khuôn mặt
+        python -> camera : Display "No face detected"
+    end
+    
+    python -> python : Check if count == 15
+end
+
+python -> camera : Release camera
+python -> python : Clean temp files
+python --> nodejs : Exit with code 0
+deactivate python
+
+nodejs -> browser : Redirect to /dashboard/{lockId}
+browser -> admin : Display "Đã thu thập 15 ảnh"
+
+== Đăng ký Guest (Pending Approval) ==
+actor "Guest" as guest
+guest -> browser : Truy cập /register/{lockId}
+browser -> nodejs : GET /register/{lockId}
+nodejs --> browser : Render register_face.ejs
+
+guest -> browser : Nhập userName
+browser -> nodejs : POST /register\n{userName, lockId}
+nodejs -> nodejs : Generate userId (crypto.randomBytes)
+nodejs -> python : spawn(facedetect.py userId userName lockId --pending)
+activate python
+nodejs --> browser : Render processing.ejs\n"Yêu cầu đăng ký đã được gửi"
+
+python -> camera : Initialize VideoCapture(0)
+python -> camera : Capture 15 frames
+python -> storage : Upload to locks/{lockId}/pending_faces/{userId}/
+storage --> python : Upload success
+
+python -> firebase : Write to locks/{lockId}/pending_users/{userId}\n{name, createdAt, status:"pending"}
+firebase --> python : Write success
+
+python --> nodejs : Exit
+deactivate python
+
+admin -> browser : Truy cập /dashboard/{lockId}
+browser -> nodejs : GET /dashboard/{lockId}
+nodejs -> firebase : GET locks/{lockId}/pending_users
+firebase --> nodejs : Return pending list
+nodejs --> browser : Display pending users
+
+alt Admin phê duyệt
+    admin -> browser : Click "Duyệt"
+    browser -> nodejs : POST /dashboard/approve-user\n{userId, lockId}
+    nodejs -> storage : Move files from pending_faces/ to faces/
+    storage --> nodejs : Move success
+    nodejs -> firebase : DELETE locks/{lockId}/pending_users/{userId}
+    firebase --> nodejs : Delete success
+    nodejs --> browser : Redirect to dashboard
+else Admin từ chối
+    admin -> browser : Click "Từ chối"
+    browser -> nodejs : POST /dashboard/reject-user\n{userId, lockId}
+    nodejs -> storage : Delete files in pending_faces/{userId}/
+    storage --> nodejs : Delete success
+    nodejs -> firebase : DELETE locks/{lockId}/pending_users/{userId}
+    firebase --> nodejs : Delete success
+    nodejs --> browser : Redirect to dashboard
+end
+
+== Training Model sau khi thêm người dùng ==
+admin -> browser : Click "Train Model"
+browser -> nodejs : POST /dashboard/train-model\n{lockId}
+nodejs -> nodejs : Delete old embeddings.pkl
+nodejs -> trainer : spawn(trainer.py lockId)
+activate trainer
+
+trainer -> storage : GET files from locks/{lockId}/faces/
+storage --> trainer : Return list of images
+
+loop Xử lý từng người dùng
+    trainer -> storage : Download ảnh của userId
+    storage --> trainer : Return image data
+    trainer -> trainer : Load image
+    trainer -> trainer : Detect face (MTCNN)
+    trainer -> trainer : Extract embedding (FaceNet)
+    trainer -> trainer : Add to embeddings list
+end
+
+trainer -> trainer : Save embeddings.pkl\n{known_embeddings, known_ids, known_names}
+trainer -> trainer : Save to dataset/{lockId}/embeddings.pkl
+trainer --> nodejs : Exit with code 0
+deactivate trainer
+
+nodejs --> browser : Redirect to /dashboard/{lockId}?status=trained
+browser -> admin : Display "✅ Model đã được train"
+
+@enduml

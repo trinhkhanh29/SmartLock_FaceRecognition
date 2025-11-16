@@ -1,0 +1,103 @@
+# ========================================
+# ENVIRONMENT VARIABLES (SENSITIVE DATA)
+# ========================================
+.env
+*.env
+.env.*
+!.env.example
+
+# Firebase credentials
+**/firebase_credentials.json
+firebase-adminsdk-*.json
+
+# Python environment
+.env/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+performance_log*.txt
+profile_stats*.txt
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+temp_face.jpg
+
+# Python compiled
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Model files (large)
+*.pkl
+*.h5
+*.caffemodel
+*.pth
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Certificates
+*.pem
+*.key
+*.crt
+.ssl/
+
+# Arduino build files
+*.hex
+*.elf
+*.bin
+*.map
+
+# Dataset (large files)
+dataset/**/*.jpg
+dataset/**/*.png
+dataset/**/*.jpeg
+!dataset/.gitkeep
+
+# Debug
+debug_faces/
+*.dmp
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/

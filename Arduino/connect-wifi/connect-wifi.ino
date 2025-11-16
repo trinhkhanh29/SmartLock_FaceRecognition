@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <Keypad.h>
-#include <LiquidCrystal_I2C.h>  // DÙNG THƯ VIỆN NÀY: Frank de Brabander
+#include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include <Preferences.h>
 
@@ -20,6 +20,7 @@ const char* password = "28280303";
 #define TRIG_PIN 13
 #define ECHO_PIN 27
 #define MAX_UIDS 109
+#define TEMP_CODE_LENGTH 6
 
 // --- Keypad ---
 const byte ROWS = 4;
@@ -65,20 +66,53 @@ bool waitingForPin = false;
 unsigned long pinEntryStartTime = 0;
 const unsigned long pinEntryTimeout = 30000;
 
-// --- Hàm nguyên mẫu ---
-void loadDataFromFlash();
-void savePinToFlash(String pinToSave);
-void saveUIDsToFlash();
-bool checkLCD();
-void openDoor();
-void closeDoor();
-void addCard();
-void deleteCard();
-void displayCard();
-void measureDistance();
-void resetPinEntryMode();
-void handleKeypad(char key);
-void clearLine(int line);
+// --- Biến trạng thái mã tạm ---
+bool isTempCodeMode = false;
+String tempCodeInput = "";
+String YOUR_LOCK_ID = "";
+
+// THÊM: Thông tin Backend API
+const char* BACKEND_URL = "http://10.55.26.46:3000"; // <-- THAY IP NÀY BẰNG IP MÁY TÍNH CỦA BẠN
+
+// =================================================================
+// HÀM HỖ TRỢ - DI CHUYỂN LÊN ĐẦU (TRƯỚC setup)
+void clearLine(int line) {
+  lcd.setCursor(0, line);
+  lcd.print("                    "); // 20 spaces
+  lcd.setCursor(0, line);
+}
+
+void clearInputLine() {
+  lcd.setCursor(5, 1);
+  lcd.print("                "); // 16 spaces
+  lcd.setCursor(5, 1);
+}
+
+void displayLockID() {
+  clearLine(2);
+  lcd.print("ID:");
+  lcd.print(YOUR_LOCK_ID.substring(0, 12));
+}
+
+void displayIP() {
+  clearLine(3);
+  lcd.print("IP: ");
+  lcd.print(WiFi.localIP().toString());
+}
+
+void restoreDefaultDisplay() {
+  isCardMode = false;
+  isTempCodeMode = false;
+  changePinMode = false;
+  waitingForPin = false;
+
+  lcd.setCursor(0, 0); lcd.print(doorIsOpen ? "DOOR OPEN      " : "DOOR CLOSED    ");
+  lcd.setCursor(0, 1); lcd.print("PIN: ");
+  clearInputLine();
+  displayLockID();
+  displayIP();
+  measureDistance();  // Cập nhật DIST nếu không có chế độ nào
+}
 
 // =================================================================
 void setup() {
@@ -118,12 +152,31 @@ void setup() {
   if (WiFi.status() == WL_CONNECTED) {
     String ip = WiFi.localIP().toString();
     Serial.println("\nWiFi connected: " + ip);
-    lcd.setCursor(4, 3); lcd.print(ip);
+    displayIP();  // ← DÙNG HÀM MỚI
   } else {
     Serial.println("\nWiFi failed");
     lcd.setCursor(0, 2); lcd.print("WIFI ERROR     ");
     while (true);
   }
+
+  // === LẤY HOẶC SET LOCK ID ===
+  preferences.begin("smartlock", false);
+  YOUR_LOCK_ID = preferences.getString("lock_id", "");
+  if (YOUR_LOCK_ID.length() == 0) {
+    YOUR_LOCK_ID = "a03ab4496ccca125";
+    preferences.putString("lock_id", YOUR_LOCK_ID);
+    Serial.println("[SETUP] [INIT] Lock ID: " + YOUR_LOCK_ID);
+  } else {
+    Serial.println("[SETUP] [OK] Lock ID: " + YOUR_LOCK_ID);
+  }
+  preferences.end();
+
+  // Hiển thị ID 3 giây
+  displayLockID();
+  delay(3000);
+  clearLine(2); lcd.print("SYSTEM READY   ");
+
+  Serial.println("[SETUP] Lock ID: " + YOUR_LOCK_ID);
 
   // Web routes
   server.on("/SUCCESS", HTTP_GET, []() {
@@ -168,16 +221,14 @@ void loop() {
       waitingForPin = true;
       inputPin = "";
       pinEntryStartTime = millis();
-      clearLine(2);
-      lcd.setCursor(0, 2); lcd.print("ENTER PIN TO OPEN");
-      lcd.setCursor(5, 1); lcd.print("    ");
+      clearLine(2); lcd.print("ENTER PIN TO OPEN");
+      clearInputLine();
       Serial.println("PIN_PROMPT");
     }
     else if (cmd == "SUCCESS") {
       openDoor();
-      clearLine(2);
-      lcd.print("DOOR OPENED    ");
-      resetPinEntryMode(); // Reset trạng thái PIN
+      clearLine(2); lcd.print("DOOR OPENED    ");
+      resetPinEntryMode();
     }
     else if (cmd == "FAIL") {
       digitalWrite(RED_LED_PIN, HIGH);
@@ -185,25 +236,17 @@ void loop() {
       delay(2000);
       digitalWrite(RED_LED_PIN, LOW);
       clearLine(2);
-      resetPinEntryMode(); // Reset trạng thái PIN
+      resetPinEntryMode();
     }
     else if (cmd == "RECOGNIZING") {
-      // CHỈ GHI NẾU DÒNG 2 KHÔNG PHẢI LÀ "RECOGNIZING..." (tránh ghi liên tục)
-      static String lastLine2 = "";
-      String currentMsg = "RECOGNIZING... ";
-      if (lastLine2 != currentMsg) {
-        clearLine(2); 
-        lcd.print(currentMsg);
-        lastLine2 = currentMsg;
+      static String last = "";
+      if (last != "RECOGNIZING... ") {
+        clearLine(2); lcd.print("RECOGNIZING... ");
+        last = "RECOGNIZING... ";
       }
     }
-    else if (cmd == "RECOGNITION_DONE") { // THÊM LỆNH MỚI
+    else if (cmd == "RECOGNITION_DONE" || cmd == "SYSTEM_READY") {
       clearLine(2);
-      // Không in gì, để hàm measureDistance() tự cập nhật
-    }
-    else if (cmd == "SYSTEM_READY") { // THÊM LỆNH MỚI
-      clearLine(2); 
-      lcd.print("SYSTEM READY   ");
     }
   }
 
@@ -214,8 +257,7 @@ void loop() {
     Serial.println("PIN_TIMEOUT");
     delay(2000);
     clearLine(2);
-    inputPin = "";
-    lcd.setCursor(5, 1); lcd.print("    ");
+    clearInputLine();
   }
 
   // === Đo khoảng cách ===
@@ -227,7 +269,7 @@ void loop() {
   }
 
   // === RFID ===
-  if (!isCardMode && !waitingForPin && rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+  if (!isCardMode && !waitingForPin && !isTempCodeMode && rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
     String cardUID = "";
     for (byte i = 0; i < rfid.uid.size; i++) {
       cardUID += String(rfid.uid.uidByte[i] < 0x10 ? "0" : "");
@@ -273,7 +315,7 @@ void loop() {
 void resetPinEntryMode() {
   waitingForPin = false;
   clearLine(2);
-  lcd.setCursor(5, 1); lcd.print("    ");
+  clearInputLine();
 }
 
 void loadDataFromFlash() {
@@ -395,14 +437,7 @@ void closeDoor() {
   digitalWrite(GREEN_LED_PIN, LOW);
   doorIsOpen = false;
   pinValidated = false;
-  lcd.setCursor(0, 0); lcd.print("DOOR CLOSED    ");
-  
-  // THÊM: Reset dòng 2 về trạng thái hiển thị khoảng cách
-  if (!changePinMode && !waitingForPin && !isCardMode) {
-    clearLine(2);
-    // Đo khoảng cách ngay lập tức để cập nhật
-    measureDistance();
-  }
+  restoreDefaultDisplay();  // ← SẠCH HOÀN TOÀN
 }
 
 bool checkLCD() {
@@ -433,17 +468,15 @@ void measureDistance() {
     obstacleDetected = false;
   }
 
-  // === GỬI DỮ LIỆU KHOẢNG CÁCH VỀ PYTHON ===
   if (distance > 0 && distance < 400) {
     Serial.print("DISTANCE:");
-    Serial.println(distance, 1);  // Gửi 1 chữ số thập phân
+    Serial.println(distance, 1);
   } else {
     Serial.println("DISTANCE:OUT_RANGE");
   }
-  // =========================================
 
-  // === HIỂN THỊ TRÊN LCD (giữ nguyên) ===
-  if (!changePinMode && !pinValidated && !isCardMode && !waitingForPin) {
+  // Chỉ hiển thị khi KHÔNG có chế độ nào bật
+  if (!changePinMode && !pinValidated && !isCardMode && !waitingForPin && !isTempCodeMode) {
     clearLine(2);
     if (distance > 0 && distance < 400) {
       lcd.print("DIST: "); lcd.print(distance, 0); lcd.print(" cm ");
@@ -454,81 +487,106 @@ void measureDistance() {
 }
 
 void handleKeypad(char key) {
-  // === TRƯỜNG HỢP 1: ĐANG CHỜ NHẬP PIN SAU NHẬN DIỆN (GỬI VỀ PYTHON) ===
+  // === 1. NHẬP PIN SAU NHẬN DIỆN ===
   if (waitingForPin) {
-    pinEntryStartTime = millis(); // Reset timeout mỗi khi bấm phím
-
-    if (key >= '0' && key <= '9') {
-      if (inputPin.length() < 4) {
-        inputPin += key;
-        lcd.setCursor(5, 1);
-        lcd.print(inputPin);
-        lcd.print("    "); // Xóa ký tự dư
-        Serial.println("[DEBUG] PIN Input: " + inputPin);
-      }
+    pinEntryStartTime = millis();
+    if (key >= '0' && key <= '9' && inputPin.length() < 4) {
+      inputPin += key;
+      clearInputLine();
+      lcd.print(inputPin);
+      Serial.println("[DEBUG] PIN Input: " + inputPin);
     }
     else if (key == '#') {
-      // Xác nhận PIN và gửi về Python
       if (inputPin.length() == 0) {
-        clearLine(2);
-        lcd.print("NHAP PIN TRUOC!");
+        clearLine(2); lcd.print("NHAP PIN TRUOC!");
         delay(1000);
-        clearLine(2);
-        lcd.setCursor(0, 2); lcd.print("ENTER PIN TO OPEN");
+        clearLine(2); lcd.print("ENTER PIN TO OPEN");
         return;
       }
-
-      // GỬI PIN VỀ PYTHON ĐỂ KIỂM TRA
       Serial.println("PIN_ENTERED:" + inputPin);
-      clearLine(2);
-      lcd.print("CHECKING PIN...");
-      inputPin = "";
-      lcd.setCursor(5, 1); lcd.print("    ");
-      waitingForPin = false; // Kết thúc trạng thái nhập PIN
+      clearLine(2); lcd.print("CHECKING PIN...");
+      clearInputLine();
+      waitingForPin = false;
     }
-    return; // QUAN TRỌNG: Thoát khỏi hàm
+    return;
   }
 
-  // === TRƯỜNG HỢP 2: ĐANG ĐỔI PIN ===
+  // === 2. ĐỔI PIN ===
   if (changePinMode) {
-    if (key >= '0' && key <= '9') {
-      if (newPin.length() < 4) {
-        newPin += key;
-        lcd.setCursor(5, 1);
-        lcd.print(newPin);
-        lcd.print("    ");
-      }
+    if (key >= '0' && key <= '9' && newPin.length() < 4) {
+      newPin += key;
+      clearInputLine();
+      lcd.print(newPin);
     }
     else if (key == '#') {
       if (newPin.length() == 4) {
         savePinToFlash(newPin);
         clearLine(2); lcd.print("PIN CHANGE OK  ");
-        digitalWrite(GREEN_LED_PIN, HIGH); 
-        delay(2000); 
-        digitalWrite(GREEN_LED_PIN, LOW);
+        digitalWrite(GREEN_LED_PIN, HIGH); delay(2000); digitalWrite(GREEN_LED_PIN, LOW);
       } else {
         clearLine(2); lcd.print("PIN MUST BE 4  ");
-        digitalWrite(RED_LED_PIN, HIGH); 
-        delay(2000); 
-        digitalWrite(RED_LED_PIN, LOW);
+        digitalWrite(RED_LED_PIN, HIGH); delay(2000); digitalWrite(RED_LED_PIN, LOW);
       }
-      changePinMode = false; 
-      newPin = ""; 
-      inputPin = ""; 
-      pinValidated = false;
-      resetPinEntryMode();
+      changePinMode = false; newPin = ""; resetPinEntryMode();
     }
-    return; // Thoát khỏi hàm
+    return;
   }
 
-  // === TRƯỜNG HỢP 3: NHẬP PIN BÌNH THƯỜNG (MỞ CỬA TRỰC TIẾP) ===
-  if (key >= '0' && key <= '9') {
-    if (inputPin.length() < 4) {
-      inputPin += key;
-      lcd.setCursor(5, 1);
-      lcd.print(inputPin);
-      lcd.print("    ");
+  // === 3. NHẬP MÃ TẠM 6 SỐ ===
+  if (isTempCodeMode) {
+    if (key >= '0' && key <= '9' && tempCodeInput.length() < TEMP_CODE_LENGTH) {
+      tempCodeInput += key;
+      clearInputLine();
+      lcd.print(tempCodeInput);
+      int remaining = TEMP_CODE_LENGTH - tempCodeInput.length();
+      if (remaining > 0) {
+        lcd.print(" ("); lcd.print(remaining); lcd.print(")");
+      }
     }
+    else if (key == '#') {
+      if (tempCodeInput.length() == TEMP_CODE_LENGTH) {
+        clearLine(2); lcd.print("CHECKING CODE...");
+        Serial.println("[TEMP_CODE] Verifying: " + tempCodeInput);
+        
+        if (verifyTempCodeWithServer(tempCodeInput)) {
+          openDoor();
+          clearLine(2); lcd.print("CODE ACCEPTED  ");
+          digitalWrite(GREEN_LED_PIN, HIGH); delay(1000); digitalWrite(GREEN_LED_PIN, LOW);
+          clearLine(3);
+          displayLockID();
+        } else {
+          digitalWrite(RED_LED_PIN, HIGH);
+          clearLine(2); lcd.print("INVALID CODE   ");
+          delay(2000); digitalWrite(RED_LED_PIN, LOW);
+          clearLine(2);
+          clearLine(3);
+        }
+      } else {
+        clearLine(2); lcd.print("CODE MUST BE 6 ");
+        delay(1000);
+        clearLine(2); lcd.print("Enter 6 digits:");
+      }
+      
+      isTempCodeMode = false;
+      tempCodeInput = "";
+      clearInputLine();
+    }
+    else if (key == '*') {
+      isTempCodeMode = false;
+      tempCodeInput = "";
+      clearLine(2); lcd.print("CANCELLED      ");
+      clearLine(3);
+      clearInputLine();
+      Serial.println("[TEMP_CODE] Cancelled");
+    }
+    return;
+  }
+
+  // === 4. NHẬP PIN BÌNH THƯỜNG ===
+  if (key >= '0' && key <= '9' && inputPin.length() < 4) {
+    inputPin += key;
+    clearInputLine();
+    lcd.print(inputPin);
   }
   else if (key == '#') {
     if (inputPin == currentPin) {
@@ -537,58 +595,97 @@ void handleKeypad(char key) {
       clearLine(2); lcd.print("OPEN BY PIN    ");
     } else {
       clearLine(2); lcd.print("WRONG PIN      ");
-      digitalWrite(RED_LED_PIN, HIGH); 
-      delay(2000); 
-      digitalWrite(RED_LED_PIN, LOW);
+      digitalWrite(RED_LED_PIN, HIGH); delay(2000); digitalWrite(RED_LED_PIN, LOW);
       clearLine(2);
     }
-    inputPin = ""; 
-    lcd.setCursor(5, 1); lcd.print("    ");
+    inputPin = ""; clearInputLine();
   }
-  else if (key == '*') {
-    if (pinValidated) {
-      changePinMode = true; 
-      newPin = ""; 
-      inputPin = "";
-      clearLine(2); lcd.print("ENTER NEW PIN  ");
-      lcd.setCursor(5, 1); lcd.print("    ");
-    } else {
-      clearLine(2); lcd.print("DENIED         ");
-      digitalWrite(RED_LED_PIN, HIGH); 
-      delay(2000); 
-      digitalWrite(RED_LED_PIN, LOW);
-      clearLine(2);
-    }
+  else if (key == '*' && pinValidated) {
+    changePinMode = true; newPin = ""; inputPin = "";
+    clearLine(2); lcd.print("ENTER NEW PIN  ");
+    clearInputLine();
   }
-  // === TRƯỜNG HỢP 4: QUẢN LÝ THẺ ===
+  else if (key == '*' && !pinValidated) {
+    clearLine(2); lcd.print("DENIED         ");
+    digitalWrite(RED_LED_PIN, HIGH); delay(2000); digitalWrite(RED_LED_PIN, LOW);
+    clearLine(2);
+  }
+
+  // === 5. QUẢN LÝ THẺ ===
   else if (pinValidated) {
-    if (key == 'A') { 
-      isCardMode = true; 
-      currentCardIndex = 0; 
-      displayCard(); 
-    }
-    else if (key == 'B') { 
-      isCardMode = true; 
-      addCard(); 
-      displayCard(); 
-    }
-    else if (key == 'C') { 
-      isCardMode = true; 
-      deleteCard(); 
-      displayCard(); 
-    }
+    if (key == 'A') { isCardMode = true; currentCardIndex = 0; displayCard(); }
+    else if (key == 'B') { isCardMode = true; addCard(); displayCard(); }
+    else if (key == 'C') { isCardMode = true; deleteCard(); displayCard(); }
     else if (key == 'D' && isCardMode) {
-      isCardMode = false;
-      lcd.clear();
-      lcd.setCursor(0, 0); lcd.print(doorIsOpen ? "DOOR OPEN      " : "DOOR CLOSED    ");
-      lcd.setCursor(0, 1); lcd.print("PIN: ");
-      lcd.setCursor(0, 3); lcd.print("IP: "); lcd.print(WiFi.localIP().toString());
+      restoreDefaultDisplay();  // ← SẠCH HOÀN TOÀN
     }
+  }
+
+  // === 6. KÍCH HOẠT MÃ TẠM (PHÍM D) ===
+  else if (key == 'D') {
+    isTempCodeMode = true;
+    tempCodeInput = "";
+    clearLine(2); lcd.print("CODE(ID:");
+    lcd.print(YOUR_LOCK_ID.substring(0, 8)); lcd.print(")");
+    clearLine(3); lcd.print("Enter 6 digits #OK");
+    clearInputLine();
+    Serial.println("[TEMP_CODE] Mode ON - ID: " + YOUR_LOCK_ID);
   }
 }
 
-void clearLine(int line) {
-  lcd.setCursor(0, line);
-  lcd.print("                    ");
-  lcd.setCursor(0, line);
+// =================================================================
+// Firebase Temp Code -> SỬA LẠI ĐỂ GỌI NODEJS API
+bool verifyTempCodeWithServer(String code) {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("[TEMP_CODE] WiFi not connected");
+    return false;
+  }
+
+  HTTPClient http;
+  // GỌI ĐẾN NODEJS BACKEND THAY VÌ FIREBASE
+  String url = String(BACKEND_URL) + "/api/verify-temp-code";
+  
+  Serial.println("[TEMP_CODE] Verifying with backend: " + url);
+  Serial.println("[TEMP_CODE] Code: " + code);
+  Serial.println("[TEMP_CODE] Lock ID: " + YOUR_LOCK_ID);
+  
+  http.begin(url);
+  http.setTimeout(10000);
+  http.addHeader("Content-Type", "application/json");
+  
+  // Tạo JSON payload
+  String payload = "{\"code\":\"" + code + "\",\"lockId\":\"" + YOUR_LOCK_ID + "\"}";
+  Serial.println("[TEMP_CODE] Payload: " + payload);
+  
+  int httpCode = http.POST(payload);
+  Serial.println("[TEMP_CODE] Response code: " + String(httpCode));
+
+  bool isValid = false;
+  if (httpCode == 200) {
+    String response = http.getString();
+    Serial.println("[TEMP_CODE] Response body: " + response);
+    
+    // Parse JSON response từ NodeJS
+    // Expected: {"success":true,"valid":true,...}
+    if (response.indexOf("\"valid\":true") > 0 && response.indexOf("\"success\":true") > 0) {
+      isValid = true;
+      Serial.println("[TEMP_CODE] ✅ Code is VALID");
+    } else {
+      Serial.println("[TEMP_CODE] ❌ Code is INVALID");
+      // Log lý do từ server
+      if (response.indexOf("\"message\"") > 0) {
+        int msgStart = response.indexOf("\"message\":\"") + 11;
+        int msgEnd = response.indexOf("\"", msgStart);
+        String message = response.substring(msgStart, msgEnd);
+        Serial.println("[TEMP_CODE] Reason: " + message);
+      }
+    }
+  } else if (httpCode < 0) {
+    Serial.println("[TEMP_CODE] ❌ Connection error: " + http.errorToString(httpCode));
+  } else {
+    Serial.println("[TEMP_CODE] ❌ Server error: " + String(httpCode));
+  }
+  
+  http.end();
+  return isValid;
 }

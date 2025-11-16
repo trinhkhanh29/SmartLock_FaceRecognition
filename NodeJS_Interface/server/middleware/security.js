@@ -102,27 +102,31 @@ export function requireAdmin(req, res, next) {
 }
 
 // ================== RESOURCE AUTHORIZATION ==================
-export function requireLockAccess(req, res, next) {
-    const lockId = req.params.lockId || req.body.lockId;
-    const userRole = req.session?.role;
-    const userLockId = req.session?.lockId;
-    const userId = req.session?.userId;
-    
-    // Admin có quyền truy cập tất cả
-    if (userRole === 'admin') {
+export const requireLockAccess = (req, res, next) => {
+    const { lockId } = req.params;
+    const userRole = req.session.role;
+    const userLockId = req.session.lockId;
+
+    // BỎ QUA KIỂM TRA NẾU LÀ ADMIN HOẶC SYSTEM (TỪ API KEY)
+    if (userRole === 'admin' || userRole === 'system') {
         return next();
     }
-    
-    // User chỉ được truy cập lock của mình
+
+    // Kiểm tra user thường
     if (userRole === 'user' && userLockId === lockId) {
         return next();
     }
-    
-    // Từ chối truy cập
-    logAudit(req, 'UNAUTHORIZED_ACCESS', `Cố gắng truy cập lock ${lockId} không được phép`, userId);
-    req.flash('error', 'Bạn không có quyền truy cập khóa này');
-    res.status(403).redirect('/login');
-}
+
+    // Nếu không có quyền, trả về lỗi thay vì redirect
+    // Điều này quan trọng cho các API call
+    if (req.headers['x-api-key'] || req.path.startsWith('/api')) {
+        return res.status(403).json({ success: false, error: 'Forbidden: Access Denied' });
+    }
+
+    // Đối với các request từ trình duyệt, redirect về login
+    req.flash('error', 'Bạn không có quyền truy cập vào khóa này.');
+    res.redirect('/login');
+};
 
 // ================== AUDIT LOGGING ==================
 export async function logAudit(req, eventType, message, userId) {
@@ -140,19 +144,28 @@ export async function logAudit(req, eventType, message, userId) {
     };
     
     try {
-        // KIỂM TRA db đã được khởi tạo chưa
-        if (!db) {
-            console.warn('[AUDIT WARNING] Database chưa được khởi tạo');
+        // ============================================
+        // AUDIT MODE CONFIGURATION
+        // ============================================
+        const AUDIT_MODE = process.env.AUDIT_MODE || 'console'; // Options: 'firebase', 'console', 'off'
+        
+        // Log ra console (luôn chạy khi không phải 'off')
+        if (AUDIT_MODE !== 'off') {
             console.log(`[AUDIT] ${eventType}: ${message} | User: ${logEntry.userId} | IP: ${logEntry.ip}`);
-            return;
         }
         
-        // Ghi vào Firebase
-        const auditRef = db.ref('audit_logs');
-        await auditRef.push(logEntry);
-        
-        // Log ra console
-        console.log(`[AUDIT] ${eventType}: ${message} | User: ${logEntry.userId} | IP: ${logEntry.ip}`);
+        // Chỉ ghi Firebase khi AUDIT_MODE = 'firebase'
+        if (AUDIT_MODE === 'firebase') {
+            // KIỂM TRA db đã được khởi tạo chưa
+            if (!db) {
+                console.warn('[AUDIT WARNING] Database chưa được khởi tạo');
+                return;
+            }
+            
+            // Ghi vào Firebase
+            const auditRef = db.ref('audit_logs');
+            await auditRef.push(logEntry);
+        }
     } catch (error) {
         console.error('[AUDIT ERROR]', error);
     }

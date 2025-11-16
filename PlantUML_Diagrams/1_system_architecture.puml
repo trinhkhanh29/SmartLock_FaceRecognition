@@ -1,0 +1,143 @@
+@startuml SmartLock System Architecture
+!define RECTANGLE class
+
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+
+title Kiến trúc hệ thống SmartLock Face Recognition
+
+' User Layer
+package "User Layer" #LightBlue {
+    actor "Admin" as admin
+    actor "User" as user
+    actor "Guest" as guest
+}
+
+' Client Layer
+package "Client Layer" #LightGreen {
+    component "Web Browser\n(Dashboard)" as browser
+    component "Telegram Bot" as telegram
+    component "ESP32\n(Smart Lock)" as esp32
+}
+
+' Application Layer
+package "Application Layer" #LightYellow {
+    component "Node.js Server\n(Express)" as nodejs {
+        portin "/login" as login
+        portin "/dashboard" as dashboard
+        portin "/api/temp-code" as tempcode
+        portin "/face/collect" as collect
+        portin "/service/start" as service
+    }
+    
+    component "Python Service" as python {
+        portin "Recognize.py" as recognize
+        portin "trainer.py" as trainer
+        portin "Collect.py" as collect_py
+    }
+}
+
+' Data Layer
+package "Data Layer" #LightCoral {
+    database "Firebase\nRealtime DB" as firebase_db {
+        component "locks_registry" as locks
+        component "activity_log" as logs
+        component "temp_codes" as codes
+        component "pending_users" as pending
+    }
+    
+    database "Firebase\nStorage" as firebase_storage {
+        component "faces/" as faces
+        component "logs/" as log_images
+    }
+    
+    storage "Local Dataset\n(embeddings.pkl)" as dataset
+}
+
+' Hardware Layer
+package "Hardware Layer" #LightSalmon {
+    component "RFID Reader\n(RC522)" as rfid
+    component "Keypad\n(4x4 Matrix)" as keypad
+    component "LCD Display\n(20x4 I2C)" as lcd
+    component "Relay\n(Door Lock)" as relay
+    component "Ultrasonic\nSensor" as ultrasonic
+    component "LED Indicators" as led
+}
+
+' Connections - User to Client
+admin --> browser : "Quản lý khóa"
+user --> browser : "Xem dashboard"
+guest --> browser : "Đăng ký khuôn mặt"
+admin --> telegram : "Nhận cảnh báo"
+user --> esp32 : "Sử dụng RFID/PIN/Face"
+
+' Connections - Client to Application
+browser --> login : "Authentication"
+browser --> dashboard : "View logs & users"
+browser --> tempcode : "Generate code"
+browser --> collect : "Register face"
+browser --> service : "Start/Stop service"
+
+esp32 --> nodejs : "HTTPS Requests\n(SUCCESS/FAIL)"
+telegram <-- python : "Send alerts"
+
+' Connections - Application to Application
+nodejs --> python : "spawn()\n(IPC)"
+python --> nodejs : "stdout/stdin"
+
+' Connections - Application to Data
+nodejs --> firebase_db : "read/write"
+nodejs --> firebase_storage : "upload/download"
+python --> firebase_storage : "download faces"
+python --> firebase_db : "write logs"
+python --> dataset : "load/save\nembeddings"
+
+' Connections - Application to Hardware
+python --> esp32 : "Serial COM4\n(PIN_REQUIRED)"
+esp32 --> rfid : "Read UID"
+esp32 --> keypad : "Read input"
+esp32 --> lcd : "Display status"
+esp32 --> relay : "Control lock"
+esp32 --> ultrasonic : "Measure distance"
+esp32 --> led : "Show status"
+
+' ESP32 Internal
+esp32 --> firebase_db : "Verify temp codes"
+
+' Notes
+note right of nodejs
+  **Node.js Backend**
+  - Express server
+  - Session management
+  - API endpoints
+  - Service orchestration
+end note
+
+note right of python
+  **Python Backend**
+  - Face detection (MTCNN)
+  - Face recognition (FaceNet)
+  - Model training
+  - Image enhancement
+end note
+
+note right of firebase_db
+  **Realtime Database**
+  - User registry
+  - Activity logs
+  - Temporary access codes
+  - Lock configurations
+end note
+
+note right of esp32
+  **ESP32 Controller**
+  - WiFi connectivity
+  - Multi-factor authentication:
+    • Face Recognition
+    • RFID (RC522)
+    • PIN (Keypad)
+    • Temp Code (6 digits)
+  - Real-time feedback
+end note
+
+@enduml

@@ -1,0 +1,186 @@
+@startuml Firebase Database Schema
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam linetype ortho
+
+title Firebase Realtime Database Structure
+
+package "Firebase Realtime Database" {
+    
+    entity "locks_registry" as locks_registry {
+        **lockId** : String (UUID)
+        --
+        id : String
+        name : String
+        createdAt : ISO DateTime
+        createdBy : String (userId)
+        macAddress : String (ESP32)
+        ipAddress : String (ESP32)
+        lastSeen : Timestamp
+        status : String (online/offline)
+        password : String (optional)
+    }
+    
+    entity "locks/{lockId}" as locks {
+        **lockId** : String
+        --
+        Contains:
+        • activity_log/
+        • pending_users/
+    }
+    
+    entity "activity_log/{logId}" as activity_log {
+        **logId** : String (auto-generated)
+        --
+        type : String
+        name : String
+        confidence : String
+        imageUrl : String (Firebase Storage URL)
+        timestamp : Timestamp (milliseconds)
+        ---
+        type values:
+        • SUCCESS (Face only)
+        • SUCCESS_PIN (Face + PIN)
+        • FAIL (Unknown person)
+        • FAIL_PIN (Wrong PIN)
+        • TEMP_CODE_SUCCESS
+        • TEMP_CODE_CREATED
+    }
+    
+    entity "pending_users/{userId}" as pending_users {
+        **userId** : String (UUID)
+        --
+        name : String
+        createdAt : ISO DateTime
+        status : String (pending/approved/rejected)
+        faceCount : Number
+    }
+    
+    entity "temp_codes/{lockId}/{code}" as temp_codes {
+        **code** : String (6 digits)
+        --
+        lockId : String
+        createdAt : Timestamp
+        expireAt : Timestamp
+        createdBy : String (userId)
+        maxUses : Number (default: 1)
+        usedCount : Number
+        used : Boolean
+        usedAt : Timestamp (optional)
+        note : String (optional)
+    }
+    
+    entity "audit_logs/{logId}" as audit_logs {
+        **logId** : String (auto-generated)
+        --
+        action : String
+        userId : String
+        lockId : String (optional)
+        details : String
+        ip : String
+        timestamp : Timestamp
+        ---
+        action types:
+        • LOGIN_SUCCESS
+        • LOGIN_FAILED
+        • LOGOUT
+        • LOCK_CREATED
+        • LOCK_DELETED
+        • SERVICE_STARTED
+        • SERVICE_STOPPED
+        • USER_APPROVED
+        • USER_REJECTED
+    }
+}
+
+package "Firebase Storage" {
+    
+    folder "locks/{lockId}/faces/{userId}/" as faces {
+        file "userId_userName_timestamp_N.jpg"
+        note right
+            Ảnh khuôn mặt đã được phê duyệt
+            Dùng để training model
+            Format: {userId}_{userName}_{timestamp}_{count}.jpg
+        end note
+    }
+    
+    folder "locks/{lockId}/pending_faces/{userId}/" as pending_faces {
+        file "userId_userName_timestamp_N.jpg"
+        note right
+            Ảnh chờ phê duyệt từ guest
+            Sẽ được move sang faces/ sau approval
+        end note
+    }
+    
+    folder "locks/{lockId}/logs/" as log_images {
+        file "log_timestamp.jpg"
+        note right
+            Ảnh từ camera khi nhận diện
+            Gửi Telegram và lưu URL vào activity_log
+        end note
+    }
+}
+
+package "Local File System" {
+    folder "dataset/{lockId}/" as dataset {
+        file "embeddings.pkl"
+        note right
+            File pickle chứa:
+            • known_embeddings (numpy arrays)
+            • known_ids (list)
+            • known_names (list)
+            
+            Được tạo bởi trainer.py
+            Load bởi Recognize.py
+        end note
+    }
+    
+    folder "temp/" as temp {
+        file "temp_face.jpg"
+        note right
+            Ảnh tạm thời khi nhận diện
+            Dùng để gửi Telegram
+            Tự động xóa sau khi gửi
+        end note
+    }
+}
+
+' Relationships
+locks_registry ||--o{ locks : "has many locks"
+locks ||--o{ activity_log : "has many logs"
+locks ||--o{ pending_users : "has many pending"
+locks_registry ||--o{ temp_codes : "has many codes"
+locks ||--o{ faces : "stores faces"
+locks ||--o{ pending_faces : "stores pending faces"
+locks ||--o{ log_images : "stores log images"
+locks ||--|| dataset : "has embeddings"
+
+note top of locks_registry
+  **Đăng ký khóa mới**
+  • Admin tạo thủ công qua web
+  • ESP32 tự động đăng ký lần đầu
+end note
+
+note top of temp_codes
+  **Mã truy cập tạm thời**
+  • Tự động hết hạn (cleanup scheduled)
+  • Tự động xóa sau khi dùng (one-time)
+  • Có thể giới hạn số lần dùng
+end note
+
+note top of activity_log
+  **Lịch sử hoạt động**
+  • Ghi log mỗi lần nhận diện
+  • Lưu ảnh và confidence score
+  • Có thể xóa theo ngày
+  • Giới hạn số lượng (cleanup)
+end note
+
+note top of faces
+  **Quản lý ảnh khuôn mặt**
+  • Mỗi user có ~15 ảnh
+  • Download từ Firebase khi train
+  • Public URL để hiển thị dashboard
+end note
+
+@enduml

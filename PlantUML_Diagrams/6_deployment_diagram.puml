@@ -1,0 +1,197 @@
+@startuml Deployment Architecture
+!theme plain
+skinparam backgroundColor #FFFFFF
+
+title Sơ đồ triển khai hệ thống SmartLock
+
+' Cloud Services
+cloud "Google Cloud Platform" {
+    node "Firebase Services" {
+        database "Realtime Database" as rtdb {
+            component "locks_registry"
+            component "activity_log"
+            component "temp_codes"
+        }
+        
+        storage "Cloud Storage" as storage {
+            folder "faces/"
+            folder "logs/"
+            folder "pending_faces/"
+        }
+    }
+}
+
+cloud "Telegram Cloud" {
+    component "Telegram Bot API" as telegram
+}
+
+' Server Deployment Options
+package "Backend Deployment Options" <<Cloud>> {
+    node "Option 1: DigitalOcean Droplet\n($6/month)" as do {
+        node "Ubuntu 22.04 LTS" {
+            component "Node.js v18+" as nodejs_do
+            component "Python 3.9+" as python_do
+            component "Nginx (Reverse Proxy)" as nginx
+            component "PM2 (Process Manager)" as pm2
+            component "SSL Certificate\n(Let's Encrypt)" as ssl
+        }
+    }
+    
+    node "Option 2: Render\n(Free/Paid)" as render {
+        component "Node.js Service" as nodejs_render
+        component "Python Service" as python_render
+        note right of render
+            • Auto-scaling
+            • Built-in HTTPS
+            • GitHub CI/CD
+        end note
+    }
+    
+    node "Option 3: Railway\n($5-10/month)" as railway {
+        component "Monorepo Deployment" as railway_mono
+        note right of railway
+            • Deploy Node.js + Python
+            • Auto-deploy from Git
+            • Resource monitoring
+        end note
+    }
+}
+
+' Local Network
+package "Local Network (Home/Office)" {
+    node "ESP32 Smart Lock\n(WiFi)" as esp32 {
+        component "Arduino Firmware" as firmware {
+            artifact "connect-wifi.ino"
+        }
+        
+        interface "HTTP Client" as http
+        interface "Serial COM4\n(115200 baud)" as serial
+        interface "WiFi 2.4GHz" as wifi
+    }
+    
+    node "Devices" {
+        component "RFID Reader (RC522)"
+        component "4x4 Keypad"
+        component "LCD 20x4 I2C"
+        component "Relay Module"
+        component "Ultrasonic Sensor"
+        component "LED Indicators"
+    }
+    
+    node "Development PC\n(Optional for debugging)" as pc {
+        component "Python Runtime" as python_pc
+        component "Camera (USB/Built-in)" as camera
+        component "Serial Monitor" as monitor
+    }
+}
+
+' Client Devices
+node "User Devices" {
+    component "Web Browser\n(Chrome, Firefox, Edge)" as browser
+    component "Mobile Browser" as mobile
+    component "Telegram App" as tg_app
+}
+
+' Connections
+browser --> nginx : HTTPS (443)
+mobile --> nginx : HTTPS (443)
+nginx --> nodejs_do : Reverse proxy
+nodejs_do <--> python_do : IPC (spawn)
+nodejs_do <--> rtdb : Firebase Admin SDK
+python_do <--> storage : Download faces
+python_do --> telegram : Send alerts
+esp32 --> rtdb : HTTPS API
+esp32 --> nginx : Webhook (SUCCESS/FAIL)
+python_pc --> serial : Serial commands
+pc --> camera : Video capture
+tg_app <-- telegram : Push notifications
+
+' Notes for deployment
+note right of do
+    **Recommended Setup**
+    • 1 vCPU, 1GB RAM
+    • 25GB SSD
+    • Full control
+    • Persistent storage
+    
+    **Installation:**
+    $ sudo apt update
+    $ sudo apt install nodejs npm python3-pip nginx
+    $ npm install -g pm2
+    $ pip3 install -r requirements.txt
+end note
+
+note right of esp32
+    **Hardware Requirements**
+    • ESP32 DevKit v1
+    • 5V Power Supply (2A)
+    • WiFi 2.4GHz network
+    
+    **Network:**
+    • Static IP recommended
+    • Port forwarding if needed
+    • mDNS for easy access
+end note
+
+note right of rtdb
+    **Firebase Configuration**
+    • Free tier: 1GB storage
+    • 10GB/month download
+    • 100 simultaneous connections
+    
+    **Security Rules:**
+    • Authenticated read/write
+    • ESP32 uses direct REST API
+end note
+
+note top of browser
+    **Client Requirements**
+    • Modern browser (ES6+)
+    • JavaScript enabled
+    • Cookies enabled (session)
+end note
+
+' Domain & DNS
+cloud "DNS Provider\n(Cloudflare/Free)" {
+    component "Domain Name\n(smartlock.yourdomain.com)" as domain
+}
+domain --> nginx : DNS A Record
+
+' Environment Variables
+storage "Environment Configuration" as env {
+    artifact ".env (Node.js)" {
+        component "PORT=3000"
+        component "ADMIN_PASSWORD=xxx"
+        component "SESSION_SECRET=xxx"
+        component "FIREBASE_DATABASE_URL"
+    }
+    
+    artifact "config.env (Python)" {
+        component "TELEGRAM_BOT_TOKEN"
+        component "TELEGRAM_CHAT_ID"
+        component "EXPECTED_PIN"
+    }
+}
+
+nodejs_do ..> env : Load config
+python_do ..> env : Load config
+
+' SSL Certificate
+ssl --> domain : Secure connection
+
+' Data Flow Legend
+legend right
+    |= Color |= Meaning |
+    | <back:lightblue>Blue</back> | Cloud Services |
+    | <back:lightgreen>Green</back> | Server/Backend |
+    | <back:lightyellow>Yellow</back> | Hardware |
+    | <back:lightcoral>Red</back> | Client Devices |
+    
+    |= Connection |= Protocol |
+    | ──> | HTTPS |
+    | ..> | WebSocket |
+    | --> | Serial |
+    | <--> | Bidirectional |
+end legend
+
+@enduml

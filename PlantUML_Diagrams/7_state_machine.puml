@@ -1,0 +1,204 @@
+@startuml ESP32 State Machine
+!theme plain
+skinparam backgroundColor #FFFFFF
+
+title Sơ đồ trạng thái ESP32 Smart Lock
+
+[*] --> Booting : Power On
+
+state Booting {
+    [*] --> InitHardware : Load preferences
+    InitHardware --> ConnectWiFi : Hardware OK
+    InitHardware --> Error : Hardware Fail
+    ConnectWiFi --> RegisterLock : WiFi Connected
+    ConnectWiFi --> Error : WiFi Fail (30 retries)
+    RegisterLock --> Ready : Registration OK
+    
+    note right of ConnectWiFi
+        • SSID: "Trinh"
+        • Connect timeout: 30 seconds
+        • Display IP on LCD
+    end note
+}
+
+state Ready {
+    [*] --> Idle
+    Idle : Display "DOOR CLOSED"
+    Idle : Display Lock ID
+    Idle : Display IP Address
+    Idle : Measure distance periodically
+    
+    Idle --> RFIDMode : RFID card detected
+    Idle --> PINMode : Keypad input (0-9)
+    Idle --> TempCodeMode : Press 'D' key
+    Idle --> CardManagement : Validated + Press 'A'/'B'/'C'
+    Idle --> FaceRecognition : Serial "PIN_REQUIRED"
+    Idle --> DoorOpen : Serial "SUCCESS" or Webhook /SUCCESS
+}
+
+state RFIDMode {
+    [*] --> ReadCard
+    ReadCard --> CheckUID : UID read
+    CheckUID --> AccessGranted : UID in authorized list
+    CheckUID --> AccessDenied : UID not found
+    AccessGranted --> DoorOpen : Open relay
+    AccessDenied --> Idle : Display "INVALID CARD"
+    
+    note right of CheckUID
+        • Compare with stored UIDs
+        • Up to 109 cards
+        • Stored in Flash (Preferences)
+    end note
+}
+
+state PINMode {
+    [*] --> InputPIN
+    InputPIN : Display "PIN: ****"
+    InputPIN : Wait for 4 digits
+    InputPIN --> ValidatePIN : Press '#'
+    InputPIN --> Idle : Press '*' (Cancel)
+    ValidatePIN --> AccessGranted : PIN matches
+    ValidatePIN --> AccessDenied : PIN incorrect
+    AccessGranted --> DoorOpen : Open relay
+    AccessDenied --> Idle : Display "WRONG PIN"
+    
+    note right of ValidatePIN
+        • Default PIN: 1234
+        • Stored in Flash
+        • Can be changed with 'A' + valid PIN
+    end note
+}
+
+state TempCodeMode {
+    [*] --> ShowPrompt
+    ShowPrompt : Display "CODE(ID:xxx)"
+    ShowPrompt : Display "Enter 6 digits #OK"
+    ShowPrompt --> InputCode : Waiting
+    InputCode : Accept 0-9 digits
+    InputCode : Display remaining count
+    InputCode --> VerifyCode : Press '#' (6 digits)
+    InputCode --> Idle : Press '*' (Cancel)
+    VerifyCode --> CheckFirebase : Send HTTP GET
+    CheckFirebase --> AccessGranted : Code valid & not expired
+    CheckFirebase --> AccessDenied : Code invalid/used/expired
+    AccessGranted --> MarkCodeUsed : Update Firebase
+    MarkCodeUsed --> DoorOpen : Open relay
+    AccessDenied --> Idle : Display "INVALID CODE"
+    
+    note right of CheckFirebase
+        • GET /temp_codes/{lockId}/{code}.json
+        • Check expireAt, used, maxUses
+        • Timeout: 10 seconds
+    end note
+}
+
+state FaceRecognition {
+    [*] --> WaitingPIN
+    WaitingPIN : Display "ENTER PIN TO OPEN"
+    WaitingPIN : Serial "PIN_PROMPT"
+    WaitingPIN --> CollectPIN : User inputs digits
+    CollectPIN : Display "PIN: ****"
+    CollectPIN --> SendPIN : Press '#'
+    SendPIN : Serial "PIN_ENTERED:1234"
+    SendPIN --> WaitResult : Waiting for Python
+    WaitResult --> AccessGranted : Serial "SUCCESS"
+    WaitResult --> AccessDenied : Serial "FAIL"
+    WaitResult --> Idle : Timeout (35s) / "PIN_TIMEOUT"
+    AccessGranted --> DoorOpen : Open relay
+    AccessDenied --> Idle : Display "ACCESS DENIED"
+    
+    note right of WaitResult
+        • Python validates PIN
+        • Timeout: 35 seconds
+        • Can be interrupted
+    end note
+}
+
+state CardManagement {
+    [*] --> ViewCards
+    ViewCards : Press 'A' to view
+    ViewCards : Display "CARD X/Y"
+    ViewCards --> AddCard : Press 'B'
+    ViewCards --> DeleteCard : Press 'C'
+    ViewCards --> Idle : Press 'D' (Exit)
+    
+    AddCard : Display "SCAN NEW CARD"
+    AddCard : Wait 5 seconds
+    AddCard --> ViewCards : Card added
+    AddCard --> ViewCards : Timeout/Duplicate
+    
+    DeleteCard : Display "DELETE CARD X?"
+    DeleteCard : Press '1' YES / '2' NO
+    DeleteCard --> ViewCards : Card deleted
+    DeleteCard --> ViewCards : Cancelled
+    
+    note right of CardManagement
+        • Only accessible after PIN validation
+        • Persistent storage (Flash)
+    end note
+}
+
+state DoorOpen {
+    [*] --> UnlockRelay
+    UnlockRelay : Set RELAY_PIN HIGH
+    UnlockRelay : Set GREEN_LED HIGH
+    UnlockRelay : Display "DOOR OPEN"
+    UnlockRelay : Start 5s timer
+    UnlockRelay --> CheckObstacle : Timer running
+    
+    CheckObstacle --> ExtendTimer : Obstacle < 100cm
+    CheckObstacle --> LockRelay : Timer expired
+    
+    ExtendTimer : Reset timer
+    ExtendTimer --> CheckObstacle : Continue
+    
+    LockRelay : Set RELAY_PIN LOW
+    LockRelay : Set GREEN_LED LOW
+    LockRelay : Display "DOOR CLOSED"
+    LockRelay --> Idle : Door secured
+    
+    note right of CheckObstacle
+        • Ultrasonic sensor (TRIG: 13, ECHO: 27)
+        • Prevents closing on person
+        • Active measurement: 500ms interval
+    end note
+}
+
+state AccessDenied {
+    [*] --> ShowDenied
+    ShowDenied : Set RED_LED HIGH
+    ShowDenied : Display "ACCESS DENIED"
+    ShowDenied --> Wait2s : 2 seconds
+    Wait2s --> ClearDisplay : Timer expired
+    ClearDisplay : Set RED_LED LOW
+    ClearDisplay --> Idle : Restore display
+}
+
+state Error {
+    Error : Display "SYSTEM ERROR"
+    Error : Flash RED_LED
+    Error : Halt execution
+    Error --> [*]
+}
+
+note top of Ready
+    **Main Loop Activities:**
+    • Handle web server requests (/SUCCESS, /FAIL, /CLOSE)
+    • Read Serial commands from Python
+    • Scan RFID cards (non-blocking)
+    • Read keypad input
+    • Measure distance (ultrasonic)
+    • Check door auto-close timer
+    • Handle PIN entry timeout
+end note
+
+note bottom of DoorOpen
+    **Security Features:**
+    • Auto-close after 5 seconds
+    • Obstacle detection (ultrasonic)
+    • LED status indicators
+    • Activity logging to Firebase
+    • Telegram notifications (via Python)
+end note
+
+@enduml

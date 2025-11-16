@@ -200,6 +200,7 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
         }
 
         .header h1 {
@@ -670,6 +671,39 @@
             background: var(--primary-dark);
         }
 
+        /* THÊM: Scrollbar cho temp codes container */
+        #tempCodesContainer {
+            max-height: 350px;
+            overflow-y: auto;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--radius);
+            padding: 10px;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .dark-mode #tempCodesContainer {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        #tempCodesContainer::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #tempCodesContainer::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 3px;
+        }
+
+        #tempCodesContainer::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        #tempCodesContainer::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
         .log-actions {
             display: flex;
             justify-content: space-between;
@@ -712,7 +746,7 @@
             gap: 12px;
             animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            z-index: 1;
+            z-index: 50;
             backdrop-filter: blur(10px);
             border-left: 4px solid transparent;
         }
@@ -823,6 +857,24 @@
                 padding: 20px;
             }
         }
+
+        /* THÊM: Style cho select và input trong dark mode */
+        select, input[type="text"] {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode select, .dark-mode input[type="text"] {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode select option {
+            background: var(--card-bg);
+            color: var(--text);
+        }
     </style>
 </head>
 <body>
@@ -870,7 +922,12 @@
 
         <div class="header">
             <div class="decoration decoration-1"></div>
-            <h1><i class="fas fa-door-closed"></i> Dashboard: <%= lockId %>
+            <h1>
+                <i class="fas fa-door-closed"></i> 
+                SmartLock
+                <span style="font-size: 0.9rem; color: var(--text-light); font-weight: normal;">
+                    (<%= lockId %>)
+                </span>
                 <% if (serviceStatus === 'stopped') { %>
                     <span class="status-badge status-stopped">
                         <span class="pulse pulse-inactive"></span>
@@ -882,6 +939,17 @@
                         Dịch vụ đang chạy
                     </span>
                 <% } %>
+                
+                <!-- THÊM: Status Telegram Bot -->
+                <% if (locals.telegramBotStatus === 'stopped') { %>
+                    <span class="status-badge status-stopped">
+                        <i class="fab fa-telegram"></i> Bot dừng
+                    </span>
+                <% } else if (locals.telegramBotStatus === 'running') { %>
+                    <span class="status-badge status-running">
+                        <i class="fab fa-telegram"></i> Bot đang chạy
+                    </span>
+                <% } %>
             </h1>
             <div class="header-actions">
                 <% if (serviceStatus === 'stopped') { %>
@@ -891,6 +959,18 @@
                         <button type="submit" class="btn btn-danger"><i class="fas fa-stop"></i> Dừng Dịch vụ</button>
                     </form>
                 <% } %>
+                
+                <!-- THÊM: Nút Telegram Bot -->
+                <% if (locals.telegramBotStatus === 'stopped' || !locals.telegramBotStatus) { %>
+                    <form action="/telegram/start/<%= lockId %>" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-info"><i class="fab fa-telegram"></i> Khởi động Bot Telegram</button>
+                    </form>
+                <% } else { %>
+                    <form action="/telegram/stop/<%= lockId %>" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-warning"><i class="fab fa-telegram"></i> Dừng Bot Telegram</button>
+                    </form>
+                <% } %>
+                
                 <a href="/livestream/<%= lockId %>" class="btn btn-info" target="_blank"><i class="fas fa-video"></i> Xem Live Stream</a>
                 <a href="/face/collect/<%= lockId %>" class="btn btn-primary"><i class="fas fa-user-plus"></i> Thêm người dùng</a>
                 <form action="/dashboard/train-model" method="POST" style="display:inline;" onsubmit="return confirm('Quá trình này có thể mất vài phút. Bạn có muốn tiếp tục?');">
@@ -975,6 +1055,44 @@
 
             <div class="card">
                 <div class="decoration decoration-2"></div>
+                
+                <!-- THÊM: QUẢN LÝ MÃ TẠM THỜI -->
+                <div class="temp-codes-section" style="margin-bottom: 30px;">
+                    <h2><i class="fas fa-key"></i> Mã mở cửa tạm thời</h2>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <label style="display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-light);">Mô tả:</label>
+                            <input type="text" id="tempCodeDescription" placeholder="VD: Khách hàng A" 
+                                   style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--text-light); background: var(--card-bg); color: var(--text);">
+                        </div>
+                        <div style="min-width: 120px;">
+                            <label style="display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-light);">Thời hạn:</label>
+                            <select id="tempCodeDuration" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                <option value="1h">1 giờ</option>
+                                <option value="3h">3 giờ</option>
+                                <option value="6h">6 giờ</option>
+                                <option value="12h">12 giờ</option>
+                                <option value="1d">1 ngày</option>
+                                <option value="3d">3 ngày</option>
+                                <option value="7d">7 ngày</option>
+                            </select>
+                        </div>
+                        <button id="btnGenerateTempCode" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Tạo mã
+                        </button>
+                    </div>
+                    
+                    <div id="tempCodesContainer">
+                        <div class="empty-state" id="noCodesMessage" style="padding: 20px 0;">
+                            <i class="fas fa-inbox" style="font-size: 2rem;"></i>
+                            <p style="margin-top: 10px;">Chưa có mã tạm thời nào</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+                
                 <div class="pending-users">
                     <h2><i class="fas fa-user-clock"></i> Chờ phê duyệt (<%= locals.pendingUsers ? pendingUsers.length : 0 %>)</h2>
                     <% if (locals.pendingUsers && pendingUsers.length > 0) { %>
@@ -1007,11 +1125,60 @@
                     <% } %>
                 </div>
                 <hr style="margin: 20px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                <!-- THÊM: KHU VỰC ĐIỀU KHIỂN CỬA TRỰC TIẾP -->
+                <!-- <div class="door-control-section" style="margin-bottom: 30px;">
+                    <h2><i class="fas fa-gamepad"></i> Điều khiển cửa</h2> -->
+                    
+                    <!-- THÊM: Cập nhật IP ESP32 -->
+                    <!-- <div style="margin-bottom: 20px; padding: 15px; background: rgba(67, 97, 238, 0.1); border-radius: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <i class="fas fa-network-wired" style="color: var(--info);"></i>
+                            <strong>IP ESP32 hiện tại:</strong>
+                            <code id="currentIpDisplay" style="padding: 5px 10px; background: white; border-radius: 6px; font-size: 1rem;">Đang tải...</code>
+                            <button id="btnRefreshIp" class="btn btn-info" style="padding: 6px 12px; font-size: 0.85rem;">
+                                <i class="fas fa-sync-alt"></i> Làm mới
+                            </button>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: flex-end;">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-light);">
+                                    <i class="fas fa-edit"></i> Cập nhật IP mới:
+                                </label>
+                                <input type="text" id="newIpInput" placeholder="VD: 10.55.26.33" 
+                                       pattern="^(\d{1,3}\.){3}\d{1,3}$"
+                                       style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--text-light); background: var(--card-bg); color: var(--text); font-family: monospace;">
+                            </div>
+                            <button id="btnUpdateIp" class="btn btn-warning" style="padding: 10px 20px;">
+                                <i class="fas fa-save"></i> Cập nhật IP
+                            </button>
+                        </div>
+                        <p style="margin: 8px 0 0 0; font-size: 0.85rem; color: var(--text-light);">
+                            <i class="fas fa-info-circle"></i> Thay đổi IP sẽ được áp dụng ngay lập tức cho tất cả dịch vụ (Telegram Bot, Dashboard, ESP32)
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px;">
+                        <button id="btnDirectOpen" class="btn btn-success" style="padding: 15px 30px; font-size: 1rem;">
+                            <i class="fas fa-door-open"></i> Mở cửa
+                        </button>
+                        <button id="btnDirectClose" class="btn btn-danger" style="padding: 15px 30px; font-size: 1rem;">
+                            <i class="fas fa-door-closed"></i> Đóng cửa
+                        </button>
+                    </div>
+                    <div id="directControlResult" style="margin-top: 15px; padding: 10px; border-radius: 8px; text-align: center; display: none;"></div>
+                </div> -->
+
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
                 <div class="log-list">
                     <h2><i class="fas fa-history"></i> Lịch sử truy cập gần đây</h2>
                     <% if (logs.length > 0) { %>
                         <div class="log-items-container" id="logContainer">
-                            <% logs.forEach((log, index) => { %>
+                            <% 
+                            // Đảo ngược thứ tự logs để hiển thị mới nhất trên cùng
+                            const reversedLogs = [...logs].reverse();
+                            reversedLogs.forEach((log, index) => { 
+                            %>
                                 <div class="log-item <%= index >= 5 ? 'hidden-log' : '' %>" data-index="<%= index %>">
                                     <img src="<%= log.imageUrl || 'https://via.placeholder.com/50' %>" alt="Ảnh log">
                                     <div class="log-info">
@@ -1033,13 +1200,13 @@
                             
                             <!-- THÊM: Dropdown xóa log theo thời gian -->
                             <div style="display: flex; gap: 10px; align-items: center;">
-                                <select id="selectDays" class="btn btn-secondary" style="padding: 10px 15px; cursor: pointer;">
+                                <select id="selectDays" style="padding: 10px 15px; cursor: pointer; background: var(--card-bg); color: var(--text); border: 1px solid var(--text-light); border-radius: 10px; font-size: 14px; font-weight: 600;">
                                     <option value="7">Cũ hơn 7 ngày</option>
                                     <option value="14">Cũ hơn 14 ngày</option>
                                     <option value="30">Cũ hơn 30 ngày</option>
                                     <option value="90">Cũ hơn 90 ngày</option>
                                 </select>
-                                <button id="btnClearByDate" class="btn btn-warning" onclick="clearLogsByDate()">
+                                <button id="btnClearByDate" class="btn btn-warning">
                                     <i class="fas fa-clock"></i> Xóa Log Cũ
                                 </button>
                             </div>
@@ -1079,7 +1246,9 @@
                 <input type="hidden" name="mode" id="selectedMode" value="face_only">
                 <div class="modal-buttons">
                     <button type="submit" class="btn-confirm"><i class="fas fa-check"></i> Xác nhận</button>
-                    <button type="button" class="btn-cancel" onclick="closeModal()"><i class="fas fa-times"></i> Hủy</button>
+                    <button type="button" id="btnCancel" class="btn-cancel">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
                 </div>
             </form>
         </div>
@@ -1113,6 +1282,14 @@
         // Đóng modal
         function closeModal() {
             document.getElementById('modeModal').style.display = 'none';
+            // THÊM: Kích hoạt lại các nút trong modal khi hủy
+            document.querySelectorAll('#modeModal button').forEach(button => {
+                button.disabled = false;
+            });
+            const confirmBtn = document.querySelector('#modeModal .btn-confirm');
+            if(confirmBtn) {
+                confirmBtn.innerHTML = '<i class="fas fa-check"></i> Xác nhận';
+            }
         }
 
         // Xử lý chọn chế độ
@@ -1140,11 +1317,19 @@
 
         // Thêm hiệu ứng loading khi submit form
         document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function() {
-                const submitBtn = this.querySelector('button[type="submit"]');
-                if (submitBtn) {
-                    submitBtn.innerHTML = '<div class="spinner"></div> Đang xử lý...';
-                    submitBtn.disabled = true;
+            form.addEventListener('submit', function(event) {
+                // SỬA: Chỉ vô hiệu hóa nút submit được nhấn
+                const submitter = event.submitter;
+                if (submitter && submitter.tagName === 'BUTTON') {
+                    submitter.innerHTML = '<div class="spinner"></div> Đang xử lý...';
+                    submitter.disabled = true;
+
+                    // Vô hiệu hóa các nút khác trong cùng form để tránh double-click
+                    form.querySelectorAll('button').forEach(button => {
+                        if (button !== submitter) {
+                            button.disabled = true;
+                        }
+                    });
                 }
             });
         });
@@ -1180,31 +1365,401 @@
             });
         }
 
-        // THÊM: Hàm xóa log theo ngày
-        function clearLogsByDate() {
-            const days = document.getElementById('selectDays').value;
-            const lockId = '<%= lockId %>';
+        // ==================== QUẢN LÝ MÃ TẠM THỜI ====================
+        
+        // Gắn event listener cho nút tạo mã
+        document.getElementById('btnGenerateTempCode')?.addEventListener('click', async function(event) {
+            event.preventDefault();
             
-            if (confirm(`Xóa tất cả log cũ hơn ${days} ngày?`)) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/dashboard/clear-logs-by-date';
-                
-                const inputLockId = document.createElement('input');
-                inputLockId.type = 'hidden';
-                inputLockId.name = 'lockId';
-                inputLockId.value = lockId;
-                
-                const inputDays = document.createElement('input');
-                inputDays.type = 'hidden';
-                inputDays.name = 'days';
-                inputDays.value = days;
-                
-                form.appendChild(inputLockId);
-                form.appendChild(inputDays);
-                document.body.appendChild(form);
-                form.submit();
+            const description = document.getElementById('tempCodeDescription').value.trim();
+            const duration = document.getElementById('tempCodeDuration').value;
+            
+            if (!description) {
+                alert('Vui lòng nhập mô tả cho mã tạm thời');
+                return;
             }
+            
+            // Hiển thị loading
+            const btnGenerate = this;
+            const originalText = btnGenerate.innerHTML;
+            btnGenerate.innerHTML = '<div class="spinner"></div> Đang tạo...';
+            btnGenerate.disabled = true;
+            
+            try {
+                console.log('[TEMP_CODE] Sending request:', {
+                    lockId: '<%= lockId %>',
+                    duration: duration,
+                    description: description
+                });
+                
+                const response = await fetch('/api/temp-code/create', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lockId: '<%= lockId %>',
+                        duration: duration,
+                        description: description
+                    })
+                });
+                
+                console.log('[TEMP_CODE] Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('[TEMP_CODE] Error response:', errorText);
+                    throw new Error(`Server error: ${response.status} - ${errorText}`);
+                }
+                
+                const result = await response.json();
+                console.log('[TEMP_CODE] Result:', result);
+                
+                if (result.success) {
+                    alert(`✅ Mã tạm thời đã được tạo!\n\n` +
+                          `Mã: ${result.code}\n` +
+                          `Lock ID: <%= lockId %>\n` +
+                          `Mô tả: ${result.description}\n` +
+                          `Hết hạn: ${result.expireAtFormatted}\n\n` +
+                          `⚠️ Lưu ý: Mã chỉ sử dụng được 1 lần!`);
+                    
+                    // Reset form
+                    document.getElementById('tempCodeDescription').value = '';
+                    document.getElementById('tempCodeDuration').value = '1h';
+                    
+                    // Reload danh sách
+                    await loadTempCodes();
+                } else {
+                    alert('Lỗi: ' + (result.error || 'Không thể tạo mã'));
+                }
+            } catch (error) {
+                console.error('[TEMP_CODE] Caught error:', error);
+                alert(`Không thể tạo mã tạm thời.\n\nLỗi: ${error.message}\n\nVui lòng kiểm tra console để xem chi tiết.`);
+            } finally {
+                // Restore button
+                btnGenerate.innerHTML = originalText;
+                btnGenerate.disabled = false;
+            }
+        });
+        
+        async function loadTempCodes() {
+            try {
+                console.log('[TEMP_CODE] Loading codes for lock:', '<%= lockId %>');
+                
+                const response = await fetch('/api/temp-code/active/<%= lockId %>');
+                
+                if (!response.ok) {
+                    console.error('[TEMP_CODE] Load error:', response.status);
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('[TEMP_CODE] Loaded codes:', result);
+                
+                const container = document.getElementById('tempCodesContainer');
+                const noCodesMsg = document.getElementById('noCodesMessage');
+                
+                if (!result.success || result.codes.length === 0) {
+                    noCodesMsg.style.display = 'block';
+                    container.querySelectorAll('.temp-code-item').forEach(el => el.remove());
+                    return;
+                }
+                
+                noCodesMsg.style.display = 'none';
+                
+                // Xóa các item cũ
+                container.querySelectorAll('.temp-code-item').forEach(el => el.remove());
+                
+                // Thêm các item mới
+                result.codes.forEach(code => {
+                    const item = document.createElement('div');
+                    item.className = 'temp-code-item';
+                    item.style.cssText = 'display: flex; align-items: center; padding: 15px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
+                    
+                    // Tạo code display
+                    const codeDisplay = document.createElement('div');
+                    codeDisplay.style.flex = '1';
+                    codeDisplay.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace;">
+                                ${code.code}
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text);">
+                            <i class="fas fa-tag"></i> ${code.description}
+                        </p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-light);">
+                            <i class="fas fa-clock"></i> Hết hạn: ${code.expireAt} (còn ${code.timeRemaining})
+                        </p>
+                    `;
+                    
+                    // Tạo copy button
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'btn btn-info';
+                    copyBtn.style.cssText = 'padding: 5px 10px; font-size: 0.8rem; margin-right: 10px;';
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyBtn.addEventListener('click', () => copyCode(code.code));
+                    
+                    // Tạo revoke button
+                    const revokeBtn = document.createElement('button');
+                    revokeBtn.className = 'btn btn-danger';
+                    revokeBtn.style.cssText = 'padding: 10px 15px;';
+                    revokeBtn.innerHTML = '<i class="fas fa-ban"></i> Thu hồi';
+                    revokeBtn.addEventListener('click', () => revokeCode(code.code));
+                    
+                    // Thêm copy button vào code display
+                    codeDisplay.querySelector('div').appendChild(copyBtn);
+                    
+                    item.appendChild(codeDisplay);
+                    item.appendChild(revokeBtn);
+                    container.appendChild(item);
+                });
+                
+            } catch (error) {
+                console.error('[TEMP_CODE] Error loading codes:', error);
+            }
+        }
+        
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert(`✅ Đã copy mã: ${code}`);
+            }).catch(err => {
+                console.error('Error copying code:', err);
+                // Fallback method
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert(`✅ Đã copy mã: ${code}`);
+                } catch (err) {
+                    alert('❌ Không thể copy mã. Vui lòng copy thủ công: ' + code);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+        
+        async function revokeCode(code) {
+            if (!confirm(`Bạn có chắc muốn thu hồi mã ${code}?\n\nMã sẽ không thể sử dụng được nữa.`)) {
+                return;
+            }
+            
+            try {
+                console.log('[TEMP_CODE] Revoking code:', code);
+                
+                const response = await fetch('/api/temp-code/revoke', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        lockId: '<%= lockId %>',
+                        code: code
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('[TEMP_CODE] Revoke result:', result);
+                
+                if (result.success) {
+                    alert('✅ Mã đã được thu hồi thành công');
+                    await loadTempCodes();
+                } else {
+                    alert('❌ Lỗi: ' + (result.error || 'Không thể thu hồi mã'));
+                }
+            } catch (error) {
+                console.error('[TEMP_CODE] Error revoking:', error);
+                alert('❌ Không thể thu hồi mã: ' + error.message);
+            }
+        }
+        
+        // Load mã khi trang được tải
+        console.log('[TEMP_CODE] Initializing...');
+        loadTempCodes();
+        
+        // Reload mã mỗi 30 giây
+        setInterval(loadTempCodes, 30000);
+
+        // ==================== CẬP NHẬT IP ESP32 ====================
+        async function loadCurrentIp() {
+            try {
+                const response = await fetch('/api/lock-info/<%= lockId %>');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        document.getElementById('currentIpDisplay').textContent = data.ipAddress;
+                    }
+                }
+            } catch (error) {
+                console.error('[IP] Error loading:', error);
+                document.getElementById('currentIpDisplay').textContent = 'Lỗi tải IP';
+            }
+        }
+        
+        document.getElementById('btnRefreshIp')?.addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            loadCurrentIp().then(() => {
+                this.innerHTML = '<i class="fas fa-sync-alt"></i> Làm mới';
+            });
+        });
+        
+        document.getElementById('btnUpdateIp')?.addEventListener('click', async function() {
+            const newIp = document.getElementById('newIpInput').value.trim();
+            
+            if (!newIp) {
+                alert('⚠️ Vui lòng nhập địa chỉ IP');
+                return;
+            }
+            
+            // Validate IP format
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipRegex.test(newIp)) {
+                alert('❌ Địa chỉ IP không hợp lệ!\n\nVí dụ đúng: 192.168.1.100');
+                return;
+            }
+            
+            // Validate IP ranges
+            const parts = newIp.split('.').map(Number);
+            if (parts.some(part => part < 0 || part > 255)) {
+                alert('❌ Mỗi phần của IP phải từ 0-255');
+                return;
+            }
+            
+            if (!confirm(`Bạn có chắc muốn đổi IP ESP32 thành:\n\n${newIp}\n\nĐiều này sẽ ảnh hưởng đến tất cả dịch vụ đang kết nối!`)) {
+                return;
+            }
+            
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="spinner"></div> Đang cập nhật...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/lock/update-ip', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        lockId: '<%= lockId %>',
+                        newIp: newIp
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`✅ Cập nhật IP thành công!\n\nIP mới: ${result.newIp}\n\nVui lòng khởi động lại Telegram Bot để áp dụng thay đổi.`);
+                    
+                    // Reload IP hiển thị
+                    await loadCurrentIp();
+                    
+                    // Clear input
+                    document.getElementById('newIpInput').value = '';
+                } else {
+                    alert('❌ Lỗi: ' + (result.error || 'Không thể cập nhật IP'));
+                }
+            } catch (error) {
+                console.error('[UPDATE_IP] Error:', error);
+                alert('❌ Lỗi kết nối: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+        
+        // Load IP khi trang được tải
+        loadCurrentIp();
+        
+        // ==================== ĐIỀU KHIỂN CỬA TRỰC TIẾP ====================
+        async function sendDirectDoorCommand(command) {
+            const resultDiv = document.getElementById('directControlResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = '';
+            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi lệnh...';
+            
+            try {
+                // Sử dụng endpoint /api/telegram/command đã có sẵn
+                const response = await fetch('/api/telegram/command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        lockId: '<%= lockId %>',
+                        command: command
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${result.message}`;
+                    resultDiv.style.background = 'rgba(40, 167, 69, 0.1)';
+                    resultDiv.style.color = 'var(--success)';
+                } else {
+                    resultDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> Lỗi: ${result.error || 'Không xác định'}`;
+                    resultDiv.style.background = 'rgba(231, 76, 60, 0.1)';
+                    resultDiv.style.color = 'var(--danger)';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<i class="fas fa-times-circle"></i> Lỗi kết nối: ${error.message}`;
+                resultDiv.style.background = 'rgba(231, 76, 60, 0.1)';
+                resultDiv.style.color = 'var(--danger)';
+            }
+        }
+
+        document.getElementById('btnDirectOpen')?.addEventListener('click', () => sendDirectDoorCommand('open'));
+        document.getElementById('btnDirectClose')?.addEventListener('click', () => sendDirectDoorCommand('close'));
+
+
+        // THÊM: Hàm xóa log theo ngày
+        const btnClearByDate = document.getElementById('btnClearByDate');
+        const selectDays = document.getElementById('selectDays');
+        
+        if (btnClearByDate && selectDays) {
+            console.log('[LOG_CLEAR] Button and select found');
+            
+            btnClearByDate.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const days = selectDays.value;
+                const lockId = '<%= lockId %>';
+                
+                console.log('[LOG_CLEAR] Clearing logs older than', days, 'days for lock', lockId);
+                
+                if (confirm(`Bạn có chắc muốn xóa tất cả log cũ hơn ${days} ngày?\n\nHành động này không thể hoàn tác!`)) {
+                    // Hiển thị loading
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<div class="spinner"></div> Đang xử lý...';
+                    this.disabled = true;
+                    selectDays.disabled = true;
+                    
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/dashboard/clear-logs-by-date';
+                    form.style.display = 'none';
+                    
+                    const inputLockId = document.createElement('input');
+                    inputLockId.type = 'hidden';
+                    inputLockId.name = 'lockId';
+                    inputLockId.value = lockId;
+                    
+                    const inputDays = document.createElement('input');
+                    inputDays.type = 'hidden';
+                    inputDays.name = 'days';
+                    inputDays.value = days;
+                    
+                    form.appendChild(inputLockId);
+                    form.appendChild(inputDays);
+                    document.body.appendChild(form);
+                    
+                    console.log('[LOG_CLEAR] Submitting form...');
+                    form.submit();
+                } else {
+                    console.log('[LOG_CLEAR] User cancelled');
+                }
+            });
+        } else {
+            console.error('[LOG_CLEAR] Button or select not found!', {
+                button: btnClearByDate,
+                select: selectDays
+            });
         }
 
         // Add animation to cards on scroll
@@ -1229,6 +1784,166 @@
             card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             observer.observe(card);
         });
+
+        // ==================== TELEGRAM CONTROL ====================
+        
+        // Hàm gọi API Telegram command
+        async function sendTelegramCommand(command, params = {}) {
+            const resultDiv = document.getElementById('telegramCommandResult');
+            resultDiv.style.display = 'block';
+            resultDiv.className = '';
+            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi lệnh...';
+            resultDiv.style.background = 'rgba(67, 97, 238, 0.1)';
+            resultDiv.style.color = 'var(--primary)';
+            
+            try {
+                const response = await fetch('/api/telegram/command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        lockId: '<%= lockId %>',
+                        command: command,
+                        params: params
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${result.message}`;
+                    resultDiv.style.background = 'rgba(40, 167, 69, 0.1)';
+                    resultDiv.style.color = 'var(--success)';
+                    
+                    // Nếu là tạo mã, hiển thị thông tin mã
+                    if (result.code) {
+                        resultDiv.innerHTML += `
+                            <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 8px;">
+                                <p style="margin: 5px 0;"><strong>Mã PIN:</strong> <span style="font-size: 1.5rem; color: var(--primary); font-family: monospace;">${result.code}</span></p>
+                                <p style="margin: 5px 0;"><strong>Hết hạn:</strong> ${result.expireAt}</p>
+                                <button onclick="copyToClipboard('${result.code}')" class="btn btn-info" style="margin-top: 10px; padding: 8px 15px;">
+                                    <i class="fas fa-copy"></i> Copy mã
+                                </button>
+                            </div>
+                        `;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${result.error || 'Lỗi không xác định'}`;
+                    resultDiv.style.background = 'rgba(231, 76, 60, 0.1)';
+                    resultDiv.style.color = 'var(--danger)';
+                }
+            } catch (error) {
+                console.error('[TELEGRAM] Error:', error);
+                resultDiv.innerHTML = `<i class="fas fa-times-circle"></i> Không thể kết nối đến Telegram Bot: ${error.message}`;
+                resultDiv.style.background = 'rgba(231, 76, 60, 0.1)';
+                resultDiv.style.color = 'var(--danger)';
+            }
+            
+            // Tự động ẩn sau 10 giây
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 10000);
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Đã copy mã: ' + text);
+            }).catch(err => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('✅ Đã copy mã: ' + text);
+                } catch (err) {
+                    alert('❌ Không thể copy. Vui lòng copy thủ công: ' + text);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+        
+        // Event listeners cho các nút Telegram
+        document.getElementById('btnTelegramOpen')?.addEventListener('click', function() {
+            if (confirm('Bạn có chắc muốn mở cửa qua Telegram Bot?')) {
+                sendTelegramCommand('open');
+            }
+        });
+        
+        document.getElementById('btnTelegramClose')?.addEventListener('click', function() {
+            if (confirm('Bạn có chắc muốn đóng cửa qua Telegram Bot?')) {
+                sendTelegramCommand('close');
+            }
+        });
+        
+        document.getElementById('btnTelegramCreateCode')?.addEventListener('click', async function() {
+            const hours = prompt('Nhập số giờ có hiệu lực (1-168):', '2');
+            
+            if (hours === null) return; // User cancelled
+            
+            const hoursNum = parseInt(hours);
+            if (isNaN(hoursNum) || hoursNum < 1 || hoursNum > 168) {
+                alert('❌ Số giờ không hợp lệ. Vui lòng nhập từ 1 đến 168.');
+                return;
+            }
+            
+            sendTelegramCommand('createcode', { hours: hoursNum });
+        });
+        
+        document.getElementById('btnTelegramListCodes')?.addEventListener('click', async function() {
+            const resultDiv = document.getElementById('telegramCommandResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải danh sách mã...';
+            resultDiv.style.background = 'rgba(67, 97, 238, 0.1)';
+            resultDiv.style.color = 'var(--primary)';
+            
+            try {
+                const response = await fetch('/api/telegram/list-codes/<%= lockId %>');
+                const result = await response.json();
+                
+                if (result.success && result.codes && result.codes.length > 0) {
+                    let html = '<h4 style="margin-top: 0;"><i class="fas fa-list"></i> Danh sách mã đang hoạt động:</h4>';
+                    html += '<div style="max-height: 300px; overflow-y: auto;">';
+                    
+                    result.codes.forEach((code, index) => {
+                        html += `
+                            <div style="padding: 10px; margin-bottom: 10px; background: white; border-radius: 8px; border-left: 3px solid var(--success);">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <p style="margin: 0; font-size: 1.2rem; font-weight: 600; color: var(--primary); font-family: monospace;">
+                                            ${code.code}
+                                        </p>
+                                        <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-light);">
+                                            <i class="fas fa-clock"></i> Hết hạn: ${code.expireAt}
+                                        </p>
+                                    </div>
+                                    <button onclick="copyToClipboard('${code.code}')" class="btn btn-info" style="padding: 5px 10px; font-size: 0.8rem;">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                    resultDiv.style.background = 'rgba(40, 167, 69, 0.1)';
+                    resultDiv.style.color = 'var(--success)';
+                } else {
+                    resultDiv.innerHTML = '<i class="fas fa-inbox"></i> Không có mã nào đang hoạt động';
+                    resultDiv.style.background = 'rgba(255, 193, 7, 0.1)';
+                    resultDiv.style.color = 'var(--warning)';
+                }
+            } catch (error) {
+                console.error('[TELEGRAM] Error:', error);
+                resultDiv.innerHTML = `<i class="fas fa-times-circle"></i> Lỗi: ${error.message}`;
+                resultDiv.style.background = 'rgba(231, 76, 60, 0.1)';
+                resultDiv.style.color = 'var(--danger)';
+            }
+        });
+
+        // ĐÓNG MODAL KHI BẤM NÚT HỦY
+        document.getElementById('btnCancel')?.addEventListener('click', closeModal);
     </script>
 </body>
 </html>

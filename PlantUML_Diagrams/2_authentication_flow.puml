@@ -1,0 +1,154 @@
+@startuml Authentication Flow
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+skinparam maxmessagesize 150
+
+title Luồng xác thực và mở khóa SmartLock
+
+actor User as user
+participant "ESP32\nSmart Lock" as esp32
+participant "LCD Display" as lcd
+participant "Serial Port" as serial
+participant "Python Service\n(Recognize.py)" as python
+participant "Node.js Server" as nodejs
+participant "Firebase\nDatabase" as firebase
+participant "Telegram Bot" as telegram
+participant "Door Lock\n(Relay)" as relay
+
+== Khởi động hệ thống ==
+nodejs -> python : spawn(Recognize.py --lock_id=xxx --mode=face_pin)
+activate python
+python -> firebase : Download embeddings
+firebase --> python : Return face data
+python -> python : Load model (FaceNet + MTCNN)
+python -> serial : SYSTEM_READY
+serial -> esp32 : SYSTEM_READY
+esp32 -> lcd : Display "DOOR CLOSED\nSYSTEM READY"
+
+== Chế độ 1: Face Recognition Only ==
+alt Mode: face_only
+    user -> python : Đứng trước camera
+    python -> python : Detect face
+    python -> python : Extract embedding
+    python -> python : Compare với database
+    
+    alt Nhận diện thành công (distance < 0.3)
+        python -> firebase : Write activity_log (SUCCESS)
+        python -> telegram : Send alert "✅ Mở cửa [Name]"
+        python -> serial : SUCCESS
+        serial -> esp32 : SUCCESS
+        esp32 -> relay : HIGH (Mở khóa)
+        esp32 -> lcd : Display "DOOR OPEN"
+        esp32 -> esp32 : Wait 5 seconds
+        esp32 -> relay : LOW (Đóng khóa)
+        esp32 -> lcd : Display "DOOR CLOSED"
+        python -> serial : RECOGNITION_DONE
+        serial -> esp32 : RECOGNITION_DONE
+        esp32 -> lcd : Clear status
+    else Nhận diện thất bại
+        python -> firebase : Write activity_log (FAIL)
+        python -> telegram : Send alert "❌ Người lạ"
+        python -> lcd : Display "ACCESS DENIED"
+    end
+end
+
+== Chế độ 2: Face + PIN ==
+alt Mode: face_pin
+    user -> python : Đứng trước camera
+    python -> python : Detect face
+    python -> python : Extract embedding
+    python -> python : Compare với database
+    
+    alt Nhận diện khuôn mặt thành công
+        python -> serial : PIN_REQUIRED
+        serial -> esp32 : PIN_REQUIRED
+        esp32 -> lcd : Display "ENTER PIN TO OPEN"
+        esp32 -> serial : PIN_PROMPT (Ready)
+        serial -> python : PIN_PROMPT
+        
+        user -> esp32 : Nhập PIN trên keypad
+        esp32 -> lcd : Display "PIN: ****"
+        user -> esp32 : Nhấn '#' để xác nhận
+        esp32 -> serial : PIN_ENTERED:1234
+        serial -> python : PIN_ENTERED:1234
+        
+        alt PIN chính xác
+            python -> firebase : Write activity_log (SUCCESS_PIN)
+            python -> telegram : Send alert "✅ Mở cửa [Name] - PIN đúng"
+            python -> serial : SUCCESS
+            serial -> esp32 : SUCCESS
+            esp32 -> relay : HIGH (Mở khóa)
+            esp32 -> lcd : Display "DOOR OPEN"
+            esp32 -> esp32 : Wait 5 seconds
+            esp32 -> relay : LOW (Đóng khóa)
+            esp32 -> lcd : Display "DOOR CLOSED"
+            python -> serial : RECOGNITION_DONE
+        else PIN sai
+            python -> firebase : Write activity_log (FAIL_PIN)
+            python -> telegram : Send alert "❌ PIN sai [Name]"
+            python -> serial : FAIL
+            serial -> esp32 : FAIL
+            esp32 -> lcd : Display "WRONG PIN"
+            python -> serial : RECOGNITION_DONE
+        end
+    else Không nhận diện được
+        python -> firebase : Write activity_log (FAIL)
+        python -> telegram : Send alert "❌ Người lạ"
+        python -> lcd : Display "ACCESS DENIED"
+    end
+end
+
+== Phương thức xác thực thay thế (ESP32 độc lập) ==
+group RFID Authentication
+    user -> esp32 : Quẹt thẻ RFID
+    esp32 -> esp32 : Read UID
+    esp32 -> esp32 : Check in authorized list
+    alt UID hợp lệ
+        esp32 -> relay : HIGH (Mở khóa)
+        esp32 -> lcd : Display "OPEN BY RFID"
+        esp32 -> esp32 : Wait 5 seconds
+        esp32 -> relay : LOW (Đóng khóa)
+    else UID không hợp lệ
+        esp32 -> lcd : Display "INVALID CARD"
+    end
+end
+
+group PIN Authentication (Standalone)
+    user -> esp32 : Nhập PIN trên keypad
+    esp32 -> lcd : Display "PIN: ****"
+    user -> esp32 : Nhấn '#'
+    esp32 -> esp32 : Compare với stored PIN
+    alt PIN đúng
+        esp32 -> relay : HIGH (Mở khóa)
+        esp32 -> lcd : Display "OPEN BY PIN"
+        esp32 -> esp32 : Wait 5 seconds
+        esp32 -> relay : LOW (Đóng khóa)
+    else PIN sai
+        esp32 -> lcd : Display "WRONG PIN"
+    end
+end
+
+group Temporary Code (6 digits)
+    user -> esp32 : Nhấn phím 'D'
+    esp32 -> lcd : Display "CODE(ID:xxx)\nEnter 6 digits"
+    user -> esp32 : Nhập mã 6 số
+    user -> esp32 : Nhấn '#'
+    esp32 -> firebase : GET /temp_codes/{lockId}/{code}.json
+    firebase --> esp32 : Return code data
+    alt Code hợp lệ và chưa dùng
+        esp32 -> firebase : PATCH /temp_codes/{lockId}/{code}.json\n{"used":true}
+        esp32 -> firebase : POST /locks/{lockId}/activity_log.json
+        esp32 -> relay : HIGH (Mở khóa)
+        esp32 -> lcd : Display "CODE ACCEPTED"
+        esp32 -> esp32 : Wait 5 seconds
+        esp32 -> relay : LOW (Đóng khóa)
+    else Code không hợp lệ
+        esp32 -> lcd : Display "INVALID CODE"
+    end
+end
+
+deactivate python
+
+@enduml

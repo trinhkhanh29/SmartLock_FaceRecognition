@@ -1,0 +1,146 @@
+@startuml Temporary Access Code Flow
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+
+title Luồng tạo và sử dụng mã truy cập tạm thời
+
+actor "Admin/User" as admin
+participant "Web Browser" as browser
+participant "Node.js Server\n(tempCodeRoutes)" as nodejs
+participant "Firebase\nRealtime DB" as firebase
+participant "ESP32\nSmart Lock" as esp32
+participant "LCD Display" as lcd
+participant "Keypad" as keypad
+participant "Door Relay" as relay
+
+== Tạo mã truy cập tạm thời ==
+admin -> browser : Truy cập /dashboard/{lockId}
+browser -> nodejs : GET /dashboard/{lockId}
+nodejs --> browser : Render dashboard
+
+admin -> browser : Click "Tạo mã tạm thời"
+browser -> browser : Show modal form
+admin -> browser : Chọn thời hạn (1h, 6h, 24h, custom)
+admin -> browser : Nhập số lần sử dụng (optional)
+admin -> browser : Nhập ghi chú (optional)
+admin -> browser : Click "Tạo mã"
+
+browser -> nodejs : POST /api/temp-code/generate\n{lockId, duration, maxUses, note}
+activate nodejs
+
+nodejs -> nodejs : Validate lockId exists
+nodejs -> nodejs : Generate 6-digit code (crypto)
+nodejs -> nodejs : Calculate expireAt = now + duration
+
+nodejs -> firebase : Write to temp_codes/{lockId}/{code}\n{\n  code: "123456",\n  lockId: "xxx",\n  createdAt: timestamp,\n  expireAt: timestamp,\n  createdBy: userId,\n  maxUses: 1,\n  usedCount: 0,\n  used: false,\n  note: "For delivery"\n}
+firebase --> nodejs : Write success
+
+nodejs -> nodejs : Log to activity_log\n{type: "TEMP_CODE_CREATED"}
+nodejs --> browser : Return {success: true, code: "123456"}
+deactivate nodejs
+
+browser -> browser : Display modal\n"Mã: 123456\nHết hạn: [datetime]"
+admin -> admin : Chia sẻ mã cho người khác\n(SMS, Email, Telegram)
+
+== Người dùng nhập mã tạm thời ==
+actor "Visitor" as visitor
+visitor -> esp32 : Đứng trước cửa
+visitor -> keypad : Nhấn phím 'D'
+esp32 -> lcd : Display "CODE(ID:xxxxxxxx)\nEnter 6 digits #OK"
+
+visitor -> keypad : Nhập mã: 1 → 2 → 3 → 4 → 5 → 6
+loop Nhập từng số
+    keypad --> esp32 : Send digit
+    esp32 -> lcd : Display "PIN: ******"
+    esp32 -> lcd : Update "(X more)" counter
+end
+
+visitor -> keypad : Nhấn '#' để xác nhận
+keypad --> esp32 : Send '#'
+
+esp32 -> lcd : Display "CHECKING CODE..."
+esp32 -> firebase : GET /temp_codes/{lockId}/123456.json
+activate firebase
+
+alt Mã tồn tại
+    firebase --> esp32 : Return {\n  code: "123456",\n  expireAt: timestamp,\n  used: false,\n  maxUses: 1,\n  usedCount: 0\n}
+    
+    esp32 -> esp32 : Check if expired\n(now < expireAt)
+    esp32 -> esp32 : Check if not used\n(used == false)
+    esp32 -> esp32 : Check usage limit\n(usedCount < maxUses)
+    
+    alt Mã hợp lệ
+        esp32 -> firebase : PATCH /temp_codes/{lockId}/123456.json\n{\n  used: true,\n  usedAt: now,\n  usedCount: usedCount + 1\n}
+        firebase --> esp32 : Update success
+        
+        esp32 -> firebase : POST /locks/{lockId}/activity_log.json\n{\n  type: "TEMP_CODE_SUCCESS",\n  code: "123456",\n  timestamp: now\n}
+        firebase --> esp32 : Log success
+        
+        esp32 -> firebase : DELETE /temp_codes/{lockId}/123456.json
+        firebase --> esp32 : Delete success (one-time use)
+        
+        esp32 -> relay : HIGH (Mở khóa)
+        esp32 -> lcd : Display "CODE ACCEPTED\nWelcome!"
+        esp32 -> esp32 : Wait 5 seconds
+        esp32 -> relay : LOW (Đóng khóa)
+        esp32 -> lcd : Display "DOOR CLOSED"
+        
+    else Mã đã hết hạn hoặc đã dùng
+        esp32 -> lcd : Display "CODE EXPIRED"
+        esp32 -> esp32 : Wait 2 seconds
+        esp32 -> lcd : Display "DOOR CLOSED"
+    end
+    
+else Mã không tồn tại
+    firebase --> esp32 : Return null
+    esp32 -> lcd : Display "INVALID CODE"
+    esp32 -> esp32 : Wait 2 seconds
+    esp32 -> lcd : Display "DOOR CLOSED"
+end
+
+deactivate firebase
+
+visitor -> keypad : Nhấn '*' để hủy
+esp32 -> lcd : Display "CANCELLED"
+esp32 -> lcd : Restore default display
+
+== Xem và quản lý mã tạm thời ==
+admin -> browser : Truy cập /dashboard/{lockId}
+browser -> nodejs : GET /dashboard/{lockId}
+nodejs -> firebase : GET /temp_codes/{lockId}
+firebase --> nodejs : Return active codes list
+nodejs --> browser : Display codes table
+
+alt Admin xóa mã
+    admin -> browser : Click "Xóa mã"
+    browser -> nodejs : DELETE /api/temp-code/{lockId}/{code}
+    nodejs -> firebase : DELETE /temp_codes/{lockId}/{code}
+    firebase --> nodejs : Delete success
+    nodejs --> browser : Refresh dashboard
+end
+
+== Cleanup tự động (Scheduled) ==
+participant "Cleanup\nScheduler" as cleanup
+note over cleanup
+  Chạy mỗi ngày lúc 2h sáng
+  Hoặc mỗi giờ
+end note
+
+cleanup -> nodejs : Trigger cleanup task
+nodejs -> firebase : GET /temp_codes (all locks)
+firebase --> nodejs : Return all codes
+
+loop Kiểm tra từng mã
+    nodejs -> nodejs : Check if expireAt < now
+    alt Mã đã hết hạn
+        nodejs -> firebase : DELETE /temp_codes/{lockId}/{code}
+        firebase --> nodejs : Delete success
+    end
+end
+
+nodejs -> nodejs : Log cleanup result
+nodejs -> nodejs : Sleep until next schedule
+
+@enduml

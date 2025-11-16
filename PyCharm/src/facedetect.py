@@ -245,6 +245,7 @@ def process_single_image(image_path, face_id, face_name, lock_id, is_pending=Fal
         return False
 
 
+
 # ========================== MAIN ==========================
 def main():
     global bucket
