@@ -19,8 +19,8 @@ import serial
 import pygame
 import threading
 import re
-import cProfile
-import pstats
+# import cProfile  # COMMENT: Không cần nếu không phân tích hiệu năng
+# import pstats    # COMMENT: Không cần nếu không phân tích hiệu năng
 import logging
 import argparse
 
@@ -34,12 +34,12 @@ from image_enhancement import (
 )
 
 # Thiết lập logging cho thống kê hiệu năng
-logging.basicConfig(
-    filename='performance_log_dell_g3_3579.txt',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger()
+# logging.basicConfig(
+#     filename='performance_log_dell_g3_3579.txt',
+#     level=logging.INFO,
+#     format='%(asctime)s - %(levelname)s - %(message)s'
+# )
+# logger = logging.getLogger()
 
 # Nạp biến môi trường từ config.env
 env_path = os.path.join(os.path.dirname(__file__), '../.env/config.env')
@@ -422,8 +422,8 @@ def main():
     print(f"[MODE] Chế độ hoạt động: {selected_mode}")
     print(f"[LOCK] Sử dụng lock_id: {lock_id}")
 
-    profiler = cProfile.Profile()
-    profiler.enable()
+    # profiler = cProfile.Profile()
+    # profiler.enable()
 
     if not verify_telegram_token():
         print("[ERROR] Token Telegram không hợp lệ.")
@@ -449,9 +449,7 @@ def main():
     total_recognitions = 0
     processing_times = []
     serial_latencies = []
-    error_count = 0
-    frame_drop_count = 0
-
+    
     # Thống kê hiệu suất
     low_light_frames = 0
     enhanced_frames = 0
@@ -462,7 +460,7 @@ def main():
         load_start = time.perf_counter()
         known_embeddings, known_ids, known_names = load_known_faces(bucket, dataset_path, lock_id)
         load_time = time.perf_counter() - load_start
-        logger.info(f"Thời gian tải embeddings: {load_time:.3f}s")
+        # logger.info(f"Thời gian tải embeddings: {load_time:.3f}s")
         print(f"[INFO] Tải embeddings: {load_time:.3f}s")
 
         if not known_embeddings:
@@ -722,11 +720,10 @@ def main():
 
     except Exception as e:
         print(f"[EXCEPTION] {traceback.format_exc()}")
-        error_count += 1
     finally:
-        profiler.disable()
-        with open('profile_stats_dell_g3_3579.txt', 'w') as f:
-            pstats.Stats(profiler, stream=f).sort_stats('cumulative').print_stats()
+        # profiler.disable()
+        # with open('profile_stats_dell_g3_3579.txt', 'w') as f:
+        #     pstats.Stats(profiler, stream=f).sort_stats('cumulative').print_stats()
 
         accuracy = (correct_recognitions / total_recognitions * 100) if total_recognitions > 0 else 0.0
         avg_processing_time = sum(processing_times) / len(processing_times) if processing_times else 0.0
