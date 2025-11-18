@@ -1,23 +1,26 @@
-Dưới đây là phiên bản **README.md** bạn có thể copy trực tiếp vào GitHub. Mình đã chỉnh định dạng code, danh sách và hình ảnh cho gọn và chuẩn Markdown:
-
-````markdown
 # SmartLock_FaceRecognition
 
 ![System Architecture](images/demo-architecture.png)  
 *Ảnh minh họa kiến trúc hệ thống (thay bằng ảnh thực tế của bạn)*
 
+
 ## Giới thiệu
+
 Dự án **SmartLock_FaceRecognition** là hệ thống khóa cửa thông minh ứng dụng nhận diện khuôn mặt, kết hợp AI, IoT và Web, giúp tăng cường bảo mật và tiện ích cho người dùng. Hệ thống được phát triển trên kiến trúc microservices, tích hợp đa nền tảng: Python (AI), Node.js (Backend), ESP32 (Firmware), Firebase (Cloud), Telegram (Thông báo).
 
+
 ## Chức năng nổi bật
-- Nhận diện khuôn mặt để mở khóa cửa tự động.
-- Quản lý người dùng, đăng ký/xóa khuôn mặt qua giao diện web.
-- Tạo và quản lý mã truy cập tạm thời (Temporary Code).
-- Gửi cảnh báo real-time qua Telegram khi có truy cập trái phép.
-- Lưu trữ lịch sử truy cập, trạng thái khóa trên Firebase.
+
+- Nhận diện khuôn mặt để mở khóa cửa tự động.  
+- Quản lý người dùng, đăng ký/xóa khuôn mặt qua giao diện web.  
+- Tạo và quản lý mã truy cập tạm thời (Temporary Code).  
+- Gửi cảnh báo real-time qua Telegram khi có truy cập trái phép.  
+- Lưu trữ lịch sử truy cập, trạng thái khóa trên Firebase.  
 - Điều khiển khóa từ xa qua Web hoặc Telegram Bot.
 
+
 ## Kiến trúc hệ thống
+
 ![Demo Hardware](images/demo-hardware.jpg)  
 *Ảnh thực tế thiết bị ESP32, camera, mô hình khóa cửa (thay bằng ảnh của bạn)*
 
@@ -27,7 +30,9 @@ Dự án **SmartLock_FaceRecognition** là hệ thống khóa cửa thông minh 
 - **Cloud (Firebase)**: Lưu trữ dữ liệu, đồng bộ trạng thái.  
 - **Telegram Bot**: Gửi thông báo, nhận lệnh điều khiển từ người dùng.  
 
+
 ## Công nghệ sử dụng
+
 - **Node.js, Express.js**: Backend, RESTful API  
 - **Python, OpenCV, Caffe, Flask/FastAPI**: AI nhận diện khuôn mặt  
 - **ESP32, Arduino/C++**: Firmware điều khiển khóa  
@@ -35,11 +40,13 @@ Dự án **SmartLock_FaceRecognition** là hệ thống khóa cửa thông minh 
 - **Firebase**: Lưu trữ dữ liệu, đồng bộ trạng thái  
 - **Telegram Bot**: Thông báo và điều khiển từ xa  
 
+
 ## Hướng dẫn chạy demo
+
 1. **Clone dự án:**  
-   ```bash
-   git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
-````
+```bash
+git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
+
 
 2. **Cài đặt Node.js backend:**
 
