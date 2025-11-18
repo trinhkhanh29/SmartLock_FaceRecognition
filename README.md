@@ -1,8 +1,8 @@
 # SmartLock_FaceRecognition
-
-![System Architecture](images/demo-architecture.png)  
-*Ảnh minh họa kiến trúc hệ thống (thay bằng ảnh thực tế của bạn)*
-
+<p align="center">
+  <h1>SƠ ĐỒ TỔNG QUAN</h1><br>
+  <img src="https://github.com/user-attachments/assets/9ba958ce-6b52-41a2-9728-0c8279157360" width="400">
+</p>
 
 ## Giới thiệu
 
@@ -20,10 +20,10 @@ Dự án **SmartLock_FaceRecognition** là hệ thống khóa cửa thông minh 
 
 
 ## Kiến trúc hệ thống
-
-![Demo Hardware](images/demo-hardware.jpg)  
-*Ảnh thực tế thiết bị ESP32, camera, mô hình khóa cửa (thay bằng ảnh của bạn)*
-
+<p align="center">
+  <b>Tạo mã tạm thời</b><br>
+  <img src="https://github.com/user-attachments/assets/40f62421-7782-44e6-a485-efba2dc2c88e" width="400">
+</p>
 - **Web Application**: Giao diện quản trị, đăng ký khuôn mặt, xem lịch sử truy cập.  
 - **AI Service (Python)**: Nhận diện khuôn mặt real-time, huấn luyện và xử lý dữ liệu.  
 - **IoT Device (ESP32)**: Nhận lệnh mở/đóng khóa, kết nối Wi-Fi, giao tiếp với backend.  
