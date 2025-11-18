@@ -46,10 +46,9 @@ Dự án **SmartLock_FaceRecognition** là hệ thống khóa cửa thông minh 
 1. **Clone dự án:**  
 ```bash
 git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
-
+```
 
 2. **Cài đặt Node.js backend:**
-
    ```bash
    cd SmartLock_FaceRecognition/NodeJS_Interface/server
    npm install
