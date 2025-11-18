@@ -118,5 +118,3 @@ git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
 * **GitHub:** [trinhkhanh29](https://github.com/trinhkhanh29)
 * **LinkedIn:** [linkedin.com/in/trinhkhanhh](https://linkedin.com/in/trinhkhanhh)
 * **Email:** [trinh_quockhanh@outlook.com](mailto:trinh_quockhanh@outlook.com)
-
-```
