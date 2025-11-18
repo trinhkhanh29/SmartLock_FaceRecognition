@@ -1,4 +1,4 @@
-# SmartLock_FaceRecognition
+# ĐỀ TÀI NGHIÊN CỨU KHOA HỌC 2025 (SmartLock_FaceRecognition)
 <p align="center">
   <b>SƠ ĐỒ TỔNG QUAN</b><br>
   <img src="https://github.com/user-attachments/assets/9ba958ce-6b52-41a2-9728-0c8279157360" width="400">
