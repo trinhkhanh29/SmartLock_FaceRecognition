@@ -63,28 +63,50 @@ git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
    ```
 4. **Nạp firmware cho ESP32:**
    Mở `Arduino/connect-wifi/connect-wifi.ino` bằng Arduino IDE, nạp vào ESP32.
-5. **Cấu hình Firebase & Telegram:**
+   
+6. **Cấu hình Firebase & Telegram:**
    Điền thông tin vào file `.env` và `config.env` theo mẫu.
-6. **Truy cập giao diện web:**
+   
+8. **Truy cập giao diện web:**
    Mở trình duyệt, truy cập `http://localhost:3000` để đăng ký khuôn mặt, quản lý truy cập.
 
 ## Demo giao diện
 
-* **Đăng nhập**
-  ![Đăng nhập](https://github.com/user-attachments/assets/13b2487e-525a-4d4d-981a-e599fbc3a934)
-* **Trang chủ**
-  ![Trang chủ](https://github.com/user-attachments/assets/cfac3dc4-c3b2-4274-97b9-1125c306ceab)
-  ![Trang chủ](https://github.com/user-attachments/assets/6a0f69b6-1fcd-4084-8729-34826a740e8e)
-* **Trang điều khiển khóa cửa**
-  ![Điều khiển khóa](https://github.com/user-attachments/assets/f67012e2-bdb0-4d5d-96d2-9b6a8cef7445)
-* **Tạo mã tạm thời**
-  ![Mã tạm thời](https://github.com/user-attachments/assets/53dc744d-96e4-401c-a089-c5b9896fc405)
-* **Danh sách người dùng**
-  ![Danh sách người dùng](https://github.com/user-attachments/assets/1232fa52-bd0a-4edb-8f35-d23d7e616242)
-* **Thu thập khuôn mặt**
-  ![Thu thập khuôn mặt](https://github.com/user-attachments/assets/82f4ed4a-05cd-468c-b70b-73b7dc458bd8)
-* **Điều khiển mở khóa & tạo mã qua Telegram**
-  ![Telegram Control](https://github.com/user-attachments/assets/9a065c5a-94e8-4845-b3b8-8fbeea269e5c)
+<p align="center">
+  <b>Đăng nhập</b><br>
+  <img src="https://github.com/user-attachments/assets/13b2487e-525a-4d4d-981a-e599fbc3a934" width="500">
+</p>
+
+<p align="center">
+  <b>Trang chủ</b><br>
+  <img src="https://github.com/user-attachments/assets/cfac3dc4-c3b2-4274-97b9-1125c306ceab" width="500"><br>
+  <img src="https://github.com/user-attachments/assets/6a0f69b6-1fcd-4084-8729-34826a740e8e" width="500">
+</p>
+
+<p align="center">
+  <b>Trang điều khiển khóa cửa</b><br>
+  <img src="https://github.com/user-attachments/assets/f67012e2-bdb0-4d5d-96d2-9b6a8cef7445" width="500">
+</p>
+
+<p align="center">
+  <b>Tạo mã tạm thời</b><br>
+  <img src="https://github.com/user-attachments/assets/53dc744d-96e4-401c-a089-c5b9896fc405" width="400">
+</p>
+
+<p align="center">
+  <b>Danh sách người dùng</b><br>
+  <img src="https://github.com/user-attachments/assets/1232fa52-bd0a-4edb-8f35-d23d7e616242" width="400">
+</p>
+
+<p align="center">
+  <b>Thu thập khuôn mặt</b><br>
+  <img src="https://github.com/user-attachments/assets/82f4ed4a-05cd-468c-b70b-73b7dc458bd8" width="400">
+</p>
+
+<p align="center">
+  <b>Điều khiển mở khóa & tạo mã qua Telegram</b><br>
+  <img src="https://github.com/user-attachments/assets/9a065c5a-94e8-4845-b3b8-8fbeea269e5c" width="500">
+</p>
 
 ## Liên hệ
 
