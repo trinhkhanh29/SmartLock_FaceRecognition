@@ -111,10 +111,7 @@ git clone https://github.com/trinhkhanh29/SmartLock_FaceRecognition.git
 ## Liên hệ
 
 * **Tác giả:** Trịnh Khánh
-* **GVHD:** Tiến Sĩ An Hồng Sơn
-* **D.O.B:** 24/08/2003
-* **Phone:** (+84) 368 977 130
-* **Địa chỉ:** Thịnh Liệt, Hoàng Mai, Hà Nội
+* **GVHD:** TS.An Hồng Sơn
 * **GitHub:** [trinhkhanh29](https://github.com/trinhkhanh29)
 * **LinkedIn:** [linkedin.com/in/trinhkhanhh](https://linkedin.com/in/trinhkhanhh)
 * **Email:** [trinh_quockhanh@outlook.com](mailto:trinh_quockhanh@outlook.com)
